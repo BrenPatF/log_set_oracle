@@ -1,0 +1,31 @@
+
+Start: ORCL          18-MAR-2019 19:28:44 Oracle Database 12c 12.2.0.1.0
+
+External table creation
+=======================
+Create lines_et
+
+Table created.
+
+Types creation
+==============
+
+Type created.
+
+
+Type created.
+
+Packages creation
+=================
+Create package Col_Group
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+
+End: 18-MAR-2019 19:28:44
+

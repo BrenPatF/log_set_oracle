@@ -1,0 +1,904 @@
+{
+"meta": {
+    "title": "log_set",
+    "inp": {
+         "Log Config": [
+            "Config Key",
+            "Put Level",
+            "Put Level Stack",
+            "Put Level CPU",
+            "Put Level Module",
+            "Put Level Action",
+            "Put Level Client Info",
+            "App Info Only Y/N",
+            "Singleton Y/N",
+            "Buffer Length",
+            "Extend Length"
+        ],
+         "Context": [
+            "Config Key",
+            "Name",
+            "Put Level",
+            "Head/Line Flag"
+        ],
+         "Event Sequence": [
+            "Event No",
+            "Event Type",
+            "Log Id Offset"
+        ],
+         "Construct Param": [
+            "Event No",
+            "Config Key",
+            "Description",
+            "Put Level Min",
+            "Do Close Y/N"
+        ],
+         "Log Parameter": [
+            "Event No",
+            "Line Type",
+            "PLSQL Unit",
+            "PLSQL Line",
+            "Group Text",
+            "Action",
+            "Put Level Min",
+            "Error No",
+            "Error Message",
+            "Do Close Y/N"
+        ],
+         "Line Text": [
+            "Event No",
+            "Text"
+        ]
+    },
+    "out": {
+         "Log Header": [
+            "Log Id Offset",
+            "Config Id Offset",
+            "Session Id Offset",
+            "Session User",
+            "Put Level Min",
+            "Description",
+            "Creation Time",
+            "Closure Time"
+        ],
+         "Context": [
+            "Log Id Offset",
+            "Line No",
+            "Name",
+            "Value (or offset)"
+        ],
+         "Log Line": [
+            "Log Id Offset",
+            "Line No",
+            "Session Line No",
+            "Line Type",
+            "PLSQL Unit",
+            "PLSQL Line",
+            "Group Text",
+            "Action",
+            "Line Text",
+            "Call Stack",
+            "Error Backtrace",
+            "Put Level Min",
+            "Error No",
+            "Error Message",
+            "Creation Time",
+            "Creation CPU Time"
+        ],
+         "Exception": [
+            "1 Message, 2 Stack"
+        ],
+        "Application Info": [
+            "Module",
+            "Action",
+            "Client Info"
+        ]
+    }
+},
+"scenarios" : { 
+   "Simple defaulted": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|CLO|1"
+        ],
+        "Construct Param": [
+            "1||||"
+        ],
+        "Log Parameter": [
+            "2|||||||||"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Some text|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Simple defaulted, don't close - still saved with default buffer size = 1":
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1||||"
+        ],
+        "Log Parameter": [
+            "2|||||||||",
+            "3|||||||||"
+        ],
+        "Line Text": [
+            "2|Line 1",
+            "3|Line 2"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0||IN [0.0,0.1]|"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Line 1|||0|||IN [0.0,0.1]|",
+            "1|2|2||||||Line 2|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Set all parameters": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|SINGLETON|Log description|0|"
+        ],
+        "Log Parameter": [
+            "2|LINE_TYPE|package|94|Group text||0|2|errmsg|N"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0|Log description|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1|LINE_TYPE|package|94|Group text||Some text|||0|2|errmsg|IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Set all parameters with long values": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|SINGLETON|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|0|"
+        ],
+        "Log Parameter": [
+            "2|30chars-9012345678901234567890|30chars-9012345678901234567890|94|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890||0|2|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|N"
+        ],
+        "Line Text": [
+            "2|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1|30chars-9012345678901234567890|30chars-9012345678901234567890|94|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890||1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|||0|2|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "New config, with H/B/L contexts and parameters all passed; module app info": 
+   {
+    "inp": {
+        "Log Config": [
+            "NEW_CONFIG|0|0|0|0|||||5|10"
+        ],
+        "Context": [
+            "NEW_CONFIG|CLIENT_PROGRAM_NAME|0|H",
+            "NEW_CONFIG|CURRENT_SCHEMA|0|L",
+            "NEW_CONFIG|DB_NAME|0|B"
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|NEW_CONFIG|Log description|0|"
+        ],
+        "Log Parameter": [
+            "2||package|94|Group text||0|2|errmsg|Y"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|1|0|LIB|0|Log description|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+            "1|1|CURRENT_SCHEMA|LIB",
+            "1|1|DB_NAME|ORCLPDB",
+            "1||CLIENT_PROGRAM_NAME|sqlplus.exe",
+            "1||DB_NAME|ORCLPDB"
+        ],
+        "Log Line": [
+            "1|1|1||package|94|Group text||Some text|LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/||0|2|errmsg|IN [0.0,0.1]|IN [0, 10]"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "LIKE /LOG_SET: Log id .*/|LIKE /Log id .*closed at.*/|"
+        ]
+    }
+   },
+   "New config, with H/B/L contexts; put level prints only some lines; field min put levels below line min - should print; line close": 
+   {
+    "inp": {
+        "Log Config": [
+            "NEW_CONFIG|5|3|3|3|3|3|N||2|1"
+        ],
+        "Context": [
+            "NEW_CONFIG|CLIENT_PROGRAM_NAME|3|H",
+            "NEW_CONFIG|CURRENT_SCHEMA|3|L",
+            "NEW_CONFIG|DB_NAME|2|B"
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|NEW_CONFIG|Header description|3|"
+        ],
+        "Log Parameter": [
+            "2||||Don't print||6|||N",
+            "3||||Print||3|||Y"
+        ],
+        "Line Text": [
+            "2|Some text to skip",
+            "3|Some text to print"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|1|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+            "1|1|CURRENT_SCHEMA|LIB",
+            "1||CLIENT_PROGRAM_NAME|sqlplus.exe"
+        ],
+        "Log Line": [
+            "1|1|1||||Print||Some text to print|LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/||3|||IN [0.0,0.1]|IN [0, 10]"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "LIKE /LOG_SET: Log id .*/|LIKE /Log id .*closed at.*/|Some text to print"
+        ]
+    }
+   },
+   "New config; field min put levels above line min - should not print; header min level above module level, module/action to put (but not client info); contexts not to print": 
+   {
+    "inp": {
+        "Log Config": [
+            "NEW_CONFIG|5|3|3|3|3|3|N||2|1"
+        ],
+        "Context": [
+            "NEW_CONFIG|CLIENT_PROGRAM_NAME|2|H",
+            "NEW_CONFIG|CURRENT_SCHEMA|2|L",
+            "NEW_CONFIG|DB_NAME|2|B"
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|NEW_CONFIG|Header description|3|"
+        ],
+        "Log Parameter": [
+            "2||||Don't print||6|||N",
+            "3||||Print||4|||Y"
+        ],
+        "Line Text": [
+            "2|Some text to skip",
+            "3|Some text to print"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|1|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||Print||Some text to print|||4|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "LIKE /LOG_SET: Log id .*/|LIKE /Log id .*closed at.*/|"
+        ]
+    }
+   },
+   "MULTIBUF: Three logs printing 2 lines interleaved, plus header only; also log that shouldn't print": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|CON_LINE|2",
+            "3|PUT_LINE|1",
+            "4|PUT_LINE|2",
+            "5|PUT_LINE|1",
+            "6|CON|3",
+            "7|PUT_LINE|3",
+            "8|CON|4"
+        ],
+        "Construct Param": [
+            "1|MULTIBUF|Log using CON||",
+            "2|MULTIBUF|Log using CON_LINE||",
+            "6|MULTIBUF|Log with high put min|20|",
+            "8|MULTIBUF|Log using CON, closing at once||Y"
+        ],
+        "Log Parameter": [
+            "2||||Construct group log 2|||||N",
+            "3|||||||||N",
+            "4|||||||||Y",
+            "5||||Group for log 1|||||Y",
+            "7||||Group for log 3|||||Y"
+        ],
+        "Line Text": [
+            "2|Construct line for log 2",
+            "3|Line 1 for log 1",
+            "4|Line 2 for log 2",
+            "5|Line 2 for log 1",
+            "7|Line 1 for log 3"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0|Log using CON|IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|0|0|LIB|0|Log using CON_LINE|IN [0.0,0.1]|IN [0.0,0.1]",
+            "4|0|0|LIB|0|Log using CON, closing at once|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|2||||||Line 1 for log 1|||0|||IN [0.0,0.1]|",
+            "1|2|4||||Group for log 1||Line 2 for log 1|||0|||IN [0.0,0.1]|",
+            "2|1|1||||Construct group log 2||Construct line for log 2|||0|||IN [0.0,0.1]|",
+            "2|2|3||||||Line 2 for log 2|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   },
+   "Construct and put lists": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON_LIST|1",
+            "2|PUT_LIST|1"
+        ],
+        "Construct Param": [
+            "1||Log using CON_LIST||"
+        ],
+        "Log Parameter": [
+            "1|||||||||",
+            "2|||||||||"
+        ],
+        "Line Text": [
+            "1|Construct list line 1",
+            "1|Construct list line 2",
+            "2|Put list line 1",
+            "2|Put list line 2"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0|Log using CON_LIST|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Construct list line 1|||0|||IN [0.0,0.1]|",
+            "1|2|2||||||Construct list line 2|||0|||IN [0.0,0.1]|",
+            "1|3|3||||||Put list line 1|||0|||IN [0.0,0.1]|",
+            "1|4|4||||||Put list line 2|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   },
+   "Closed log id": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1||||Y"
+        ],
+        "Log Parameter": [
+            "2|||||||||"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+        ],
+        "Exception": [
+            "LIKE /ORA-20000: Log .* closed at:.*/",
+            "UNTESTED"
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Invalid log id": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|2"
+        ],
+        "Construct Param": [
+            "1||||N"
+        ],
+        "Log Parameter": [
+            "2|||||||||"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+        ],
+        "Exception": [
+            "LIKE /ORA-20000: Log .+ not found/",
+            "UNTESTED"
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   },
+   "Invalid log config": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|BAD_CONFIG|||N"
+        ],
+        "Log Parameter": [
+            "2|||||||||"
+        ],
+        "Line Text": [
+            "2|Some text"
+        ]
+    },
+    "out": {
+        "Log Header": [
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+        ],
+        "Exception": [
+            "ORA-20000: BAD_CONFIG config not found",
+            "UNTESTED"
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "App info only": 
+   {
+    "inp": {
+        "Log Config": [
+            "NEW_CONFIG|5|||5|5|5|Y||2|1"
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|NEW_CONFIG|Header description|0|"
+        ],
+        "Log Parameter": [
+            "2|||||Don't print|6|||N",
+            "3||||Action|Print|5|||Y"
+        ],
+        "Line Text": [
+            "2|Some text to skip",
+            "3|Some text to print"
+        ]
+    },
+    "out": {
+        "Log Header": [
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "LIKE /LOG_SET: Log id .*/|LIKE /Log id .*closed at.*/|Some text to print"
+        ]
+    }
+   },
+   "App info without module, and writing to table": 
+   {
+    "inp": {
+        "Log Config": [
+            "NEW_CONFIG|5|||1|5|5|N||20|20"
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|NEW_CONFIG|Header description|2|"
+        ],
+        "Log Parameter": [
+            "2||||Group 1|Action 1|0|||N",
+            "3|||||Action 2|5|||Y"
+        ],
+        "Line Text": [
+            "2|Some text 1",
+            "3|Some text 2"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|1|0|LIB|2|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||Group 1|Action 1|Some text 1|||0|||IN [0.0,0.1]|",
+            "1|2|2|||||Action 2|Some text 2|||5|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "|Action 2|Some text 2"
+        ]
+    }
+   },
+   "OTHERS error handler": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|OTHER_ERR|1"
+        ],
+        "Construct Param": [
+             "1||||"
+       ],
+        "Log Parameter": [
+            "2||||||0|||N"
+        ],
+        "Line Text": [
+            "2|Some text 1"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Some text 1|||0|||IN [0.0,0.1]|",
+            "1|2|2|ERROR||||||LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/|LIKE /ORA-06512: at \"LIB.TT_LOG_SET\", .*/|0|100|ORA-01403: no data found|IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Singleton (pass null log id) plus non-singleton": 
+   {
+    "inp": {
+        "Log Config": [
+       ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|",
+            "2|CON|1",
+            "3|PUT_LINE|",
+            "4|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1|SINGLEBUF|||N",
+            "2|MULTIBUF|||N"
+        ],
+        "Log Parameter": [
+            "3|||||||||Y",
+            "4|||||||||Y"
+        ],
+        "Line Text": [
+            "3|Some text, singleton",
+            "4|Some text, non-singleton"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Some text, singleton|||0|||IN [0.0,0.1]|",
+            "2|1|2||||||Some text, non-singleton|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   },
+   "Singleton (pass null log id) plus singleton - fails": 
+   {
+    "inp": {
+        "Log Config": [
+       ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|",
+            "2|CON|",
+            "3|PUT_LINE|",
+            "4|PUT_LINE|1"
+        ],
+        "Construct Param": [
+            "1||||N",
+            "2||||N"
+        ],
+        "Log Parameter": [
+            "3|||||||||Y",
+            "4|||||||||Y"
+        ],
+        "Line Text": [
+            "3|Some text, singleton",
+            "4|Some text, non-singleton"
+        ]
+    },
+    "out": {
+        "Log Header": [
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+        ],
+        "Exception": [
+            "LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/",
+            "UNTESTED"
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   },
+   "Array length parameters (check no lines unsaved)": 
+   {
+    "inp": {
+        "Log Config": [
+             "CONFIG_2_2|0||||||||2|2",
+             "CONFIG_4_4|0||||||||4|4",
+             "CONFIG_2_4|0||||||||2|4",
+             "CONFIG_4_2|0||||||||4|2"
+       ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|CON|2",
+            "3|CON|3",
+            "4|CON|4",
+            "5|PUT_LINE|1",
+            "6|PUT_LINE|1",
+            "7|PUT_LINE|1",
+            "8|PUT_LINE|2",
+            "9|PUT_LINE|2",
+            "10|PUT_LINE|2",
+            "11|PUT_LINE|3",
+            "12|PUT_LINE|3",
+            "13|PUT_LINE|3",
+            "14|PUT_LINE|4",
+            "15|PUT_LINE|4",
+            "16|PUT_LINE|4",
+            "17|CLO|4"
+        ],
+        "Construct Param": [
+            "1|CONFIG_2_2|||N",
+            "2|CONFIG_4_4|||N",
+            "3|CONFIG_2_4|||N",
+            "4|CONFIG_4_2|||N"
+        ],
+        "Log Parameter": [
+            "5|||||||||",
+            "6|||||||||",
+            "7|||||||||Y",
+            "8|||||||||",
+            "9|||||||||",
+            "10|||||||||Y",
+            "11|||||||||",
+            "12|||||||||",
+            "13|||||||||Y",
+            "14|||||||||",
+            "15|||||||||",
+            "16|||||||||"
+        ],
+        "Line Text": [
+            "5|Line 1",
+            "6|Line 2",
+            "7|Line 3",
+            "8|Line 1",
+            "9|Line 2",
+            "10|Line 3",
+            "11|Line 1",
+            "12|Line 2",
+            "13|Line 3",
+            "14|Line 1",
+            "15|Line 2",
+            "16|Line 3"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|1|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|2|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "3|3|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "4|4|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Line 1|||0|||IN [0.0,0.1]|",
+            "1|2|2||||||Line 2|||0|||IN [0.0,0.1]|",
+            "1|3|3||||||Line 3|||0|||IN [0.0,0.1]|",
+            "2|1|4||||||Line 1|||0|||IN [0.0,0.1]|",
+            "2|2|5||||||Line 2|||0|||IN [0.0,0.1]|",
+            "2|3|6||||||Line 3|||0|||IN [0.0,0.1]|",
+            "3|1|7||||||Line 1|||0|||IN [0.0,0.1]|",
+            "3|2|8||||||Line 2|||0|||IN [0.0,0.1]|",
+            "3|3|9||||||Line 3|||0|||IN [0.0,0.1]|",
+            "4|1|10||||||Line 1|||0|||IN [0.0,0.1]|",
+            "4|2|11||||||Line 2|||0|||IN [0.0,0.1]|",
+            "4|3|12||||||Line 3|||0|||IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+       ]
+    }
+   }
+}
+}

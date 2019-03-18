@@ -1,0 +1,139 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          18-MAR-2019 19:27:43 Oracle Database 12c 12.2.0.1.0
+
+old   1: CREATE USER &DEMO_USER IDENTIFIED BY &DEMO_USER
+new   1: CREATE USER lib IDENTIFIED BY lib
+
+User created.
+
+old   1: GRANT CREATE SESSION TO &DEMO_USER
+new   1: GRANT CREATE SESSION TO lib
+
+Grant succeeded.
+
+old   1: GRANT ALTER SESSION TO &DEMO_USER
+new   1: GRANT ALTER SESSION TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE TABLE TO &DEMO_USER
+new   1: GRANT CREATE TABLE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE TYPE TO &DEMO_USER
+new   1: GRANT CREATE TYPE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE PUBLIC SYNONYM TO &DEMO_USER
+new   1: GRANT CREATE PUBLIC SYNONYM TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE SYNONYM TO &DEMO_USER
+new   1: GRANT CREATE SYNONYM TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE SEQUENCE TO &DEMO_USER
+new   1: GRANT CREATE SEQUENCE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE VIEW TO &DEMO_USER
+new   1: GRANT CREATE VIEW TO lib
+
+Grant succeeded.
+
+old   1: GRANT UNLIMITED TABLESPACE TO &DEMO_USER
+new   1: GRANT UNLIMITED TABLESPACE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE PROCEDURE TO &DEMO_USER
+new   1: GRANT CREATE PROCEDURE TO lib
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+old   1: CREATE USER &DEMO_USER IDENTIFIED BY &DEMO_USER
+new   1: CREATE USER app IDENTIFIED BY app
+
+User created.
+
+old   1: GRANT CREATE SESSION TO &DEMO_USER
+new   1: GRANT CREATE SESSION TO app
+
+Grant succeeded.
+
+old   1: GRANT ALTER SESSION TO &DEMO_USER
+new   1: GRANT ALTER SESSION TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE TABLE TO &DEMO_USER
+new   1: GRANT CREATE TABLE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE TYPE TO &DEMO_USER
+new   1: GRANT CREATE TYPE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE PUBLIC SYNONYM TO &DEMO_USER
+new   1: GRANT CREATE PUBLIC SYNONYM TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE SYNONYM TO &DEMO_USER
+new   1: GRANT CREATE SYNONYM TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE SEQUENCE TO &DEMO_USER
+new   1: GRANT CREATE SEQUENCE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE VIEW TO &DEMO_USER
+new   1: GRANT CREATE VIEW TO app
+
+Grant succeeded.
+
+old   1: GRANT UNLIMITED TABLESPACE TO &DEMO_USER
+new   1: GRANT UNLIMITED TABLESPACE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE PROCEDURE TO &DEMO_USER
+new   1: GRANT CREATE PROCEDURE TO app
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Directory input_dir
+
+Directory created.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 18-MAR-2019 19:27:44
+

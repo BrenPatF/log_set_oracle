@@ -1,0 +1,82 @@
+
+Start: ORCL          12-FEB-2019 07:08:57 Oracle Database 12c 12.2.0.1.0
+
+
+As Is
+=====
+Team                             Apps
+------------------------------  -----
+team_name_2                         1
+Blackburn                          33
+QPR                              1517
+Liverpool                        1227
+Newcastle                        1247
+Swansea                          1180
+Wigan                            1036
+Bolton                             37
+Everton                          1147
+Chelsea                          1147
+Man City                         1099
+Man Utd                          1231
+Stoke City                       1170
+West Brom                        1219
+Fulham                           1209
+Southampton                      1110
+Sunderland                       1162
+West Ham                         1126
+team_name_1                         1
+Arsenal                           534
+Aston Villa                       685
+Norwich                          1229
+Reading                          1167
+=============
+Team                             Apps
+------------------------------  -----
+Arsenal                           534
+Aston Villa                       685
+Blackburn                          33
+Bolton                             37
+Chelsea                          1147
+Everton                          1147
+Liverpool                        1227
+Man City                         1099
+Man Utd                          1231
+Newcastle                        1247
+Norwich                          1229
+QPR                              1517
+Reading                          1167
+Southampton                      1110
+Stoke City                       1170
+Swansea                          1180
+Tottenham                        1288
+West Brom                        1219
+West Ham                         1126
+Wigan                            1036
+Wolves                             31
+team_name_1                         1
+team_name_2                         1
+Sorted by Value, Key
+Team                             Apps
+------------------------------  -----
+team_name_1                         1
+team_name_2                         1
+Wolves                             31
+Blackburn                          33
+Bolton                             37
+Arsenal                           534
+Aston Villa                       685
+Man City                         1099
+Southampton                      1110
+West Ham                         1126
+Chelsea                          1147
+Everton                          1147
+Sunderland                       1162
+Reading                          1167
+Stoke City                       1170
+Swansea                          1180
+
+72 rows selected.
+
+
+End: 12-FEB-2019 07:08:57
+

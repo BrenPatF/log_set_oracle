@@ -1,0 +1,84 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          18-MAR-2019 19:28:04 Oracle Database 12c 12.2.0.1.0
+
+DROP TABLE tt_units
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+Common type creation
+====================
+DROP TYPE L4_chr_arr
+*
+ERROR at line 1:
+ORA-04043: object L4_CHR_ARR does not exist
+
+
+DROP TYPE L3_chr_arr
+*
+ERROR at line 1:
+ORA-04043: object L3_CHR_ARR does not exist
+
+
+Create type L2_chr_arr
+
+Type created.
+
+Create type L3_chr_arr
+
+Type created.
+
+Create type L4_chr_arr
+
+Type created.
+
+Table creation
+==============
+Create table tt_units
+tt_units
+
+Table created.
+
+
+Comment created.
+
+Packages creation
+=================
+Create package Log_Set
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Create package Utils_TT
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Create package tt_log_set
+
+Package created.
+
+
+Package body created.
+
+No errors.
+Read in json files
+
+PL/SQL procedure successfully completed.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 18-MAR-2019 19:28:04
+
