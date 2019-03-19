@@ -1,27 +1,18 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          18-MAR-2019 19:28:04 Oracle Database 12c 12.2.0.1.0
+Start: ORCL          19-MAR-2019 06:06:53 Oracle Database 12c 12.2.0.1.0
 
-DROP TABLE tt_units
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
+Table dropped.
 
 Common type creation
 ====================
-DROP TYPE L4_chr_arr
-*
-ERROR at line 1:
-ORA-04043: object L4_CHR_ARR does not exist
+
+Type dropped.
 
 
-DROP TYPE L3_chr_arr
-*
-ERROR at line 1:
-ORA-04043: object L3_CHR_ARR does not exist
-
+Type dropped.
 
 Create type L2_chr_arr
 
@@ -80,5 +71,5 @@ PL/SQL procedure successfully completed.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 18-MAR-2019 19:28:04
+End: 19-MAR-2019 06:06:54
 

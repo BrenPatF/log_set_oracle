@@ -9,6 +9,8 @@ Multiple logs can be processed simultaneously within and across sessions without
 
 In order to maximise performance, puts may be buffered, and only the log header uses an Oracle sequence for its unique identifier, with lines being numbered sequentially in PL/SQL.
 
+The package is tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. See test_output\log_set.html for the unit test results root page.
+
 ## Usage (extract from main_col_group.sql)
 ```sql
 DECLARE

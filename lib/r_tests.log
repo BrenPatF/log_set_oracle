@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          18-MAR-2019 19:28:13 Oracle Database 12c 12.2.0.1.0
+Start: ORCL          19-MAR-2019 06:06:58 Oracle Database 12c 12.2.0.1.0
 
 
 PL/SQL procedure successfully completed.
@@ -9,5 +9,5 @@ PL/SQL procedure successfully completed.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 18-MAR-2019 19:28:13
+End: 19-MAR-2019 06:06:58
 

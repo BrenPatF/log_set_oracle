@@ -598,7 +598,7 @@ BEGIN
   l_config := l_log.inps.config_rec;
   l_put_lev := l_config.put_lev;
   l_line_rec.line.put_lev_min := Nvl(l_line_rec.line.put_lev_min, 0);
-
+  l_line_rec.line.creation_tmstp := SYSTIMESTAMP;
   IF Ok_To_Put(l_log.inps.header.put_lev_min, l_put_lev) AND
      Ok_To_Put(l_line_rec.line.put_lev_min, l_put_lev) THEN
 
