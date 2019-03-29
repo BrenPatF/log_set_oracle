@@ -739,10 +739,10 @@ Purely_Wrap_API: Design pattern has the API call wrapped in a 'pure' procedure, 
                  inputs also listed. The API call is timed
 
 ***************************************************************************************************/
-FUNCTION Purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,
-                         p_last_seq_lcf         PLS_INTEGER,
-                         p_inp_3lis             L3_chr_arr)      -- input list of lists (record, field)
-                         RETURN                 L2_chr_arr IS    -- output list of lists (group, record)
+FUNCTION Purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,  -- last sequence value for log headers
+                         p_last_seq_lcf         PLS_INTEGER,  -- last sequence value for log configs
+                         p_inp_3lis             L3_chr_arr)   -- input list of lists (record, field)
+                         RETURN                 L2_chr_arr IS -- output list of lists (group, record)
 
   CUSTOM_ERR_EX                  EXCEPTION;
   PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
