@@ -686,6 +686,51 @@ END Handle_Event;
 
 /***************************************************************************************************
 
+Do_Event_List: Process the list of events, returning the exception list if any
+
+***************************************************************************************************/
+FUNCTION Do_Event_List(
+           p_events_2lis                  L2_chr_arr,   -- events list of lists
+           p_con_prms_2lis                L2_chr_arr,   -- construct parameters list of lists
+           p_put_prms_2lis                L2_chr_arr,   -- put parameters list of lists
+           p_txt_prms_2lis                L2_chr_arr)   -- line text parameters list of lists
+           RETURN                         L1_chr_arr IS -- output list of exception
+
+  CUSTOM_ERR_EX                  EXCEPTION;
+  PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
+  l_event_no                     PLS_INTEGER;
+  l_con_prms_lis                 L1_chr_arr;
+  l_put_prms_lis                 L1_chr_arr;
+  l_line_text_lis                L1_chr_arr;
+  l_log_set_hsh                  hash_int_arr;
+BEGIN
+
+  FOR i IN 1..p_events_2lis.COUNT LOOP
+
+    l_event_no := p_events_2lis(i)(1);
+    l_con_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_con_prms_2lis);
+    l_put_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_put_prms_2lis);
+    l_line_text_lis := Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  p_prm_2lis => p_txt_prms_2lis);
+
+    l_log_set_hsh := Handle_Event(           
+                        p_event_lis                    => p_events_2lis(i),
+                        p_con_prms_lis                 => l_con_prms_lis,
+                        p_put_prms_lis                 => l_put_prms_lis,
+                        p_line_text_lis                => l_line_text_lis,
+                        p_log_set_hsh                  => l_log_set_hsh);
+
+  END LOOP;
+  RETURN NULL;
+
+EXCEPTION
+
+  WHEN CUSTOM_ERR_EX THEN
+    RETURN L1_chr_arr(SQLERRM, DBMS_Utility.Format_Error_Backtrace);
+
+END Do_Event_List;
+  
+/***************************************************************************************************
+
 Purely_Wrap_API: Design pattern has the API call wrapped in a 'pure' procedure, called once per 
                  scenario, with the output 'actuals' array including everything affected by the API,
                  whether as output parameters, or on database tables, etc. The inputs are also
@@ -702,50 +747,22 @@ FUNCTION Purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,
   CUSTOM_ERR_EX                  EXCEPTION;
   PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
 
-  l_act_2lis                     L2_chr_arr := L2_chr_arr();
-  l_events_2lis                  L2_chr_arr := p_inp_3lis(3);
-  l_con_prms_lis                 L1_chr_arr;
-  l_put_prms_lis                 L1_chr_arr;
-  l_line_text_lis                L1_chr_arr;
   l_log_config_lis               L1_chr_arr;
-  l_log_set_hsh                  hash_int_arr;
+  l_act_2lis                     L2_chr_arr := L2_chr_arr();
   l_start_tmstp                  TIMESTAMP := SYSTIMESTAMP;
   l_start_cpu_cs                 PLS_INTEGER := DBMS_Utility.Get_CPU_Time;
-  l_event_no                     PLS_INTEGER;
 
 BEGIN
 
-  BEGIN
-    Log_Set.Init;
-    l_log_config_lis := Add_Log_Configs(p_inp_3lis(1), p_inp_3lis(2)); -- lcf, ctx
+  Log_Set.Init;
+  l_log_config_lis := Add_Log_Configs(p_inp_3lis(1), p_inp_3lis(2)); -- lcf, ctx
+  l_act_2lis.EXTEND(5);
+  l_act_2lis(4) :=  Do_Event_List(
+                      p_events_2lis     => p_inp_3lis(3),
+                      p_con_prms_2lis   => p_inp_3lis(4),
+                      p_put_prms_2lis   => p_inp_3lis(5),
+                      p_txt_prms_2lis   => p_inp_3lis(6));
 
-    l_act_2lis.EXTEND(5);
-    FOR i IN 1..l_events_2lis.COUNT LOOP
-  
-      l_event_no := l_events_2lis(i)(1);
-      l_con_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_inp_3lis(4));
-      l_put_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_inp_3lis(5));
-      l_line_text_lis := Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  p_prm_2lis => p_inp_3lis(6));
-
-      l_log_set_hsh := Handle_Event(           
-                          p_event_lis                    => l_events_2lis(i),
-                          p_con_prms_lis                 => l_con_prms_lis,
-                          p_put_prms_lis                 => l_put_prms_lis,
-                          p_line_text_lis                => l_line_text_lis,
-                          p_log_set_hsh                  => l_log_set_hsh);
-
-    END LOOP;
-
-  EXCEPTION
-  
-    WHEN CUSTOM_ERR_EX THEN
-      l_act_2lis(4) := L1_chr_arr();
-      l_act_2lis(4).EXTEND(2);
-      l_act_2lis(4)(1) := SQLERRM;
-      l_act_2lis(4)(2) := DBMS_Utility.Format_Error_Backtrace;
-  
-  END;
-  
   l_act_2lis(1) := Get_Lgh_Lis(p_last_seq_lgh   => p_last_seq_lgh,
                                p_last_seq_lcf   => p_last_seq_lcf,
                                p_start_tmstp    => l_start_tmstp);
