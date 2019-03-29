@@ -744,9 +744,6 @@ FUNCTION Purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,  -- last sequence v
                          p_inp_3lis             L3_chr_arr)   -- input list of lists (record, field)
                          RETURN                 L2_chr_arr IS -- output list of lists (group, record)
 
-  CUSTOM_ERR_EX                  EXCEPTION;
-  PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
-
   l_log_config_lis               L1_chr_arr;
   l_act_2lis                     L2_chr_arr := L2_chr_arr();
   l_start_tmstp                  TIMESTAMP := SYSTIMESTAMP;
