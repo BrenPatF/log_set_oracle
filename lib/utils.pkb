@@ -6,7 +6,7 @@ Package body component in the Oracle timer_set_oracle module. This is a logging 
 supports the writing of messages to log tables, along with various optional data items that may be
 specified as parameters or read at runtime via system calls.
 
-The framework is designed to be as simple as possible to use in default mode, while allowing for a
+The framework is designed to be as simple as possible to use in := mode, while allowing for a
 high degree of configuration. A client program first constructs a log pointing to a configuration 
 key, then puts lines to the log conditionally depending on the line minimum put level being at least
 equal to the configuration put level. By creating new versions of the keyed configuration the amount
@@ -184,13 +184,13 @@ List_Delim: Return a delimited string for an input set of from 1 to 15 strings
 ***************************************************************************************************/
 FUNCTION List_Delim(
         p_field1 VARCHAR2,        -- input string, first is required, others passed as needed
-        p_field2 VARCHAR2 DEFAULT LIST_END_MARKER, p_field3 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field4 VARCHAR2 DEFAULT LIST_END_MARKER, p_field5 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field6 VARCHAR2 DEFAULT LIST_END_MARKER, p_field7 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field8 VARCHAR2 DEFAULT LIST_END_MARKER, p_field9 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field10 VARCHAR2 DEFAULT LIST_END_MARKER, p_field11 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field12 VARCHAR2 DEFAULT LIST_END_MARKER, p_field13 VARCHAR2 DEFAULT LIST_END_MARKER,
-        p_field14 VARCHAR2 DEFAULT LIST_END_MARKER, p_field15 VARCHAR2 DEFAULT LIST_END_MARKER,
+        p_field2 VARCHAR2 := LIST_END_MARKER, p_field3 VARCHAR2 := LIST_END_MARKER,
+        p_field4 VARCHAR2 := LIST_END_MARKER, p_field5 VARCHAR2 := LIST_END_MARKER,
+        p_field6 VARCHAR2 := LIST_END_MARKER, p_field7 VARCHAR2 := LIST_END_MARKER,
+        p_field8 VARCHAR2 := LIST_END_MARKER, p_field9 VARCHAR2 := LIST_END_MARKER,
+        p_field10 VARCHAR2 := LIST_END_MARKER, p_field11 VARCHAR2 := LIST_END_MARKER,
+        p_field12 VARCHAR2 := LIST_END_MARKER, p_field13 VARCHAR2 := LIST_END_MARKER,
+        p_field14 VARCHAR2 := LIST_END_MARKER, p_field15 VARCHAR2 := LIST_END_MARKER,
         p_field16 VARCHAR2 := LIST_END_MARKER, p_field17 VARCHAR2 := LIST_END_MARKER)
         RETURN VARCHAR2 IS        -- delimited string
 
@@ -219,7 +219,7 @@ List_Delim: Return a delimited string for an input list of strings
 
 ***************************************************************************************************/
 FUNCTION List_Delim (p_field_lis        L1_chr_arr,                        -- list of strings
-                     p_delim            VARCHAR2 DEFAULT g_list_delimiter) -- delimiter
+                     p_delim            VARCHAR2 := g_list_delimiter) -- delimiter
                      RETURN VARCHAR2 IS                                    -- delimited string
 
   l_str         VARCHAR2(32767) := p_field_lis(1);

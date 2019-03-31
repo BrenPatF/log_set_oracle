@@ -131,14 +131,14 @@ BEGIN
 
   IF p_con_rec.null_yn = 'Y' AND p_line_rec.null_yn = 'Y' THEN
     RETURN Log_Set.Construct(
-             p_line_lis             => p_line_text_lis);
+             p_line_lis              => p_line_text_lis);
   ELSIF p_line_rec.null_yn = 'Y' THEN
     RETURN Log_Set.Construct(
-             p_line_lis             => p_line_text_lis,
+             p_line_lis              => p_line_text_lis,
              p_construct_rec         => p_con_rec);
   ELSIF p_con_rec.null_yn = 'Y' THEN
     RETURN Log_Set.Construct(
-             p_line_lis             => p_line_text_lis,
+             p_line_lis              => p_line_text_lis,
              p_line_rec              => p_line_rec);
   ELSE
     RETURN Log_Set.Construct(
@@ -699,26 +699,39 @@ FUNCTION Do_Event_List(
   CUSTOM_ERR_EX                  EXCEPTION;
   PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
   l_event_no                     PLS_INTEGER;
+/*
   l_con_prms_lis                 L1_chr_arr;
   l_put_prms_lis                 L1_chr_arr;
   l_line_text_lis                L1_chr_arr;
+*/
   l_log_set_hsh                  hash_int_arr;
 BEGIN
 
   FOR i IN 1..p_events_2lis.COUNT LOOP
 
     l_event_no := p_events_2lis(i)(1);
+/*
     l_con_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_con_prms_2lis);
     l_put_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_put_prms_2lis);
     l_line_text_lis := Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  p_prm_2lis => p_txt_prms_2lis);
-
+*/
+    l_log_set_hsh := Handle_Event(           
+                        p_event_lis       => p_events_2lis(i),
+                        p_con_prms_lis    => Get_Event_Prm_Lis(    p_event_no => l_event_no, 
+                                                                   p_prm_2lis => p_con_prms_2lis),
+                        p_put_prms_lis    => Get_Event_Prm_Lis(    p_event_no => l_event_no, 
+                                                                   p_prm_2lis => p_put_prms_2lis),
+                        p_line_text_lis   => Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  
+                                                                   p_prm_2lis => p_txt_prms_2lis),
+                        p_log_set_hsh     => l_log_set_hsh);
+/*
     l_log_set_hsh := Handle_Event(           
                         p_event_lis                    => p_events_2lis(i),
                         p_con_prms_lis                 => l_con_prms_lis,
                         p_put_prms_lis                 => l_put_prms_lis,
                         p_line_text_lis                => l_line_text_lis,
                         p_log_set_hsh                  => l_log_set_hsh);
-
+*/
   END LOOP;
   RETURN NULL;
 
@@ -812,12 +825,12 @@ BEGIN
 
   FOR i IN 1..l_sces_4lis.COUNT LOOP
 
-   l_last_seq_lgh := log_headers_s.NEXTVAL;
-   l_last_seq_lcf := log_configs_s.NEXTVAL;
+    l_last_seq_lgh := log_headers_s.NEXTVAL;
+    l_last_seq_lcf := log_configs_s.NEXTVAL;
 
-   DBMS_Application_Info.Set_Module('', '');
-   DBMS_Application_Info.Set_Client_Info('');
-   l_act_3lis(i) := Purely_Wrap_API(l_last_seq_lgh, l_last_seq_lcf, l_sces_4lis(i));
+    DBMS_Application_Info.Set_Module('', '');
+    DBMS_Application_Info.Set_Client_Info('');
+    l_act_3lis(i) := Purely_Wrap_API(l_last_seq_lgh, l_last_seq_lcf, l_sces_4lis(i));
 
   END LOOP;
 
