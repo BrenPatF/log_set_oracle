@@ -699,22 +699,12 @@ FUNCTION Do_Event_List(
   CUSTOM_ERR_EX                  EXCEPTION;
   PRAGMA EXCEPTION_INIT(CUSTOM_ERR_EX, -20000);
   l_event_no                     PLS_INTEGER;
-/*
-  l_con_prms_lis                 L1_chr_arr;
-  l_put_prms_lis                 L1_chr_arr;
-  l_line_text_lis                L1_chr_arr;
-*/
   l_log_set_hsh                  hash_int_arr;
 BEGIN
 
   FOR i IN 1..p_events_2lis.COUNT LOOP
 
     l_event_no := p_events_2lis(i)(1);
-/*
-    l_con_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_con_prms_2lis);
-    l_put_prms_lis := Get_Event_Prm_Lis(p_event_no => l_event_no, p_prm_2lis => p_put_prms_2lis);
-    l_line_text_lis := Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  p_prm_2lis => p_txt_prms_2lis);
-*/
     l_log_set_hsh := Handle_Event(           
                         p_event_lis       => p_events_2lis(i),
                         p_con_prms_lis    => Get_Event_Prm_Lis(    p_event_no => l_event_no, 
@@ -724,14 +714,6 @@ BEGIN
                         p_line_text_lis   => Get_Event_Prm_Txt_Lis(p_event_no => l_event_no,  
                                                                    p_prm_2lis => p_txt_prms_2lis),
                         p_log_set_hsh     => l_log_set_hsh);
-/*
-    l_log_set_hsh := Handle_Event(           
-                        p_event_lis                    => p_events_2lis(i),
-                        p_con_prms_lis                 => l_con_prms_lis,
-                        p_put_prms_lis                 => l_put_prms_lis,
-                        p_line_text_lis                => l_line_text_lis,
-                        p_log_set_hsh                  => l_log_set_hsh);
-*/
   END LOOP;
   RETURN NULL;
 
