@@ -2,55 +2,40 @@ CREATE OR REPLACE PACKAGE BODY TT_Log_Set AS
 /***************************************************************************************************
 Name: tt_log_set.pkb                   Author: Brendan Furey                       Date: 17-Mar-2019
 
-Package body component in the Oracle log_set_oracle module. This is a logging framework that 
-supports the writing of messages to log tables, along with various optional data items that may be
-specified as parameters or read at runtime via system calls.
+Package body component in the Oracle log_set_oracle module. 
 
-The framework is designed to be as simple as possible to use in default mode, while allowing for a
-high degree of configuration. A client program first constructs a log pointing to a configuration 
-key, then puts lines to the log conditionally depending on the line minimum put level being at least
-equal to the configuration put level. By creating new versions of the keyed configuration the amount
-and type of information put can be varied without code changes to support production debugging and
-analysis.
+This is a logging framework that supports the writing of messages to log tables, along with various
+optional data items that may be specified as parameters or read at runtime via system calls.
 
-Multiple logs can be processed simultaneously within and across sessions without interference.
-
-In order to maximise performance, puts may be  buffered, and only the log header uses an Oracle
-sequence for its unique identifier, with lines being numbered sequentially in PL/SQL.
-
-GitHub: https://github.com/BrenPatF/log_set_oracle
+    GitHub: https://github.com/BrenPatF/log_set_oracle
 
 There is an example main program and package showing how to use the Log_Set package, and a unit test
-program.
+program. Unit testing is optional and depends on the module trapit_oracle_tester.
 ====================================================================================================
-|  Main/Test .sql  |  Package       |  Notes                                                       |
+|  Main/Test .sql  |  Package     |  Notes                                                         |
 |===================================================================================================
-|  main_col_group  |  Col_Group     |  Example showing how to use the Log_Set package              |
+|  main_col_group  |  Col_Group   |  Example showing how to use the Log_Set package. Col_Group is  |
+|                  |              |  a simple file-reading and group-counting package              |
+|                  |              |  installed via the oracle_plsql_utils module                   |
 ----------------------------------------------------------------------------------------------------
-|  r_tests         | *TT_Log_Set*   |  Unit testing the Log_Set package                            |
-|                  |  Utils_TT      |                                                              |
+|  r_tests         | *TT_Log_Set* |  Unit testing the Log_Set package. Trapit is installed as a    |
+|                  |  Trapit      |  separate module                                               |
 ====================================================================================================
 
-This file has the unit test TT_Log_Set package body (lib schema). Note that the test package is
-called by the unit test utility package Utils_TT, which reads the unit test details from a table,
-tt_units, populated by the install scripts.
+This file has the TT_Log_Set unit test package body. Note that the test package is called by the
+unit test utility package Trapit, which reads the unit test details from a table, tt_units,
+populated by the install scripts.
 
 The test program follows 'The Math Function Unit Testing design pattern':
 
-GitHub: https://github.com/BrenPatF/trapit_nodejs_tester
+    GitHub: https://github.com/BrenPatF/trapit_nodejs_tester
 
-Note that the unit test program generates an output tt_log_set.tt_main_out.json file that is 
-processed by a separate nodejs program, npm package trapit. This can be installed via npm (npm and
-nodejs required):
+Note that the unit test program generates an output file, tt_log_set.tt_main_out.json, that is 
+processed by a separate nodejs program, npm package trapit (see README for further details).
 
-$ npm install trapit
-
-The output json file contains arrays of expected and actual records by group and scenario, in the
-format expected by the Javascript program. The Javascript program produces listings of the results
-in html and/or text format, and a sample set of listings is included in the folder test.
-
-See also the app schema main_col_group script which gives a simple example use-case for the
-Log_Set package.
+The output JSON file contains arrays of expected and actual records by group and scenario, in the
+format expected by the nodejs program. This program produces listings of the results in HTML and/or
+text format, and a sample set of listings is included in the folder test_output.
 
 ***************************************************************************************************/
 
@@ -351,15 +336,15 @@ FUNCTION Get_Lgh_Lis(
   l_lgh_lis       L1_chr_arr;
 BEGIN
 
-  SELECT Utils.List_Delim(
+  SELECT Utils.Join_Values(
           lgh.id - p_last_seq_lgh,
           CASE WHEN lgh.config_id <= p_last_seq_lcf THEN 0 ELSE lgh.config_id - p_last_seq_lcf END,
           lgh.session_id - TT_Log_Set.SESSION_ID,
           lgh.session_user,
           lgh.put_lev_min,
           lgh.description,
-          Utils.Get_Seconds(lgh.creation_tmstp - p_start_tmstp),
-          Utils.Get_Seconds(lgh.closure_tmstp - p_start_tmstp))
+          Utils.IntervalDS_To_Seconds(lgh.creation_tmstp - p_start_tmstp),
+          Utils.IntervalDS_To_Seconds(lgh.closure_tmstp - p_start_tmstp))
     BULK COLLECT INTO l_lgh_lis
     FROM log_headers lgh
    WHERE lgh.session_id = TT_Log_Set.SESSION_ID
@@ -401,7 +386,7 @@ BEGIN
    CROSS APPLY (SELECT * FROM TABLE(lgl.ctx_out_lis)) ctx
    WHERE lgh.session_id = TT_Log_Set.SESSION_ID
   )
-  SELECT Utils.List_Delim(
+  SELECT Utils.Join_Values(
           To_Char(id - p_last_seq_lgh),
           line_num,
           ctx_nm,
@@ -433,7 +418,7 @@ FUNCTION Get_Lgl_Lis(
   l_lgl_lis       L1_chr_arr;
 BEGIN
 
-  SELECT Utils.List_Delim(
+  SELECT Utils.Join_Values(
           To_Char(lgh.id - p_last_seq_lgh),
           lgl.line_num,
           lgl.session_line_num,
@@ -448,7 +433,7 @@ BEGIN
           lgl.put_lev_min,
           lgl.err_num,
           lgl.err_msg,
-          Utils.Get_Seconds(lgl.creation_tmstp - p_start_tmstp),
+          Utils.IntervalDS_To_Seconds(lgl.creation_tmstp - p_start_tmstp),
           lgl.creation_cpu_cs - p_start_cpu_cs)
     BULK COLLECT INTO l_lgl_lis
     FROM log_headers lgh
@@ -476,7 +461,7 @@ BEGIN
 
   DBMS_Application_Info.Read_Module(module_name => l_module_name, action_name => l_action_name);
   DBMS_Application_Info.Read_Client_Info(client_info  => l_client_info);
-  RETURN Utils.List_Delim(l_module_name, l_action_name, l_client_info);
+  RETURN Utils.Join_Values(l_module_name, l_action_name, l_client_info);
 
 END Get_App_Info;
 
@@ -767,7 +752,7 @@ BEGIN
   Log_Set.Delete_Log(p_session_id => TT_Log_Set.SESSION_ID);
   
   IF l_log_config_lis IS NOT NULL THEN
-  FOR i IN 1..l_log_config_lis.COUNT LOOP
+    FOR i IN 1..l_log_config_lis.COUNT LOOP
       Log_Config.Del_Config(l_log_config_lis(i));
     END LOOP;
   END IF;
@@ -778,35 +763,32 @@ END Purely_Wrap_API;
 
 /***************************************************************************************************
 
-tt_Main: Entry point method for the unit test. Uses Utils_TT to read the test data from JSON clob
+Test_API: Entry point method for the unit test. Uses Trapit to read the test data from JSON clob
          into a 4-d list of (scenario, group, record, field), then calls a 'pure' wrapper function
-         within a loop over the scenarios to get the actuals. A final call to Utils_TT.Set_Outputs
+         within a loop over the scenarios to get the actuals. A final call to Trapit.Set_Outputs
          creates the output JSON in tt_units as well as on file to be processed by trapit_nodejs
 
 ***************************************************************************************************/
-PROCEDURE tt_Main IS
+PROCEDURE Test_API IS
 
-  PROC_NM                        CONSTANT VARCHAR2(30) := 'tt_Main';
-  TIMER_SET_NM                   CONSTANT VARCHAR2(61) := $$PLSQL_UNIT || '.' || PROC_NM;
+  PROC_NM                        CONSTANT VARCHAR2(30) := 'Test_API';
 
   l_act_3lis                     L3_chr_arr := L3_chr_arr();
   l_sces_4lis                    L4_chr_arr;
-  l_timer_set                    VARCHAR2(100);
+  l_scenarios                    Trapit.scenarios_rec;
   l_last_seq_lgh                 PLS_INTEGER;
   l_last_seq_lcf                 PLS_INTEGER;
   l_def_config_id                PLS_INTEGER;
 
 BEGIN
 
-  l_timer_set := Utils_TT.Init(TIMER_SET_NM);
-  l_sces_4lis := Utils_TT.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
-                                     p_procedure_nm  => PROC_NM,
-                                     p_timer_set     => l_timer_set);
-
+--  l_timer_set := Trapit.Init(TIMER_SET_NM);
+  l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
+                                   p_procedure_nm  => PROC_NM);
+  l_sces_4lis := l_scenarios.scenarios_4lis;
   l_act_3lis.EXTEND(l_sces_4lis.COUNT);
 
   FOR i IN 1..l_sces_4lis.COUNT LOOP
-
     l_last_seq_lgh := log_headers_s.NEXTVAL;
     l_last_seq_lcf := log_configs_s.NEXTVAL;
 
@@ -816,12 +798,11 @@ BEGIN
 
   END LOOP;
 
-  Utils_TT.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                       p_procedure_nm  => PROC_NM,
-                       p_act_3lis      => l_act_3lis,
-                       p_timer_set     => l_timer_set);
+  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
+                     p_procedure_nm  => PROC_NM,
+                     p_act_3lis      => l_act_3lis);
 
-END tt_Main;
+END Test_API;
 
 END TT_Log_Set;
 /

@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          18-MAR-2019 19:27:59 Oracle Database 12c 12.2.0.1.0
+Start: ORCL          28-MAY-2019 06:24:35
 
 Common types creation
 =====================
@@ -22,26 +22,6 @@ DROP TABLE log_configs
 ERROR at line 1:
 ORA-00942: table or view does not exist
 
-
-Create type L1_chr_arr
-
-Type created.
-
-
-Synonym created.
-
-
-Grant succeeded.
-
-Create type L1_num_arr
-
-Type created.
-
-
-Synonym created.
-
-
-Grant succeeded.
 
 DROP TYPE ctx_inp_arr
 *
@@ -128,21 +108,6 @@ Grant succeeded.
 
 Packages creation
 =================
-Create package Utils
-
-Package created.
-
-No errors.
-
-Package body created.
-
-No errors.
-
-Synonym created.
-
-
-Grant succeeded.
-
 Create package Log_Config
 
 Package created.
@@ -182,5 +147,5 @@ Commit complete.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 18-MAR-2019 19:27:59
+End: 28-MAY-2019 06:24:36
 

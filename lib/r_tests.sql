@@ -1,50 +1,46 @@
-@..\InitSpool r_tests
+@..\initspool r_tests
 /***************************************************************************************************
-Name: tt_timer_set.pkb                 Author: Brendan Furey                       Date: 29-Jan-2019
+Name: r_tests.sql                      Author: Brendan Furey                       Date: 29-Jan-2019
 
-Driver script component in the Oracle timer_set_oracle module. This module facilitates code timing
-for instrumentation and other purposes, with very small footprint in both code and resource usage.
+Driver script component in the Oracle log_set_oracle module. This is a logging framework that 
+supports the writing of messages to log tables, along with various optional data items that may be
+specified as parameters or read at runtime via system calls.
 
-GitHub: https://github.com/BrenPatF/timer_set_oracle
+    GitHub: https://github.com/BrenPatF/log_set_oracle
 
-See 'Code Timing and Object Orientation and Zombies' for the original idea implemented in Oracle 
-   PL/SQL, Perl and Java
-   http://www.scribd.com/doc/43588788/Code-Timing-and-Object-Orientation-and-Zombies
-   Brendan Furey, November 2010
-
-There is an example main program and package showing how to use the Timer_Set package, and a unit 
-test program.
+There is an example main program and package showing how to use the Log_Set package, and a unit test
+program. Unit testing is optional and depends on the module trapit_oracle_tester.
 ====================================================================================================
-|  Main/Test .sql  |  Package       |  Notes                                                       |
+|  Main/Test .sql  |  Package     |  Notes                                                         |
 |===================================================================================================
-|  main_col_group  |  Col_Group     |  Example showing how to use the Timer_Set package            |
+|  main_col_group  |  Col_Group   |  Example showing how to use the Log_Set package. Col_Group is  |
+|                  |              |  a simple file-reading and group-counting package installed    |
+|                  |              |  via the oracle_plsql_utils module                             |
 ----------------------------------------------------------------------------------------------------
-| *r_tests*        |  TT_Timer_Set  |  Unit testing the Timer_Set package                          |
+| *r_tests*        |  TT_Log_Set  |  Unit testing the Log_Set package. Trapit is installed as a    |
+|                  |  Trapit      |  separate module                                               |
 ====================================================================================================
 
-This file has the driver script for the unit test TT_Timer_Set package (lib schema). Note that the
-test package is called by the unit test utility package Utils_TT, which reads the unit test details 
-from a table, tt_units, populated by the install scripts. 
+This file has the driver script for the unit tests. Note that the test package is called by the unit
+test utility package Trapit, which reads the unit test details from a table, tt_units, populated by
+the install scripts. 
 
-The result of running this script is that a JSON file is created in the folder pointed to by the
-INPUT_DIR Oracle directory on the database server. This file contains both expected and actual
-results for the scenarios defined in an input JSON object that is read from a table. The output file
-can be processed to return a set of HTML files showing the success and failure results using a
-nodejs package avialable on npm.
+The test program follows 'The Math Function Unit Testing design pattern':
 
-The JSON processing requires Oracle database 12.2 or higher. If this is not available, or it is not
-desired to install the npm processor package, then the unit testing code need not be installed. The 
-results obtained by the author can be viewed in the files included in the root folder.
+	GitHub: https://github.com/BrenPatF/trapit_nodejs_tester
 
-See also the app schema main_col_group script which gives a simple example use-case for the
-Timer_Set package.
+Note that the unit test program generates an output file, tt_log_set.test_api_out.json, that is 
+processed by a separate nodejs program, npm package trapit (see README for further details).
+
+The output JSON file contains arrays of expected and actual records by group and scenario, in the
+format expected by the nodejs program. The nodejs program produces listings of the results in HTML
+and/or text format, and a sample set of listings is included in the folder test_output.
 
 ***************************************************************************************************/
-DECLARE
 BEGIN
 
-  Utils_TT.Run_Suite;
+  Trapit.Run_Tests;
 
 END;
 /
-@..\EndSpool
+@..\endspool

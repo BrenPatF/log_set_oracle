@@ -1,0 +1,24 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          28-MAY-2019 06:24:38
+
+Packages creation
+=================
+Create package tt_log_set
+
+Package created.
+
+
+Package body created.
+
+No errors.
+Add the tt_units record, reading in JSON file from INPUT_DIR
+
+PL/SQL procedure successfully completed.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 28-MAY-2019 06:24:38
+

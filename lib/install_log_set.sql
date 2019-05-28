@@ -1,52 +1,41 @@
-@..\initspool install_lib
+@..\initspool install_log_set
 /***************************************************************************************************
-Name: install_lib.sql                  Author: Brendan Furey                       Date: 17-Mar-2019
+Name: install_log_set.sql              Author: Brendan Furey                       Date: 17-Mar-2019
 
-Installation script for lib schema in the Oracle log_set_oracle module, excluding the unit test 
-objects that require a minimum Oracle database version of 12.2. 
+Installation script for the log_set_oracle module, excluding the unit test components that require a
+minimum Oracle database version of 12.2. 
 
 This is a logging framework that supports the writing of messages to log tables, along with various
 optional data items that may be specified as parameters or read at runtime via system calls.
 
-The framework is designed to be as simple as possible to use in default mode, while allowing for a
-high degree of configuration. A client program first constructs a log pointing to a configuration 
-key, then puts lines to the log conditionally depending on the line minimum put level being at least
-equal to the configuration put level. By creating new versions of the keyed configuration the amount
-and type of information put can be varied without code changes to support production debugging and
-analysis.
+    GitHub: https://github.com/BrenPatF/log_set_oracle
 
-Multiple logs can be processed simultaneously within and across sessions without interference.
+Pre-requisite: Installation of the oracle_plsql_utils module:
 
-In order to maximise performance, puts may be buffered, and only the log header uses an Oracle
-sequence for its unique identifier, with lines being numbered sequentially in PL/SQL.
+    GitHub: https://github.com/BrenPatF/oracle_plsql_utils
 
-GitHub: https://github.com/BrenPatF/log_set_oracle
+There are two install scripts, of which the second is optional: 
+- install_log_set.sql:    base code; requires base install of oracle_plsql_utils
+- install_log_set_tt.sql: unit test code; requires unit test install section of oracle_plsql_utils
 
-There are install scripts for sys, lib and app schemas. However the base code alone can be installed
-via install_lib.sql in an existing schema without executing the other scripts.
+The lib schema refers to the schema in which oracle_plsql_utils was installed.
 ====================================================================================================
-|  Script              |  Notes                                                                    |
+|  Script                  |  Notes                                                                |
 |===================================================================================================
-|  install_sys.sql     |  sys script creates lib and app schemas; input_dir directory; grants      |
+| *install_log_set.sql*    |  Creates base components, including Log_Set package, in lib schema    |
 ----------------------------------------------------------------------------------------------------
-| *install_lib.sql*    |  Creates common objects, including Timer_Set package, in lib schema       |
-----------------------------------------------------------------------------------------------------
-|  install_lib_tt.sql  |  Creates unit test objects that require a minimum Oracle database version |
-|                      |  of 12.2 in lib schema                                                    |
-----------------------------------------------------------------------------------------------------
-|  install_app.sql     |  Creates objects for the Col_Group example in the app schema              |
+|  install_log_set_tt.sql  |  Creates unit test components that require a minimum Oracle database  |
+|                          |  version of 12.2 in lib schema                                        |
 ====================================================================================================
 
-This file has the install script for the lib schema, excluding the unit test objects that require a
+This file has the install script for the lib schema, excluding the unit test components that require a
 minimum Oracle database version of 12.2. This script should work in prior versions of Oracle,
 including v10 and v11 (although it has not been tested on them).
 
-Objects created, with public synonyms and grants to public:
+Components created, with public synonyms and grants to public:
 
     Types            Description
     ==========       ==================================================================================
-    L1_chr_arr       Generic array of strings
-    L1_num_arr       Generic array of NUMBER
     ctx_inp_obj      Context input object (name, put level, scope)
     ctx_inp_arr      (Varray) array of context input object
     ctx_out_obj      Context input object (name, value)
@@ -64,8 +53,8 @@ Objects created, with public synonyms and grants to public:
 
     Packages         Description
     =============    ===============================================================================
-    Utils            General utility functions
     Log_Set          Logging package
+    Log_Config       DML API package for log_configs table
 
     Seed Data        Description
     =============    ===============================================================================
@@ -82,20 +71,6 @@ DROP TABLE log_headers
 DROP TABLE log_configs
 /
 
-PROMPT Create type L1_chr_arr
-CREATE OR REPLACE TYPE L1_chr_arr IS VARRAY(32767) OF VARCHAR2(4000)
-/
-CREATE OR REPLACE PUBLIC SYNONYM L1_chr_arr FOR L1_chr_arr
-/
-GRANT EXECUTE ON L1_chr_arr TO PUBLIC
-/
-PROMPT Create type L1_num_arr
-CREATE OR REPLACE TYPE L1_num_arr IS VARRAY(32767) OF NUMBER
-/
-CREATE OR REPLACE PUBLIC SYNONYM L1_num_arr FOR L1_num_arr
-/
-GRANT EXECUTE ON L1_num_arr TO PUBLIC
-/
 DROP TYPE ctx_inp_arr
 /
 DROP TYPE ctx_out_arr
@@ -181,7 +156,7 @@ GRANT SELECT ON log_headers_s TO PUBLIC
 /
 PROMPT Create table log_lines
 CREATE TABLE log_lines(
-        log_id                      INTEGER NOT NULL,
+        log_id,
         line_num                    INTEGER NOT NULL,
         session_line_num            INTEGER NOT NULL,
         line_type                   VARCHAR2(30),
@@ -210,13 +185,6 @@ GRANT ALL ON log_lines TO PUBLIC
 PROMPT Packages creation
 PROMPT =================
 
-PROMPT Create package Utils
-@utils.pks
-@utils.pkb
-CREATE OR REPLACE PUBLIC SYNONYM utils FOR utils
-/
-GRANT EXECUTE ON utils TO PUBLIC
-/
 PROMPT Create package Log_Config
 @log_config.pks
 @log_config.pkb

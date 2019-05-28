@@ -54,7 +54,7 @@ Log_Set package.
 
 ***************************************************************************************************/
 
-PROCEDURE tt_Main;
+PROCEDURE Test_API;
 
 END TT_Log_Set;
 /

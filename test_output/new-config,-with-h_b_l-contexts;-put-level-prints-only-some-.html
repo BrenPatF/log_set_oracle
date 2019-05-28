@@ -14,9 +14,12 @@ th {
   padding: 8px;
 }
 td {
+  font-weight: bold;
   border: 1px solid #030303;
   text-align: left;
   padding: 8px;
+  white-space: pre;
+  font-family: "Courier New", Courier, monospace
 }
 
 h1 {margin-top: 0em; margin-bottom: 0em;
@@ -94,7 +97,7 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4>GROUP 1: Log Header</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Session Id Offset</th><th>Session User</th><th>Put Level Min</th><th>Description</th><th>Creation Time</th><th>Closure Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>LIB</td><td>3</td><td>Header description</td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: .001</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td><td>LIB</td><td>3</td><td>Header description</td><td>IN [0.0,0.1]: .001</td><td>IN [0.0,0.1]: .001</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 2: Context</h4>
@@ -107,14 +110,14 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Print</td><td></td><td>Some text to print</td><td>LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFD56223D40       491  package body LIB.LOG_SET.GET_OUT<EOL>00007FFD56223D40       549  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFD56223D40       615  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFD56424E38       177  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFD56424E38       578  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFD56424E38       672  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFD56424E38       715  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFD56424E38       760  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFD56424E38       823  package body LIB.TT_LOG_SET.TT_MAIN<EOL>00007FFD562C0B28         1  anonymous block<EOL>00007FFD562ED338       123  package body LIB.UTILS_TT.RUN_SUITE.RUN_TT_PACKAGE<EOL>00007FFD562ED338       135  package body LIB.UTILS_TT.RUN_SUITE<EOL>00007FFD562EFC88         4  anonymous block<EOL></td><td></td><td>3</td><td></td><td></td><td>IN [0.0,0.1]: 0</td><td>IN [0, 10]: 0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Print</td><td></td><td>Some text to print</td><td>LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FF9DAAE7C50       491  package body LIB.LOG_SET.GET_OUT<EOL>00007FF9DAAE7C50       549  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FF9DAAE7C50       615  package body LIB.LOG_SET.PUT_LINE<EOL>00007FF9DAA44968       177  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FF9DAA44968       578  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FF9DAA44968       672  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FF9DAA44968       708  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FF9DAA44968       752  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FF9DAA44968       812  package body LIB.TT_LOG_SET.TT_MAIN<EOL>00007FF9D7FA1B58         1  anonymous block<EOL>00007FF9DA9ED590        21  package body LIB.TRAPIT.RUN_SUITE.RUN_TT_PACKAGE<EOL>00007FF9DA9ED590        33  package body LIB.TRAPIT.RUN_SUITE<EOL>00007FF9CA88F0C0         4  anonymous block<EOL></td><td></td><td>3</td><td></td><td></td><td>IN [0.0,0.1]: .001</td><td>IN [0, 10]: 0</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 4: Exception: Empty as expected: SUCCESS</h4>
 <h4>GROUP 5: Application Info</h4>
 <table>
 <tr><th>#</th><th>Module</th><th>Action</th><th>Client Info</th></tr>
-<tr><td>1</td><td>LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 195</td><td>LIKE /Log id .*closed at.*/: Log id 195 closed at 29-Mar-2019 07:25:35</td><td>Some text to print</td></tr>
+<tr><td>1</td><td>LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 576</td><td>LIKE /Log id .*closed at.*/: Log id 576 closed at 11-May-2019 08:39:36</td><td>Some text to print</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h2>0 failed of 5: SUCCESS</h2>

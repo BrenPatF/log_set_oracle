@@ -6,56 +6,43 @@ Driver script component in the Oracle log_set_oracle module. This is a logging f
 supports the writing of messages to log tables, along with various optional data items that may be
 specified as parameters or read at runtime via system calls.
 
-The framework is designed to be as simple as possible to use in default mode, while allowing for a
-high degree of configuration. A client program first constructs a log pointing to a configuration 
-key, then puts lines to the log conditionally depending on the line minimum put level being at least
-equal to the configuration put level. By creating new versions of the keyed configuration the amount
-and type of information put can be varied without code changes to support production debugging and
-analysis.
-
-Multiple logs can be processed simultaneously within and across sessions without interference.
-
-In order to maximise performance, puts may be  buffered, and only the log header uses an Oracle
-sequence for its unique identifier, with lines being numbered sequentially in PL/SQL.
-
-GitHub: https://github.com/BrenPatF/log_set_oracle
+    GitHub: https://github.com/BrenPatF/log_set_oracle
 
 There is an example main program and package showing how to use the Log_Set package, and a unit test
-program.
+program. Unit testing is optional and depends on the module trapit_oracle_tester.
 ====================================================================================================
-|  Main/Test .sql  |  Package       |  Notes                                                       |
+|  Main/Test .sql  |  Package     |  Notes                                                         |
 |===================================================================================================
-| *main_col_group* |  Col_Group     |  Example showing how to use the Log_Set package              |
+| *main_col_group* |  Col_Group   |  Example showing how to use the Log_Set package. Col_Group is  |
+|                  |              |  a simple file-reading and group-counting package installed    |
+|                  |              |  via the oracle_plsql_utils module                             |
 ----------------------------------------------------------------------------------------------------
-|  r_tests         |  TT_Log_Set    |  Unit testing the Log_Set package                            |
-|                  |  Utils_TT      |                                                              |
+|  r_tests         |  TT_Log_Set  |  Unit testing the Log_Set package. Trapit is installed as a    |
+|                  |  Trapit      |  separate module                                               |
 ====================================================================================================
 
-
-This file has the driver script for the example Col_Group package body (app schema). The package 
-reads delimited lines from file, and counts values in a given column, with methods to return the
-counts in various orderings. 
-
-It is used here as a simple example of how to use the logging package.
+This file has the driver script for the example code calling the Log_Set methods.
 
 ***************************************************************************************************/
 DECLARE
   l_log_id               PLS_INTEGER := Log_Set.Construct;
-  l_len_lis              L1_num_arr := L1_num_arr(30, -5);
   l_res_arr              chr_int_arr;
 
 BEGIN
 
-  Col_Group.AIP_Load_File(p_file => 'fantasy_premier_league_player_stats.csv', p_delim => ',',
-   p_colnum => 7);
-  l_res_arr := Col_Group.AIP_List_Asis;
+  Col_Group.Load_File(p_file   => 'fantasy_premier_league_player_stats.csv', 
+                          p_delim  => ',',
+                          p_colnum => 7);
+  l_res_arr := Col_Group.List_Asis;
   Log_Set.Put_List(p_line_lis => Utils.Heading('As Is'));
-  Log_Set.Put_List(p_line_lis => Utils.Col_Headers(L1_chr_arr('Team', 'Apps'), l_len_lis));
+  Log_Set.Put_List(p_line_lis => Utils.Col_Headers(p_value_lis => chr_int_arr(chr_int_rec('Team', 30),
+                                                                              chr_int_rec('Apps', -5)
+  )));
   FOR i IN 1..l_res_arr.COUNT LOOP
-    Log_Set.Put_Line(p_line_text  => Utils.List_To_Line(
-                        L1_chr_arr(l_res_arr(i).chr_field, l_res_arr(i).int_field), l_len_lis));
-                        
-    
+    Log_Set.Put_Line(p_line_text => Utils.List_To_Line(
+                     p_value_lis => chr_int_arr(chr_int_rec(l_res_arr(i).chr_value, 30), 
+                                                chr_int_rec(l_res_arr(i).int_value, -5)
+    )));
   END LOOP;
 --  Log_Set.Raise_Error(p_err_msg => 'Example custom error raising');
   RAISE NO_DATA_FOUND; -- Example of unexpected error handling in others

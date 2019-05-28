@@ -1,12 +1,14 @@
 
-Start: ORCL          18-MAR-2019 19:28:46 Oracle Database 12c 12.2.0.1.0
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          28-MAY-2019 06:25:11
 
 DECLARE
 *
 ERROR at line 1:
 ORA-01403: no data found
-ORA-06512: at line 25
-ORA-06512: at line 20
+ORA-06512: at line 27
+ORA-06512: at line 22
 
 
 Normal lines
@@ -15,38 +17,38 @@ Normal lines
    2 =====
    3 Team                             Apps
    4 ------------------------------  -----
-   5 team_name_2                         1
-   6 Blackburn                          33
-   7 QPR                              1517
-   8 Liverpool                        1227
-   9 Newcastle                        1247
-  10 Wolves                             31
-  11 Swansea                          1180
+   5 Chelsea                          1147
+   6 Newcastle                        1247
+   7 team_name_2                         1
+   8 team_name_1                         1
+   9 Tottenham                        1288
+  10 Liverpool                        1227
+  11 Sunderland                       1162
   12 Wigan                            1036
-  13 Bolton                             37
-  14 Everton                          1147
-  15 Chelsea                          1147
-  16 Man City                         1099
-  17 Man Utd                          1231
-  18 Stoke City                       1170
-  19 West Brom                        1219
-  20 Tottenham                        1288
-  21 Fulham                           1209
-  22 Southampton                      1110
-  23 Sunderland                       1162
-  24 West Ham                         1126
-  25 team_name_1                         1
+  13 Man City                         1099
+  14 Southampton                      1110
+  15 Fulham                           1209
+  16 Stoke City                       1170
+  17 Wolves                             31
+  18 West Ham                         1126
+  19 Everton                          1147
+  20 Reading                          1167
+  21 West Brom                        1219
+  22 Blackburn                          33
+  23 Aston Villa                       685
+  24 Swansea                          1180
+  25 Bolton                             37
   26 Arsenal                           534
-  27 Aston Villa                       685
-  28 Norwich                          1229
-  29 Reading                          1167
+  27 QPR                              1517
+  28 Man Utd                          1231
+  29 Norwich                          1229
 
 29 rows selected.
 
 Errors
 
-  30 ORA-01403: no data found       ORA-06512: at line 20
+  30 ORA-01403: no data found       ORA-06512: at line 22
 
 
-End: 18-MAR-2019 19:28:47
+End: 28-MAY-2019 06:25:11
 

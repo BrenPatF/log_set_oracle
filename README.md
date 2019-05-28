@@ -1,9 +1,9 @@
 # Log_Set
-Oracle logging framework.
+Oracle logging module.
 
-The framework consists of 3 tables, 6 object types and 3 PL/SQL packages that support the writing of messages to log tables, along with various optional data items that may be specified as parameters or read at runtime via system calls.
+The module is a framework for logging, consisting of 3 tables, 6 object types and 3 PL/SQL packages that support the writing of messages to log tables, along with various optional data items that may be specified as parameters or read at runtime via system calls.
 
-The framework is designed to be as simple as possible to use in default mode, while allowing for a high degree of configuration. A client program first constructs a log pointing to a configuration key, then puts lines to the log conditionally depending on the line minimum put level being at least equal to the configuration put level. By creating new versions of the keyed configuration the amount and type of information put can be varied without code changes, to support production debugging and analysis.
+The module is designed to be as simple as possible to use in default mode, while allowing for a high degree of configuration. A client program first constructs a log pointing to a configuration key, then puts lines to the log conditionally depending on the line minimum put level being at least equal to the configuration put level. By creating new versions of the keyed configuration the amount and type of information put can be varied without code changes, to support production debugging and analysis.
 
 Multiple logs can be processed simultaneously within and across sessions without interference.
 
@@ -15,18 +15,23 @@ The package is tested using the Math Function Unit Testing design pattern, with 
 ```sql
 DECLARE
   l_log_id               PLS_INTEGER := Log_Set.Construct;
-  l_len_lis              L1_num_arr := L1_num_arr(30, -5);
   l_res_arr              chr_int_arr;
 
 BEGIN
 
-  Col_Group.AIP_Load_File(p_file => 'fantasy_premier_league_player_stats.csv', p_delim => ',',
-   p_colnum => 7);
-  l_res_arr := Col_Group.AIP_List_Asis;
-  Log_Set.Put_List(p_line_lis => Utils.Col_Headers(L1_chr_arr('Team', 'Apps'), l_len_lis));
+  Col_Group.Load_File(p_file   => 'fantasy_premier_league_player_stats.csv', 
+                      p_delim  => ',',
+                      p_colnum => 7);
+  l_res_arr := Col_Group.List_Asis;
+  Log_Set.Put_List(p_line_lis => Utils.Heading('As Is'));
+  Log_Set.Put_List(p_line_lis => Utils.Col_Headers(p_value_lis => chr_int_arr(chr_int_rec('Team', 30), 
+                                                                              chr_int_rec('Apps', -5)
+  )));
   FOR i IN 1..l_res_arr.COUNT LOOP
-    Log_Set.Put_Line(p_line_text  => Utils.List_To_Line(
-                        L1_chr_arr(l_res_arr(i).chr_field, l_res_arr(i).int_field), l_len_lis));
+    Log_Set.Put_Line(p_line_text => Utils.List_To_Line(
+                     p_value_lis => chr_int_arr(chr_int_rec(l_res_arr(i).chr_value, 30), 
+                                                chr_int_rec(l_res_arr(i).int_value, -5)
+    )));
   END LOOP;
 --  Log_Set.Raise_Error(p_err_msg => 'Example custom error raising');
   RAISE NO_DATA_FOUND; -- Example of unexpected error handling in others
@@ -105,7 +110,7 @@ Returns a record to be passed to a method that puts lines, with parameters as fo
 ### l_log_id   PLS_INTEGER := Log_Set.Construct(`optional parameters`)
 Constructs a new log with integer handle `l_log_id`.
 
-`optional parameters`
+Optional parameters:
 * `p_construct_rec`: construct parameters record of type Log_Set.line_rec, as defined above, default CONSTRUCT_DEF
 
 ### l_log_id   PLS_INTEGER := Log_Set.Construct(p_line_text, `optional parameters`)
@@ -113,7 +118,7 @@ Constructs a new log with integer handle `l_log_id`, passing line of text to be 
 
 * `p_line_text`: line of text to put
 
-`optional parameters`
+Optional parameters:
 * `p_construct_rec`: construct parameters record of type Log_Set.line_rec, as defined above, default CONSTRUCT_DEF
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
 
@@ -122,7 +127,7 @@ Constructs a new log with integer handle `l_log_id`, passing a list of lines of 
 
 * `p_line_lis`: list of lines of text to put, of type L1_chr_arr
 
-`optional parameters`
+Optional parameters:
 * `p_construct_rec`: construct parameters record of type Log_Set.con_rec, as defined above, default CONSTRUCT_DEF
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
 
@@ -131,7 +136,7 @@ Writes a line of text to the new log.
 
 * `p_line_text`: line of text to put
 
-`optional parameters`
+Optional parameters:
 * `p_log_id`: id of log to put to; if omitted, a single log with config value of singleton_yn = 'Y' must have been constructed, and that log will be used
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
 
@@ -140,14 +145,14 @@ Writes a list of lines of text to the new log.
 
 * `p_line_lis`: list of lines of text to put, of type L1_chr_arr
 
-`optional parameters`
+Optional parameters:
 * `p_log_id`: id of log to put to; if omitted, a single log with config value of singleton_yn = 'Y' must have been constructed, and that log will be used
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
 
 ### Log_Set.Close_Log(`optional parameters`)
 Closes a log, after saving any unsaved buffer lines.
 
-`optional parameters`
+Optional parameters:
 * `p_log_id`: id of log to close; if omitted, a single log with config value of singleton_yn = 'Y' must have been constructed, and that log will be used
 
 ### Log_Set.Raise_Error(p_err_msg, `optional parameters`)
@@ -155,7 +160,7 @@ Raises an error via Oracle procedure RAISE_APPLICATION_ERROR, first writing the 
 
 * `p_err_msg`: error message
 
-`optional parameters`
+Optional parameters:
 * `p_log_id`: id of log to put to
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
 * `p_do_close`: boolean, True if the log is to be closed after writing error details; default  True
@@ -163,7 +168,7 @@ Raises an error via Oracle procedure RAISE_APPLICATION_ERROR, first writing the 
 ### Log_Set.Write_Other_Error(`optional parameters`)
 Raises an error via Oracle procedure RAISE_APPLICATION_ERROR, first writing the message to a log, if the log id is passed, and using p_line_rec.err_msg as the message.
 
-`optional parameters`
+Optional parameters:
 * `p_log_id`: id of log to put to
 * `p_line_text`: line of text to put, default null
 * `p_line_rec`: line parameters record of type Log_Set.line_rec, as defined above, default LINE_DEF
@@ -226,64 +231,65 @@ All parameters are optional, with null defaults except where mentioned:
 * `p_extend_len`: number of elements to extend the buffer by when needed; default 100
 
 ## Installation
-You can install just the base application in an existing schema, or alternatively, install base application plus an example of usage, and unit testing code, in two new schemas, `lib` and `app`.
-### Install (base application only)
-To install the base application only, comprising 3 tables, 6 object types and 3 packages, run the following script in a sqlplus session in the desired schema from the lib subfolder:
+The install depends on the pre-requisite module Utils, and `lib` schema refers to the schema in which Utils is installed.
 
-SQL> @install_lib
+### Install 1: Install Utils module (if not present)
+#### [Schema: lib; Folder: (Utils) lib]
+- Download and install the Utils module:
+[Utils on GitHub](https://github.com/BrenPatF/oracle_plsql_utils)
 
-This creates the required objects along with public synonyms and grants for them. It does not include the example or the unit test code, the latter of which requires a minimum Oracle database version of 12.2.
+The base Utils install is required for the base Log_Set install, while the unit test install and running the example require the corresponding Utils install sections.
 
-### Install (base application plus example and unit test code)
-The extended installation requires a minimum Oracle database version of 12.2, and processing the unit test output file requires a separate nodejs install from npm. You can review the results from the example code in the `app` subfolder, and the unit test formatted results in the `test_output` subfolder, without needing to do the extended installation [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
-- install_sys.sql creates an Oracle directory, `input_dir`, pointing to 'c:\input'. Update this if necessary to a folder on the database server with read/put access for the Oracle OS user
-- Copy the following files from the root folder to the `input_dir` folder:
-	- fantasy_premier_league_player_stats.csv
-	- tt_log_set.json
-- Run the install scripts from the specified folders in sqlplus sessions for the specified schemas
+### Install 2: Create Log_Set components
+#### [Schema: lib; Folder: lib]
+- Run script from slqplus:
+```
+SQL> @install_log_set
+```
+This creates the required components for the base install along with public synonyms and grants for them. This install is all that is required to use the module.
 
-#### Root folder, sys schema
-SQL> @install_sys
-
-#### lib subfolder, lib schema
-SQL> @install_lib
-
-SQL> @install_lib_tt
-
-#### app subfolder, app schema
-SQL> @install_app
+### Install 3: Install unit test code
+#### [Schema: lib; Folder: lib]
+- Copy the following file from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
+  - tt_log_set.test_api_inp.json
+- Run script from slqplus:
+```
+SQL> @install_log_set_tt
+```
 
 ## Unit testing
 The unit test program (if installed) may be run from the lib subfolder:
 
 SQL> @r_tests
 
-The program is data-driven from the input file tt_log_set.json and produces an output file tt_log_set.tt_main_out.json, that contains arrays of expected and actual records by group and scenario.
+The program is data-driven from the input file tt_log_set.test_api_inp.json and produces an output file tt_log_set.test_api_out.json, that contains arrays of expected and actual records by group and scenario.
 
-The output file can be processed by a Javascript program that has to be downloaded separately from the `npm` Javascript repository. The Javascript program produces listings of the results in html and/or text format, and a sample set of listings is included in the subfolder test_output. To install the Javascript program, `trapit`:
-
-With [npm](https://npmjs.org/) installed, run
-
+The output file is processed by a nodejs program that has to be installed separately from the `npm` nodejs repository, as described in the Trapit install in `Install 1` above. The nodejs program produces listings of the results in HTML and/or text format, and a sample set of listings is included in the subfolder test_output. To run the processor (in Windows), open a DOS or Powershell window in the trapit package folder after placing the output JSON file, tt_log_set.test_api_out.json, in the subfolder ./examples/externals and run:
 ```
-$ npm install trapit
+$ node ./examples/externals/test-externals
 ```
+The three testing steps can easily be automated in Powershell (or Unix bash).
 
-The package is tested using the Math Function Unit Testing design pattern (`See also - trapit` below). In this approach, a 'pure' wrapper function is constructed that takes input parameters and returns a value, and is tested within a loop over scenario records read from a JSON file.
+The package is tested using the Math Function Unit Testing design pattern (`See also - Trapit` below). In this approach, a 'pure' wrapper function is constructed that takes input parameters and returns a value, and is tested within a loop over scenario records read from a JSON file.
 
 The wrapper function represents a generalised transactional use of the package in which multiple logs may be constructed, and put to independently. 
 
-This is a good example of the power of the design pattern that I recently introduced, and is a second example, after `See also - timer_set` below, of unit testing where the 'unit' is taken to be a full generalised transaction, from start to finish of a logging (or timing) session.
+This is a good example of the power of the design pattern that I recently introduced, and is a second example, after `See also - Timer_Set` below, of unit testing where the 'unit' is taken to be a full generalised transaction, from start to finish of a logging (or timing) session.
+
+You can review the  unit test formatted results obtained by the author in the `test_output` subfolder [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
 
 ## Operating System/Oracle Versions
 ### Windows
-Windows 10
+Windows 10, should be OS-independent
 ### Oracle
-- Tested on Oracle Database 12c 12.2.0.1.0 
+- Tested on Oracle Database Version 18.3.0.0.0
 - Base code (and example) should work on earlier versions at least as far back as v11
 
 ## See also
-- [trapit - nodejs unit test processing package on GitHub](https://github.com/BrenPatF/trapit_nodejs_tester)
-- [timer_set - code timing package on GitHub](https://github.com/BrenPatF/timer_set_oracle)
+- [Utils - Oracle PL/SQL general utilities module](https://github.com/BrenPatF/oracle_plsql_utils)
+- [Trapit - Oracle PL/SQL unit testing module](https://github.com/BrenPatF/trapit_oracle_tester)
+- [Timer_Set - Oracle PL/SQL code timing module](https://github.com/BrenPatF/timer_set_oracle)
+- [Trapit - nodejs unit test processing package](https://github.com/BrenPatF/trapit_nodejs_tester)
    
 ## License
 MIT
