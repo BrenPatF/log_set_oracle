@@ -1,3 +1,4 @@
+DEFINE app=&1
 @..\initspool install_log_set
 /***************************************************************************************************
 Name: install_log_set.sql              Author: Brendan Furey                       Date: 17-Mar-2019
@@ -20,12 +21,17 @@ There are two install scripts, of which the second is optional:
 
 The lib schema refers to the schema in which oracle_plsql_utils was installed.
 ====================================================================================================
-|  Script                  |  Notes                                                                |
+|  Script                    |  Notes                                                              |
 |===================================================================================================
-| *install_log_set.sql*    |  Creates base components, including Log_Set package, in lib schema    |
+| *install_log_set.sql*      |  Creates base components, including Log_Set package, in lib schema  |
 ----------------------------------------------------------------------------------------------------
-|  install_log_set_tt.sql  |  Creates unit test components that require a minimum Oracle database  |
-|                          |  version of 12.2 in lib schema                                        |
+|  install_log_set_tt.sql    |  Creates unit test components that require a minimum Oracle         |
+|                            |  database version of 12.2 in lib schema                             |
+----------------------------------------------------------------------------------------------------
+|  grant_log_set_to_app.sql  |  Grants privileges on Log_Set components from lib to app schema     |
+----------------------------------------------------------------------------------------------------
+|  c_log_set_syns.sql        |  Creates synonyms for Log_Set components in app schema to lib       |
+|                            |  schema                                                             |
 ====================================================================================================
 
 This file has the install script for the lib schema, excluding the unit test components that require a
@@ -119,10 +125,6 @@ CREATE TABLE log_configs(
 /
 CREATE UNIQUE INDEX lcf_uk ON log_configs(config_key, vsn_no)
 /
-CREATE OR REPLACE PUBLIC SYNONYM log_configs FOR log_configs
-/
-GRANT ALL ON log_configs TO PUBLIC
-/
 DROP SEQUENCE log_configs_s
 /
 CREATE SEQUENCE log_configs_s START WITH 1
@@ -142,17 +144,9 @@ CREATE TABLE log_headers(
         CONSTRAINT lhd_lcf_fk       FOREIGN KEY(config_id) REFERENCES log_configs(id)
 )
 /
-CREATE OR REPLACE PUBLIC SYNONYM log_headers FOR log_headers
-/
-GRANT ALL ON log_headers TO PUBLIC
-/
 DROP SEQUENCE log_headers_s
 /
 CREATE SEQUENCE log_headers_s START WITH 1
-/
-CREATE OR REPLACE PUBLIC SYNONYM log_headers_s FOR log_headers_s
-/
-GRANT SELECT ON log_headers_s TO PUBLIC
 /
 PROMPT Create table log_lines
 CREATE TABLE log_lines(
@@ -177,10 +171,6 @@ CREATE TABLE log_lines(
         CONSTRAINT lin_hdr_fk       FOREIGN KEY(log_id) REFERENCES log_headers (id)
 )
 /
-CREATE OR REPLACE PUBLIC SYNONYM log_lines FOR log_lines
-/
-GRANT ALL ON log_lines TO PUBLIC
-/
 
 PROMPT Packages creation
 PROMPT =================
@@ -188,17 +178,10 @@ PROMPT =================
 PROMPT Create package Log_Config
 @log_config.pks
 @log_config.pkb
-CREATE OR REPLACE PUBLIC SYNONYM Log_Config FOR Log_Config
-/
-GRANT EXECUTE ON Log_Config TO PUBLIC
-/
 PROMPT Create package Log_Set
 @log_set.pks
 @log_set.pkb
-CREATE OR REPLACE PUBLIC SYNONYM Log_Set FOR Log_Set
-/
-GRANT EXECUTE ON Log_Set TO PUBLIC
-/
+
 BEGIN
   Log_Config.Ins_Config(
         p_config_key            => 'SINGLETON',
@@ -221,6 +204,10 @@ BEGIN
         p_extend_len            => 100);
 END;
 /
-COMMIT
-/
+
+PROMPT Grant access to &app (skip if none passed)
+WHENEVER SQLERROR EXIT
+EXEC IF '&app' = 'none' THEN RAISE_APPLICATION_ERROR(-20000, 'Skipping schema grants'); END IF;
+@grant_log_set_to_app &app
+
 @..\endspool

@@ -1,14 +1,13 @@
-@..\initspool install_log_set_tt
+DEFINE lib=&1
 /***************************************************************************************************
-Name: install_log_set_tt.sql           Author: Brendan Furey                       Date: 17-Mar-2019
+Name: c_log_set_syns.sql               Author: Brendan Furey                       Date: 08-Jun-2019
 
-Installation script for the unit test components in the log_set_oracle module. It requires a
-minimum Oracle database version of 12.2.
+Creates synonyms for Log_Set components in app schema to lib schema.
 
 This is a logging framework that supports the writing of messages to log tables, along with various
 optional data items that may be specified as parameters or read at runtime via system calls.
 
-	  GitHub: https://github.com/BrenPatF/log_set_oracle
+    GitHub: https://github.com/BrenPatF/log_set_oracle
 
 Pre-requisite: Installation of the oracle_plsql_utils module:
 
@@ -24,43 +23,36 @@ The lib schema refers to the schema in which oracle_plsql_utils was installed.
 |===================================================================================================
 |  install_log_set.sql       |  Creates base components, including Log_Set package, in lib schema  |
 ----------------------------------------------------------------------------------------------------
-| *install_log_set_tt.sql*   |  Creates unit test components that require a minimum Oracle         |
+|  install_log_set_tt.sql    |  Creates unit test components that require a minimum Oracle         |
 |                            |  database version of 12.2 in lib schema                             |
 ----------------------------------------------------------------------------------------------------
 |  grant_log_set_to_app.sql  |  Grants privileges on Log_Set components from lib to app schema     |
 ----------------------------------------------------------------------------------------------------
-|  c_log_set_syns.sql        |  Creates synonyms for Log_Set components in app schema to lib       |
+| *c_log_set_syns.sql*       |  Creates synonyms for Log_Set components in app schema to lib       |
 |                            |  schema                                                             |
 ====================================================================================================
 
-This file has the install script for the unit test components in the lib schema. It requires a
-minimum Oracle database version of 12.2, owing to the use of v12.2 PL/SQL JSON features.
+Creates synonyms for Log_Set components in app schema to lib schema.
 
-Components created, with NO synonyms or grants - only accessible within lib schema:
+Synonyms created:
 
-    Packages      Description
-    ============  ==================================================================================
-    TT_Log_Set    Unit test package for Log_Set. Uses Oracle v12.2 JSON features
-
-    Metadata      Description
-    ============  ==================================================================================
-    tt_units      Record for package, procedure ('TT_LOG_SET', 'Test_API'). The input JSON file
-                  must first be placed in the OS folder pointed to by INPUT_DIR directory
+    Synonym             Object Type
+    ==================  ============================================================================
+    log_configs         Table
+    log_headers         Table
+    log_lines           Table
+    Log_Config          Package
+    Log_Set             Package
 
 ***************************************************************************************************/
-PROMPT Packages creation
-PROMPT =================
-
-PROMPT Create package tt_log_set
-@tt_log_set.pks
-@tt_log_set.pkb
-
-PROMPT Add the tt_units record, reading in JSON file from INPUT_DIR
-DEFINE LIB=lib
-BEGIN
-
-  Trapit.Add_Ttu ('TT_LOG_SET', 'Test_API', '&LIB', 'Y', 'tt_log_set.test_api_inp.json');
-
-END;
+PROMPT Creating synonyms for &lib Log_Set components...
+CREATE OR REPLACE SYNONYM log_configs FOR &lib..log_configs
 /
-@..\endspool
+CREATE OR REPLACE SYNONYM log_headers FOR &lib..log_headers
+/
+CREATE OR REPLACE SYNONYM log_lines FOR &lib..log_lines
+/
+CREATE OR REPLACE SYNONYM Log_Config FOR &lib..Log_Config
+/
+CREATE OR REPLACE SYNONYM Log_Set FOR &lib..Log_Set
+/

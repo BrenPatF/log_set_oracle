@@ -244,12 +244,24 @@ The base Utils install is required for the base Log_Set install, while the unit 
 #### [Schema: lib; Folder: lib]
 - Run script from slqplus:
 ```
-SQL> @install_log_set
+SQL> @install_log_set app
 ```
-This creates the required components for the base install along with public synonyms and grants for them. This install is all that is required to use the module.
+This creates the required components for the base install along with grants for them to the app schema (passing none instead of app will bypass the grants). This install is all that is required to use the package within the lib schema and app (if passed, and then Install 3 is required). To grant privileges to another `schema`, run the grants script directly, passing `schema`:
+```
+SQL> @grant_log_set_to_app schema
+```
 
-### Install 3: Install unit test code
+### Install 3: Create synonyms to lib
+#### [Schema: app; Folder: app]
+- Run script from slqplus:
+```
+SQL> @c_log_set_syns lib
+```
+This install creates private synonyms to the lib schema. To create synonyms within another schema, run the synonyms script directly from that schema, passing lib schema.
+
+### Install 4: Install unit test code
 #### [Schema: lib; Folder: lib]
+This step requires the Trapit module option to have been installed as part of Install 1.
 - Copy the following file from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
   - tt_log_set.test_api_inp.json
 - Run script from slqplus:

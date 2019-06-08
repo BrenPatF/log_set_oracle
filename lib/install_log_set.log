@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          28-MAY-2019 06:24:35
+Start: ORCL          08-JUN-2019 14:12:09
 
 Common types creation
 =====================
@@ -56,12 +56,6 @@ Table created.
 
 Index created.
 
-
-Synonym created.
-
-
-Grant succeeded.
-
 DROP SEQUENCE log_configs_s
               *
 ERROR at line 1:
@@ -75,12 +69,6 @@ Create table log_headers
 
 Table created.
 
-
-Synonym created.
-
-
-Grant succeeded.
-
 DROP SEQUENCE log_headers_s
               *
 ERROR at line 1:
@@ -90,21 +78,9 @@ ORA-02289: sequence does not exist
 
 Sequence created.
 
-
-Synonym created.
-
-
-Grant succeeded.
-
 Create table log_lines
 
 Table created.
-
-
-Synonym created.
-
-
-Grant succeeded.
 
 Packages creation
 =================
@@ -117,12 +93,6 @@ No errors.
 Package body created.
 
 No errors.
-
-Synonym created.
-
-
-Grant succeeded.
-
 Create package Log_Set
 
 Package created.
@@ -133,19 +103,40 @@ Package body created.
 
 No errors.
 
-Synonym created.
+PL/SQL procedure successfully completed.
 
+Grant access to app (skip if none passed)
+
+PL/SQL procedure successfully completed.
+
+Granting Timer_Set components to app..
+old   1: GRANT SELECT ON log_configs TO &app
+new   1: GRANT SELECT ON log_configs TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON log_headers TO &app
+new   1: GRANT SELECT ON log_headers TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON log_lines TO &app
+new   1: GRANT SELECT ON log_lines TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Log_Config TO &app
+new   1: GRANT EXECUTE ON Log_Config TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Log_Set TO &app
+new   1: GRANT EXECUTE ON Log_Set TO app
 
 Grant succeeded.
 
 
-PL/SQL procedure successfully completed.
-
-
-Commit complete.
-
-
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 28-MAY-2019 06:24:36
+End: 08-JUN-2019 14:12:10
 
