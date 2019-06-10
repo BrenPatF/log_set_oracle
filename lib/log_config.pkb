@@ -104,6 +104,7 @@ BEGIN
       INTO l_config
       FROM log_configs
      WHERE id = l_id;
+    l_vsn_no := l_config.vsn_no + 1;
 
   END IF;
 

@@ -716,7 +716,7 @@ Purely_Wrap_API: Design pattern has the API call wrapped in a 'pure' procedure, 
                  whether as output parameters, or on database tables, etc. The inputs are also
                  extended from the API parameters to include any other effective inputs. Assertion 
                  takes place after all scenarios and is against the extended outputs, with extended
-                 inputs also listed. The API call is timed
+                 inputs also listed
 
 ***************************************************************************************************/
 FUNCTION Purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,  -- last sequence value for log headers
