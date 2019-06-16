@@ -23,10 +23,10 @@ specification.
 
 /***************************************************************************************************
 
-Set_Default_Config: Set one of the configs to be the default, unsetting any other active default
+set_Default_Config: Set one of the configs to be the default, unsetting any other active default
 
 ***************************************************************************************************/
-PROCEDURE Set_Default_Config(
+PROCEDURE set_Default_Config(
             p_config_key                   VARCHAR2) IS -- config key
 BEGIN
 
@@ -34,7 +34,22 @@ BEGIN
     SET default_yn = CASE WHEN config_key = p_config_key THEN 'Y' END
    WHERE active_yn = 'Y';
 
-END Set_Default_Config;
+END set_Default_Config;
+
+/***************************************************************************************************
+
+set_Default_Config: Set one of the configs to be the default, unsetting any other active default
+
+***************************************************************************************************/
+PROCEDURE set_Default_Error_Config(
+            p_config_key                   VARCHAR2) IS -- config key
+BEGIN
+
+  UPDATE log_configs
+    SET default_error_yn = CASE WHEN config_key = p_config_key THEN 'Y' END
+   WHERE active_yn = 'Y';
+
+END set_Default_Error_Config;
 
 /***************************************************************************************************
 
@@ -57,6 +72,26 @@ END Get_Default_Config;
 
 /***************************************************************************************************
 
+Get_Default_Error_Config: Get the config key of the default error config, of which there is exactly
+                          one active
+
+***************************************************************************************************/
+FUNCTION Get_Default_Error_Config RETURN VARCHAR2 IS -- config key
+  l_config_key            log_configs.config_key%TYPE;
+BEGIN
+
+  SELECT config_key
+    INTO l_config_key
+    FROM log_configs
+   WHERE default_error_yn = 'Y'
+     AND active_yn = 'Y';
+
+  RETURN l_config_key;
+
+END Get_Default_Error_Config;
+
+/***************************************************************************************************
+
 Ins_Config: Insert a new log config. If the config key exists, a new active version will be 
             inserted, inheriting description and config type, de-activating prior versions, else 
             version 1 will be inserted
@@ -66,6 +101,7 @@ PROCEDURE Ins_Config(
             p_config_key                   VARCHAR2,            -- config key
             p_config_type                  VARCHAR2 := NULL,    -- config type
             p_default_yn                   VARCHAR2 := NULL,    -- default config? Y/N
+            p_default_error_yn             VARCHAR2 := NULL,    -- default error config? Y/N
             p_singleton_yn                 VARCHAR2 := NULL,    -- singleton config? Y/N
             p_description                  VARCHAR2 := NULL,    -- description
             p_put_lev                      PLS_INTEGER := 10,   -- put level for header and lines
@@ -115,6 +151,7 @@ BEGIN
         vsn_no,
         active_yn,
         default_yn,
+        default_error_yn,
         singleton_yn,
         description,
         creation_tmstp,
@@ -135,6 +172,7 @@ BEGIN
         l_vsn_no,
         'Y',
         Nvl(p_default_yn, l_config.default_yn),
+        Nvl(p_default_error_yn, l_config.default_error_yn),
         Nvl(p_singleton_yn, l_config.singleton_yn),
         Nvl(p_description, l_config.description),
         SYSTIMESTAMP,
@@ -150,7 +188,10 @@ BEGIN
         Nvl(p_extend_len, l_config.extend_len)
   );
   IF p_default_yn = 'Y' THEN
-    Set_Default_Config(p_config_key => p_config_key);
+    set_Default_Config(p_config_key => p_config_key);
+  END IF;
+  IF p_default_error_yn = 'Y' THEN
+    set_Default_Error_Config(p_config_key => p_config_key);
   END IF;
 
 END Ins_Config;

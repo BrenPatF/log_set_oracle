@@ -54,6 +54,7 @@
          "Log Header": [
             "Log Id Offset",
             "Config Id Offset",
+            "Config Key",
             "Session Id Offset",
             "Session User",
             "Put Level Min",
@@ -120,7 +121,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -160,7 +161,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0||IN [0.0,0.1]|"
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|"
         ],
         "Context": [
         ],
@@ -198,7 +199,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0|Log description|IN [0.0,0.1]|"
+            "1|0|SINGLETON|0|LIB|0|Log description|IN [0.0,0.1]|"
         ],
         "Context": [
         ],
@@ -235,7 +236,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|IN [0.0,0.1]|"
+            "1|0|SINGLETON|0|LIB|0|1000chars-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890|IN [0.0,0.1]|"
         ],
         "Context": [
         ],
@@ -276,7 +277,7 @@
     },
     "out": {
         "Log Header": [
-            "1|1|0|LIB|0|Log description|IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|1|NEW_CONFIG|0|LIB|0|Log description|IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
             "1|1|CURRENT_SCHEMA|LIB",
@@ -324,7 +325,7 @@
     },
     "out": {
         "Log Header": [
-            "1|1|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|1|NEW_CONFIG|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
             "1|1|CURRENT_SCHEMA|LIB",
@@ -370,7 +371,7 @@
     },
     "out": {
         "Log Header": [
-            "1|1|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|1|NEW_CONFIG|0|LIB|3|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -424,9 +425,9 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0|Log using CON|IN [0.0,0.1]|IN [0.0,0.1]",
-            "2|0|0|LIB|0|Log using CON_LINE|IN [0.0,0.1]|IN [0.0,0.1]",
-            "4|0|0|LIB|0|Log using CON, closing at once|IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|0|MULTIBUF|0|LIB|0|Log using CON|IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|0|MULTIBUF|0|LIB|0|Log using CON_LINE|IN [0.0,0.1]|IN [0.0,0.1]",
+            "4|0|MULTIBUF|0|LIB|0|Log using CON, closing at once|IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -470,7 +471,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0|Log using CON_LIST|IN [0.0,0.1]|"
+            "1|0|SINGLETON|0|LIB|0|Log using CON_LIST|IN [0.0,0.1]|"
         ],
         "Context": [
         ],
@@ -510,11 +511,13 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|0|ERROR|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
         "Log Line": [
+            "2|1|1|ERROR||||||||0||LIKE /Log .* closed at:.*/|IN [0.0,0.1]|"
         ],
         "Exception": [
             "LIKE /ORA-20000: Log .* closed at:.*/",
@@ -548,10 +551,12 @@
     },
     "out": {
         "Log Header": [
+            "2|0|ERROR|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
         "Log Line": [
+            "2|1|1|ERROR||||||||0||LIKE /Log .+ not found/|IN [0.0,0.1]|"
         ],
         "Exception": [
             "LIKE /ORA-20000: Log .+ not found/",
@@ -585,10 +590,12 @@
     },
     "out": {
         "Log Header": [
+            "1|0|ERROR|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
         "Log Line": [
+            "1|1|1|ERROR||||||||0||BAD_CONFIG config not found|IN [0.0,0.1]|"
         ],
         "Exception": [
             "ORA-20000: BAD_CONFIG config not found",
@@ -665,7 +672,7 @@
     },
     "out": {
         "Log Header": [
-            "1|1|0|LIB|2|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|1|NEW_CONFIG|0|LIB|2|Header description|IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -680,7 +687,7 @@
         ]
     }
    },
-   "OTHERS error handler": 
+   "OTHERS error handler, existing log": 
    {
     "inp": {
         "Log Config": [
@@ -704,7 +711,7 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -713,6 +720,88 @@
             "1|2|2|ERROR||||||LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/|LIKE /ORA-06512: at \"LIB.TT_LOG_SET\", .*/|0|100|ORA-01403: no data found|IN [0.0,0.1]|"
         ],
         "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "OTHERS error handler, new log": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|OTHER_ERR|"
+        ],
+        "Construct Param": [
+             "1||||"
+       ],
+        "Log Parameter": [
+            "2||||||0|||N"
+        ],
+        "Line Text": [
+            "2|Some text 1"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|",
+            "2|0|ERROR|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Some text 1|||0|||IN [0.0,0.1]|",
+            "2|1|2|ERROR||||||LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/|LIKE /ORA-06512: at \"LIB.TT_LOG_SET\", .*/|0|100|ORA-01403: no data found|IN [0.0,0.1]|"
+        ],
+        "Exception": [
+        ],
+        "Application Info": [
+            "||"
+        ]
+    }
+   },
+   "Custom error handler, existing log": 
+   {
+    "inp": {
+        "Log Config": [
+        ],
+        "Context": [
+        ],
+        "Event Sequence": [
+            "1|CON|1",
+            "2|PUT_LINE|1",
+            "3|CUSTOM_ERR|1"
+        ],
+        "Construct Param": [
+             "1||||"
+       ],
+        "Log Parameter": [
+            "2||||||0|||N"
+        ],
+        "Line Text": [
+            "2|Some text 1",
+            "3|A custom error message"
+        ]
+    },
+    "out": {
+        "Log Header": [
+            "1|0|SINGLETON|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+        ],
+        "Context": [
+        ],
+        "Log Line": [
+            "1|1|1||||||Some text 1|||0|||IN [0.0,0.1]|",
+            "1|2|2|ERROR||||||||0||A custom error message|IN [0.0,0.1]|"
+        ],
+        "Exception": [
+            "ORA-20000: A custom error message",
+            "UNTESTED"
         ],
         "Application Info": [
             "||"
@@ -747,8 +836,8 @@
     },
     "out": {
         "Log Header": [
-            "1|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
-            "2|0|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|0|SINGLEBUF|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|0|MULTIBUF|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
@@ -791,10 +880,12 @@
     },
     "out": {
         "Log Header": [
+            "3|0|ERROR|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],
         "Log Line": [
+            "3|1|1|ERROR||||||||0||LIKE /SINGLETON is singleton type and log .* already constructed/|IN [0.0,0.1]|"
         ],
         "Exception": [
             "LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/",
@@ -872,10 +963,10 @@
     },
     "out": {
         "Log Header": [
-            "1|1|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
-            "2|2|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
-            "3|3|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
-            "4|4|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
+            "1|1|CONFIG_2_2|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "2|2|CONFIG_4_4|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "3|3|CONFIG_2_4|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]",
+            "4|4|CONFIG_4_2|0|LIB|0||IN [0.0,0.1]|IN [0.0,0.1]"
         ],
         "Context": [
         ],

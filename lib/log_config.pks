@@ -28,6 +28,7 @@ Set_Default_Config: Set one of the configs to be the default, unsetting any othe
 ***************************************************************************************************/
 
 FUNCTION Get_Default_Config RETURN VARCHAR2;
+FUNCTION Get_Default_Error_Config RETURN VARCHAR2;
 FUNCTION Get_Config(
             p_config_key                   VARCHAR2)
             RETURN                         log_configs%ROWTYPE;
@@ -35,6 +36,7 @@ PROCEDURE Ins_Config(
             p_config_key                   VARCHAR2,
             p_config_type                  VARCHAR2 := NULL,
             p_default_yn                   VARCHAR2 := NULL,
+            p_default_error_yn             VARCHAR2 := NULL,
             p_singleton_yn                 VARCHAR2 := NULL,
             p_description                  VARCHAR2 := NULL,
             p_put_lev                      PLS_INTEGER := 10,

@@ -44,13 +44,15 @@ BEGIN
                                                 chr_int_rec(l_res_arr(i).int_value, -5)
     )));
   END LOOP;
---  Log_Set.Raise_Error(p_err_msg => 'Example custom error raising');
+--  Log_Set.Raise_Error(p_log_id => l_log_id, p_err_msg => 'Example custom error raising');
+  Log_Set.Close_Log;
   RAISE NO_DATA_FOUND; -- Example of unexpected error handling in others
 
 EXCEPTION
   WHEN OTHERS THEN
     Log_Set.Write_Other_Error;
     RAISE;
+
 END;
 /
 SET HEAD OFF
@@ -60,17 +62,23 @@ COLUMN err_msg FORMAT A30
 COLUMN error_backtrace FORMAT A100
 SET LINES 150
 PROMPT Normal lines
-SELECT line_num lno, line_text text
-  FROM log_lines
- WHERE log_id = (SELECT MAX(h.id) FROM log_headers h)
-   AND line_type IS NULL
- ORDER BY line_num
+PROMPT Lines
+SELECT hdr.id, lin.line_num lno, To_Char(lin.creation_tmstp, 'hh24:mi:ss.ff3') "At", line_text text
+  FROM log_lines lin
+  JOIN log_headers hdr ON hdr.id = lin.log_id
+ WHERE hdr.session_id = SYS_CONTEXT('USERENV', 'SESSIONID')
+   AND lin.line_type IS NULL
+ ORDER BY lin.session_line_num
 /
 PROMPT Errors
 SELECT line_num lno, err_msg, error_backtrace
-  FROM log_lines
- WHERE log_id = (SELECT MAX(h.id) FROM log_headers h)
-   AND line_type = 'ERROR'
- ORDER BY line_num
+  FROM log_lines lin
+  JOIN log_headers hdr ON hdr.id = lin.log_id
+ WHERE hdr.session_id = SYS_CONTEXT('USERENV', 'SESSIONID')
+   AND lin.line_type = 'ERROR'
+ ORDER BY lin.session_line_num
 /
+EXEC Log_Set.Delete_Log(p_session_id => SYS_CONTEXT('USERENV', 'SESSIONID'));
+ROLLBACK;
+
 @..\endspool

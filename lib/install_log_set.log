@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          08-JUN-2019 14:12:09
+Start: ORCL          16-JUN-2019 08:24:38
 
 Common types creation
 =====================
@@ -138,5 +138,5 @@ Grant succeeded.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 08-JUN-2019 14:12:10
+End: 16-JUN-2019 08:24:38
 

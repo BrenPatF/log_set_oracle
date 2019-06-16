@@ -64,7 +64,7 @@ Components created, with public synonyms and grants to public:
 
     Seed Data        Description
     =============    ===============================================================================
-    Log Configs      4 records inserted
+    Log Configs      5 records inserted
 
 ***************************************************************************************************/
 
@@ -106,6 +106,7 @@ CREATE TABLE log_configs(
         vsn_no                      INTEGER,
         active_yn                   VARCHAR2(1) CONSTRAINT active_ck CHECK (Nvl(active_yn, 'N') IN ('Y', 'N')),
         default_yn                  VARCHAR2(1) CONSTRAINT default_ck CHECK (Nvl(default_yn, 'N') IN ('Y', 'N')),
+        default_error_yn            VARCHAR2(1) CONSTRAINT default_error_ck CHECK (Nvl(default_error_yn, 'N') IN ('Y', 'N')),
         singleton_yn                VARCHAR2(1) CONSTRAINT singleton_ck CHECK (Nvl(singleton_yn, 'N') IN ('Y', 'N')),
         description                 VARCHAR2(4000),
         config_type                 VARCHAR2(100),
@@ -202,6 +203,10 @@ BEGIN
         p_description           => 'Multi-log, unbuffered',
         p_buff_len              => 100,
         p_extend_len            => 100);
+  Log_Config.Ins_Config(
+        p_config_key            => 'ERROR',
+        p_description           => 'Fatal errors',
+        p_default_error_yn      => 'Y');
 END;
 /
 

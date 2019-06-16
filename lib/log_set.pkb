@@ -24,7 +24,7 @@ script for simple examples of use.
 DATE_TIME_FMT                 CONSTANT VARCHAR2(30) := 'dd-Mon-yyyy hh24:mi:ss';
 SESSION_ID                    CONSTANT VARCHAR2(30) := SYS_CONTEXT('USERENV', 'SESSIONID');
 SESSION_USER                  CONSTANT VARCHAR2(30) := SYS_CONTEXT('USERENV', 'SESSION_USER');
-
+LINE_TYPE_ERROR               CONSTANT VARCHAR2(30) := 'ERROR';
 TYPE log_inp_rec IS RECORD ( -- log input line record type
         header                    log_headers%ROWTYPE,
         config_rec                log_configs%ROWTYPE -- config record
@@ -641,16 +641,33 @@ END Put_List;
 Close_Log: Close log by flushng buffer passing True for p_do_close
 
 ***************************************************************************************************/
-PROCEDURE Close_Log(p_log_id           PLS_INTEGER := NULL) IS -- log id
+PROCEDURE Close_Log(
+            p_log_id                       PLS_INTEGER := NULL) IS -- log id
+  l_log_id                    PLS_INTEGER := Nvl(p_log_id, g_singleton_id);
 BEGIN
 
-  Flush_Buf(g_log_lis(p_log_id), TRUE);
+  Flush_Buf(g_log_lis(l_log_id), TRUE);
 
 END Close_Log;
 
 /***************************************************************************************************
 
-Raise_Error: Raise an error, putting it to log if id passed, then callin Utils procedure to do raise
+get_Error_Log_Id: Construct a new log of default error config and return log id
+
+***************************************************************************************************/
+FUNCTION get_Error_Log_Id
+            RETURN                         PLS_INTEGER IS
+  l_error_config_key          log_configs.config_key%TYPE;
+  l_log_id                    PLS_INTEGER;
+BEGIN
+  l_error_config_key := Log_Config.Get_Default_Error_Config;
+  RETURN Construct(p_construct_rec => Con_Construct_Rec(
+                             p_config_key => l_error_config_key));
+END get_Error_Log_Id;
+
+/***************************************************************************************************
+
+Raise_Error: Raise an error, putting it to log if id passed, then calling Utils procedure to raise
 
 ***************************************************************************************************/
 PROCEDURE Raise_Error(
@@ -659,15 +676,20 @@ PROCEDURE Raise_Error(
             p_line_rec                     line_rec := LINE_DEF, -- line record
             p_do_close                     BOOLEAN := TRUE) IS   -- True if to close log
   l_line_rec                     line_rec := p_line_rec;
+  l_log_id                    PLS_INTEGER := p_log_id;
 BEGIN
 
-  IF p_log_id IS NOT NULL THEN
-    l_line_rec.line.err_msg := p_err_msg;
-    l_line_rec.do_close := p_do_close;
-    Put_Line(p_log_id       => p_log_id,
-             p_line_text    => NULL,
-             p_line_rec     => p_line_rec);
+  IF l_log_id IS NULL THEN
+
+    l_log_id := get_Error_Log_Id;
+    
   END IF;
+  l_line_rec.line.err_msg := p_err_msg;
+  l_line_rec.line.line_type := LINE_TYPE_ERROR;
+  l_line_rec.do_close := p_do_close;
+  Put_Line(p_log_id       => l_log_id,
+           p_line_text    => NULL,
+           p_line_rec     => l_line_rec);
   Utils.Raise_Error(p_err_msg);
 
 END Raise_Error;
@@ -682,17 +704,23 @@ PROCEDURE Write_Other_Error(
             p_line_text                    VARCHAR2 := NULL,     -- line text to put
             p_line_rec                     line_rec := LINE_DEF, -- line record
             p_do_close                     BOOLEAN := TRUE) IS   -- True if to close log
-  l_line_rec                    line_rec := p_line_rec;
+  l_line_rec                  line_rec := p_line_rec;
+  l_log_id                    PLS_INTEGER := p_log_id;
 BEGIN
 
+  IF l_log_id IS NULL THEN
+
+    l_log_id := get_Error_Log_Id;
+
+  END IF;
   l_line_rec.do_close             := p_do_close;
-  l_line_rec.line.line_type       := 'ERROR';
+  l_line_rec.line.line_type       := LINE_TYPE_ERROR;
   l_line_rec.line.err_num         := SQLCODE;
   l_line_rec.line.err_msg         := SQLERRM;
   l_line_rec.line.call_stack      := DBMS_Utility.Format_Call_Stack;
   l_line_rec.line.error_backtrace := DBMS_Utility.Format_Error_Backtrace;
 
-  Put_Line(p_log_id     => p_log_id,
+  Put_Line(p_log_id     => l_log_id,
            p_line_text  => p_line_text,
            p_line_rec   => l_line_rec);
 

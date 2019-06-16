@@ -45,6 +45,7 @@ CON_LIST                       CONSTANT VARCHAR2(30) := 'CON_LIST';
 PUT_LINE                       CONSTANT VARCHAR2(30) := 'PUT_LINE';
 PUT_LIST                       CONSTANT VARCHAR2(30) := 'PUT_LIST';
 OTHER_ERR                      CONSTANT VARCHAR2(30) := 'OTHER_ERR';
+CUSTOM_ERR                     CONSTANT VARCHAR2(30) := 'CUSTOM_ERR';
 CLO                            CONSTANT VARCHAR2(30) := 'CLO';
 SESSION_ID                     CONSTANT VARCHAR2(30) := SYS_CONTEXT('USERENV', 'SESSIONID');
 TYPE hash_int_arr IS TABLE OF PLS_INTEGER INDEX BY VARCHAR2(100);
@@ -339,6 +340,7 @@ BEGIN
   SELECT Utils.Join_Values(
           lgh.id - p_last_seq_lgh,
           CASE WHEN lgh.config_id <= p_last_seq_lcf THEN 0 ELSE lgh.config_id - p_last_seq_lcf END,
+          lcf.config_key,
           lgh.session_id - TT_Log_Set.SESSION_ID,
           lgh.session_user,
           lgh.put_lev_min,
@@ -347,6 +349,8 @@ BEGIN
           Utils.IntervalDS_To_Seconds(lgh.closure_tmstp - p_start_tmstp))
     BULK COLLECT INTO l_lgh_lis
     FROM log_headers lgh
+    JOIN log_configs lcf
+      ON lcf.id = lgh.config_id
    WHERE lgh.session_id = TT_Log_Set.SESSION_ID
    ORDER BY lgh.id;
 
@@ -581,8 +585,9 @@ Do_Event_Others: Handle non-CON*,PUT* events
 
 ***************************************************************************************************/
 PROCEDURE Do_Event_Others(
-            p_event_type                   VARCHAR2,       -- event type
-            p_log_id                       PLS_INTEGER) IS -- log id
+            p_event_type                   VARCHAR2,      -- event type
+            p_log_id                       PLS_INTEGER,   -- log id
+            p_line_text_lis                L1_chr_arr) IS -- text lines, first is custom error message
 BEGIN
 
   CASE p_event_type
@@ -600,6 +605,13 @@ BEGIN
         Log_Set.Close_Log;
       ELSE
         Log_Set.Close_Log(p_log_id => p_log_id);
+      END IF;
+
+    WHEN CUSTOM_ERR THEN
+      IF p_log_id IS NULL THEN
+        Log_Set.Raise_Error(p_err_msg => p_line_text_lis(1));
+      ELSE
+        Log_Set.Raise_Error(p_err_msg => p_line_text_lis(1), p_log_id => p_log_id);
       END IF;
 
     ELSE 
@@ -660,10 +672,11 @@ BEGIN
        p_line_rec      => l_line_rec,
        p_line_text_lis => p_line_text_lis);
 
-  ELSIF l_event_type IN (OTHER_ERR, CLO) THEN
+  ELSIF l_event_type IN (OTHER_ERR, CUSTOM_ERR, CLO) THEN
     Do_Event_Others(
-            p_event_type => l_event_type,
-            p_log_id     => l_log_id);
+            p_event_type    => l_event_type,
+            p_log_id        => l_log_id,
+            p_line_text_lis => p_line_text_lis);
   END IF;
 
   RETURN l_new_log_set_hsh;

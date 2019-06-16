@@ -1,54 +1,61 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          08-JUN-2019 14:12:54
+Start: ORCL          16-JUN-2019 08:25:59
 
 DECLARE
 *
 ERROR at line 1:
 ORA-01403: no data found
-ORA-06512: at line 27
-ORA-06512: at line 22
+ORA-06512: at line 28
+ORA-06512: at line 23
 
 
 Normal lines
+Lines
 
-   1 As Is
-   2 =====
-   3 Team                             Apps
-   4 ------------------------------  -----
-   5 Chelsea                          1147
-   6 Newcastle                        1247
-   7 team_name_2                         1
-   8 team_name_1                         1
-   9 Tottenham                        1288
-  10 Liverpool                        1227
-  11 Sunderland                       1162
-  12 Wigan                            1036
-  13 Man City                         1099
-  14 Southampton                      1110
-  15 Fulham                           1209
-  16 Stoke City                       1170
-  17 Wolves                             31
-  18 West Ham                         1126
-  19 Everton                          1147
-  20 Reading                          1167
-  21 West Brom                        1219
-  22 Blackburn                          33
-  23 Aston Villa                       685
-  24 Swansea                          1180
-  25 Bolton                             37
-  26 Arsenal                           534
-  27 QPR                              1517
-  28 Man Utd                          1231
-  29 Norwich                          1229
+         1    1 08:25:59.892 As Is
+         1    2 08:25:59.900 =====
+         1    3 08:25:59.900 Team                             Apps
+         1    4 08:25:59.901 ------------------------------  -----
+         1    5 08:25:59.901 Chelsea                          1147
+         1    6 08:25:59.901 Newcastle                        1247
+         1    7 08:25:59.901 team_name_2                         1
+         1    8 08:25:59.901 team_name_1                         1
+         1    9 08:25:59.901 Tottenham                        1288
+         1   10 08:25:59.901 Liverpool                        1227
+         1   11 08:25:59.901 Sunderland                       1162
+         1   12 08:25:59.901 Wigan                            1036
+         1   13 08:25:59.901 Man City                         1099
+         1   14 08:25:59.902 Southampton                      1110
+         1   15 08:25:59.902 Fulham                           1209
+         1   16 08:25:59.902 Stoke City                       1170
+         1   17 08:25:59.902 Wolves                             31
+         1   18 08:25:59.902 West Ham                         1126
+         1   19 08:25:59.902 Everton                          1147
+         1   20 08:25:59.903 Reading                          1167
+         1   21 08:25:59.903 West Brom                        1219
+         1   22 08:25:59.903 Blackburn                          33
+         1   23 08:25:59.903 Aston Villa                       685
+         1   24 08:25:59.903 Swansea                          1180
+         1   25 08:25:59.903 Bolton                             37
+         1   26 08:25:59.904 Arsenal                           534
+         1   27 08:25:59.904 QPR                              1517
+         1   28 08:25:59.904 Man Utd                          1231
+         1   29 08:25:59.904 Norwich                          1229
 
 29 rows selected.
 
 Errors
 
-  30 ORA-01403: no data found       ORA-06512: at line 22
+   1 ORA-01403: no data found       ORA-06512: at line 23
 
 
-End: 08-JUN-2019 14:12:55
+PL/SQL procedure successfully completed.
+
+
+Rollback complete.
+
+
+End: 16-JUN-2019 08:25:59
 
