@@ -39,6 +39,8 @@ PROCEDURE Init;
 FUNCTION Con_Construct_Rec(
             p_config_key                   VARCHAR2 := NULL,
             p_description                  VARCHAR2 := NULL,
+            p_plsql_unit                   VARCHAR2 := NULL,
+            p_api_nm                       VARCHAR2 := NULL,
             p_put_lev_min                  PLS_INTEGER := NULL,
             p_do_close                     BOOLEAN := NULL) RETURN construct_rec;
 FUNCTION Con_Line_Rec(

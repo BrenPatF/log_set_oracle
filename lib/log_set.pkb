@@ -131,6 +131,8 @@ Con_Construct_Rec: Constructor function for construct_rec type
 FUNCTION Con_Construct_Rec(
             p_config_key                   VARCHAR2 := NULL,    -- config key
             p_description                  VARCHAR2 := NULL,    -- log description
+            p_plsql_unit                   VARCHAR2 := NULL,    -- PL/SQL unit
+            p_api_nm                       VARCHAR2 := NULL,    -- API name, eg procedure name
             p_put_lev_min                  PLS_INTEGER := NULL, -- put level minimum
             p_do_close                     BOOLEAN := NULL)     -- True if to close at once
             RETURN                         construct_rec IS     -- constructed record
@@ -139,6 +141,8 @@ BEGIN
 
   IF p_config_key    IS NULL AND
      p_description   IS NULL AND
+     p_plsql_unit    IS NULL AND
+     p_api_nm        IS NULL AND
      p_put_lev_min   IS NULL AND
      p_do_close      IS NULL THEN
 
@@ -148,6 +152,8 @@ BEGIN
 
     l_construct_rec.config_key         := p_config_key;
     l_construct_rec.header.description := p_description;
+    l_construct_rec.header.plsql_unit  := p_plsql_unit;
+    l_construct_rec.header.api_nm      := p_api_nm;
     l_construct_rec.header.put_lev_min := Nvl(p_put_lev_min, 0);
     l_construct_rec.do_close           := Nvl(p_do_close, FALSE);
 
@@ -224,6 +230,8 @@ FUNCTION Construct(
 BEGIN
 
   l_inps.header.description      := p_construct_rec.header.description;
+  l_inps.header.plsql_unit       := p_construct_rec.header.plsql_unit;
+  l_inps.header.api_nm           := p_construct_rec.header.api_nm;
   l_inps.header.put_lev_min      := Nvl(p_construct_rec.header.put_lev_min, 0);
   l_inps.header.creation_tmstp   := SYSTIMESTAMP;
   l_log.lines_buf         := 0;
@@ -338,8 +346,10 @@ BEGIN
         session_id,
         session_user,
         config_id,
-        put_lev_min,
         description,
+        plsql_unit,
+        api_nm,
+        put_lev_min,
         ctx_out_lis,
         creation_tmstp
     ) VALUES (
@@ -347,8 +357,10 @@ BEGIN
         Log_Set.SESSION_ID,
         SESSION_USER,
         p_log.inps.config_rec.id,
-        p_log.inps.header.put_lev_min,
         p_log.inps.header.description,
+        p_log.inps.header.plsql_unit,
+        p_log.inps.header.api_nm,
+        p_log.inps.header.put_lev_min,
         p_log.ctx_out_lis,
         p_log.inps.header.creation_tmstp
     );

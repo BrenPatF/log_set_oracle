@@ -75,8 +75,8 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4></h4>
 <h4>GROUP 4: Construct Param</h4>
 <table>
-<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
-<tr><td>1</td><td>1</td><td>NEW_CONFIG</td><td>Header description</td><td>3</td><td></td></tr>
+<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
+<tr><td>1</td><td>1</td><td>NEW_CONFIG</td><td>Header description</td><td></td><td></td><td>3</td><td></td></tr>
 </table>
 <h4></h4>
 <h4>GROUP 5: Log Parameter</h4>
@@ -96,8 +96,8 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h3>OUTPUTS</h3>
 <h4>GROUP 1: Log Header</h4>
 <table>
-<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Put Level Min</th><th>Description</th><th>Creation Time</th><th>Closure Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>NEW_CONFIG</td><td>0</td><td>LIB</td><td>3</td><td>Header description</td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: 0</td></tr>
+<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Creation Time</th><th>Closure Time</th></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>NEW_CONFIG</td><td>0</td><td>LIB</td><td>Header description</td><td></td><td></td><td>3</td><td>IN [0.0,0.1]: .001</td><td>IN [0.0,0.1]: .001</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 2: Context</h4>
@@ -110,14 +110,14 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Print</td><td></td><td>Some text to print</td><td>LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC4451B6D8       476  package body LIB.LOG_SET.GET_OUT<EOL>00007FFC4451B6D8       534  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFC4451B6D8       600  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFC44502200       163  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFC44502200       567  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFC44502200       669  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC44502200       706  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC44502200       750  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC44502200       810  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC3FB8ECF8         1  anonymous block<EOL>00007FFC377BACE8        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC377BACE8        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC37A355B0         3  anonymous block<EOL></td><td></td><td>3</td><td></td><td></td><td>IN [0.0,0.1]: 0</td><td>IN [0, 10]: 0</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Print</td><td></td><td>Some text to print</td><td>LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC41190990       488  package body LIB.LOG_SET.GET_OUT<EOL>00007FFC41190990       546  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFC41190990       612  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFC4B4B1620       163  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFC4B4B1620       571  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFC4B4B1620       673  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC4B4B1620       710  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC4B4B1620       754  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC4B4B1620       815  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC4E253C40         1  anonymous block<EOL>00007FFC3F31C040        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC3F31C040        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC395C3CF0         3  anonymous block<EOL></td><td></td><td>3</td><td></td><td></td><td>IN [0.0,0.1]: .001</td><td>IN [0, 10]: 2</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 4: Exception: Empty as expected: SUCCESS</h4>
 <h4>GROUP 5: Application Info</h4>
 <table>
 <tr><th>#</th><th>Module</th><th>Action</th><th>Client Info</th></tr>
-<tr><td>1</td><td>LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 14</td><td>LIKE /Log id .*closed at.*/: Log id 14 closed at 16-Jun-2019 08:26:18</td><td>Some text to print</td></tr>
+<tr><td>1</td><td>LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 12</td><td>LIKE /Log id .*closed at.*/: Log id 12 closed at 21-Jun-2019 07:17:35</td><td>Some text to print</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h2>0 failed of 5: SUCCESS</h2>

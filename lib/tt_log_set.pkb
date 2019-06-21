@@ -343,8 +343,10 @@ BEGIN
           lcf.config_key,
           lgh.session_id - TT_Log_Set.SESSION_ID,
           lgh.session_user,
-          lgh.put_lev_min,
           lgh.description,
+          lgh.plsql_unit,
+          lgh.api_nm,
+          lgh.put_lev_min,
           Utils.IntervalDS_To_Seconds(lgh.creation_tmstp - p_start_tmstp),
           Utils.IntervalDS_To_Seconds(lgh.closure_tmstp - p_start_tmstp))
     BULK COLLECT INTO l_lgh_lis
@@ -482,8 +484,10 @@ BEGIN
   RETURN Log_Set.Con_Construct_Rec(    
                    p_config_key            => p_con_prms_lis(2),
                    p_description           => p_con_prms_lis(3),
-                   p_put_lev_min           => p_con_prms_lis(4),
-                   p_do_close              => p_con_prms_lis(5) = 'Y');
+                   p_plsql_unit            => p_con_prms_lis(4),
+                   p_api_nm                => p_con_prms_lis(5),
+                   p_put_lev_min           => p_con_prms_lis(6),
+                   p_do_close              => p_con_prms_lis(7) = 'Y');
 
 END Get_Con_Rec;
 
@@ -802,6 +806,7 @@ BEGIN
   l_act_3lis.EXTEND(l_sces_4lis.COUNT);
 
   FOR i IN 1..l_sces_4lis.COUNT LOOP
+
     l_last_seq_lgh := log_headers_s.NEXTVAL;
     l_last_seq_lcf := log_configs_s.NEXTVAL;
 

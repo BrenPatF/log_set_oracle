@@ -68,8 +68,8 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4></h4>
 <h4>GROUP 4: Construct Param</h4>
 <table>
-<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
-<tr><td>1</td><td>1</td><td>NEW_CONFIG</td><td>Header description</td><td>2</td><td></td></tr>
+<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
+<tr><td>1</td><td>1</td><td>NEW_CONFIG</td><td>Header description</td><td></td><td></td><td>2</td><td></td></tr>
 </table>
 <h4></h4>
 <h4>GROUP 5: Log Parameter</h4>
@@ -89,16 +89,16 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h3>OUTPUTS</h3>
 <h4>GROUP 1: Log Header</h4>
 <table>
-<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Put Level Min</th><th>Description</th><th>Creation Time</th><th>Closure Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>NEW_CONFIG</td><td>0</td><td>LIB</td><td>2</td><td>Header description</td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: .001</td></tr>
+<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Creation Time</th><th>Closure Time</th></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>NEW_CONFIG</td><td>0</td><td>LIB</td><td>Header description</td><td></td><td></td><td>2</td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: 0</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 2: Context: Empty as expected: SUCCESS</h4>
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Group 1</td><td>Action 1</td><td>Some text 1</td><td></td><td></td><td>0</td><td></td><td></td><td>IN [0.0,0.1]: .001</td><td></td></tr>
-<tr><td>2</td><td>1</td><td>2</td><td>2</td><td></td><td></td><td></td><td></td><td>Action 2</td><td>Some text 2</td><td></td><td></td><td>5</td><td></td><td></td><td>IN [0.0,0.1]: .001</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td>Group 1</td><td>Action 1</td><td>Some text 1</td><td></td><td></td><td>0</td><td></td><td></td><td>IN [0.0,0.1]: 0</td><td></td></tr>
+<tr><td>2</td><td>1</td><td>2</td><td>2</td><td></td><td></td><td></td><td></td><td>Action 2</td><td>Some text 2</td><td></td><td></td><td>5</td><td></td><td></td><td>IN [0.0,0.1]: 0</td><td></td></tr>
 </table>
 <h4>0 failed of 2: SUCCESS</h4>
 <h4>GROUP 4: Exception: Empty as expected: SUCCESS</h4>

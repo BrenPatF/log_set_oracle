@@ -62,8 +62,8 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4></h4>
 <h4>GROUP 4: Construct Param</h4>
 <table>
-<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
-<tr><td>1</td><td>1</td><td></td><td></td><td></td><td>N</td></tr>
+<tr><th>#</th><th>Event No</th><th>Config Key</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Do Close Y/N</th></tr>
+<tr><td>1</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td>N</td></tr>
 </table>
 <h4></h4>
 <h4>GROUP 5: Log Parameter</h4>
@@ -81,15 +81,15 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h3>OUTPUTS</h3>
 <h4>GROUP 1: Log Header</h4>
 <table>
-<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Put Level Min</th><th>Description</th><th>Creation Time</th><th>Closure Time</th></tr>
-<tr><td>1</td><td>2</td><td>0</td><td>ERROR</td><td>0</td><td>LIB</td><td>0</td><td></td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: 0</td></tr>
+<tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Creation Time</th><th>Closure Time</th></tr>
+<tr><td>1</td><td>2</td><td>0</td><td>ERROR</td><td>0</td><td>LIB</td><td></td><td></td><td></td><td>0</td><td>IN [0.0,0.1]: .001</td><td>IN [0.0,0.1]: .001</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 2: Context: Empty as expected: SUCCESS</h4>
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>2</td><td>1</td><td>1</td><td>ERROR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td></td><td>LIKE /Log .+ not found/: Log 0 not found</td><td>IN [0.0,0.1]: 0</td><td></td></tr>
+<tr><td>1</td><td>2</td><td>1</td><td>1</td><td>ERROR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td></td><td>LIKE /Log .+ not found/: Log 0 not found</td><td>IN [0.0,0.1]: .001</td><td></td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 4: Exception</h4>
@@ -97,13 +97,13 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <tr><th>#</th><th>1 Message, 2 Stack</th></tr>
 <tr><td>1</td><td>LIKE /ORA-20000: Log .+ not found/: ORA-20000: Log 0 not found</td></tr>
 <tr><td>2</td><td>UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 693
-ORA-06512: at "LIB.LOG_SET", line 512
-ORA-06512: at "LIB.LOG_SET", line 581
+ORA-06512: at "LIB.LOG_SET", line 705
+ORA-06512: at "LIB.LOG_SET", line 524
+ORA-06512: at "LIB.LOG_SET", line 593
 ORA-06512: at "LIB.TT_LOG_SET", line 159
-ORA-06512: at "LIB.TT_LOG_SET", line 567
-ORA-06512: at "LIB.TT_LOG_SET", line 669
-ORA-06512: at "LIB.TT_LOG_SET", line 706
+ORA-06512: at "LIB.TT_LOG_SET", line 571
+ORA-06512: at "LIB.TT_LOG_SET", line 673
+ORA-06512: at "LIB.TT_LOG_SET", line 710
 </td></tr>
 </table>
 <h4>0 failed of 2: SUCCESS</h4>
