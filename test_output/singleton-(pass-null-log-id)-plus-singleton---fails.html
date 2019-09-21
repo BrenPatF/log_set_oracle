@@ -87,27 +87,27 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4>GROUP 1: Log Header</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Config Id Offset</th><th>Config Key</th><th>Session Id Offset</th><th>Session User</th><th>Description</th><th>PLSQL Unit</th><th>API Name</th><th>Put Level Min</th><th>Creation Time</th><th>Closure Time</th></tr>
-<tr><td>1</td><td>3</td><td>0</td><td>ERROR</td><td>0</td><td>LIB</td><td></td><td></td><td></td><td>0</td><td>IN [0.0,0.1]: .001</td><td>IN [0.0,0.1]: .001</td></tr>
+<tr><td>1</td><td>3</td><td>0</td><td>ERROR</td><td>0</td><td>LIB</td><td></td><td></td><td></td><td>0</td><td>IN [0.0,0.1]: 0</td><td>IN [0.0,0.1]: .001</td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 2: Context: Empty as expected: SUCCESS</h4>
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>3</td><td>1</td><td>1</td><td>ERROR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td></td><td>LIKE /SINGLETON is singleton type and log .* already constructed/: SINGLETON is singleton type and log 45 already constructed</td><td>IN [0.0,0.1]: .001</td><td></td></tr>
+<tr><td>1</td><td>3</td><td>1</td><td>1</td><td>ERROR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td></td><td>LIKE /SINGLETON is singleton type and log .* already constructed/: SINGLETON is singleton type and log 47 already constructed</td><td>IN [0.0,0.1]: .001</td><td></td></tr>
 </table>
 <h4>0 failed of 1: SUCCESS</h4>
 <h4>GROUP 4: Exception</h4>
 <table>
 <tr><th>#</th><th>1 Message, 2 Stack</th></tr>
-<tr><td>1</td><td>LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/: ORA-20000: SINGLETON is singleton type and log 45 already constructed</td></tr>
-<tr><td>2</td><td>UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.LOG_SET", line 250
-ORA-06512: at "LIB.TT_LOG_SET", line 67
-ORA-06512: at "LIB.TT_LOG_SET", line 536
-ORA-06512: at "LIB.TT_LOG_SET", line 662
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+<tr><td>1</td><td>LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/: ORA-20000: SINGLETON is singleton type and log 47 already constructed</td></tr>
+<tr><td>2</td><td>UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.LOG_SET", line 249
+ORA-06512: at "LIB.TT_LOG_SET", line 69
+ORA-06512: at "LIB.TT_LOG_SET", line 560
+ORA-06512: at "LIB.TT_LOG_SET", line 696
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 </td></tr>
 </table>
 <h4>0 failed of 2: SUCCESS</h4>

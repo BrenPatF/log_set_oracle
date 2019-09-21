@@ -38,7 +38,7 @@ This file has the install script for the lib schema, excluding the unit test com
 minimum Oracle database version of 12.2. This script should work in prior versions of Oracle,
 including v10 and v11 (although it has not been tested on them).
 
-Components created, with public synonyms and grants to public:
+Components created, with grants to app schema (if passed) via grant_log_set_to_app.sql:
 
     Types            Description
     ==========       ==================================================================================
@@ -101,27 +101,27 @@ PROMPT ======================
 
 PROMPT Create table log_configs
 CREATE TABLE log_configs(
-        id                          INTEGER,
-        config_key                  VARCHAR2(30),
-        vsn_no                      INTEGER,
-        active_yn                   VARCHAR2(1) CONSTRAINT active_ck CHECK (Nvl(active_yn, 'N') IN ('Y', 'N')),
-        default_yn                  VARCHAR2(1) CONSTRAINT default_ck CHECK (Nvl(default_yn, 'N') IN ('Y', 'N')),
-        default_error_yn            VARCHAR2(1) CONSTRAINT default_error_ck CHECK (Nvl(default_error_yn, 'N') IN ('Y', 'N')),
-        singleton_yn                VARCHAR2(1) CONSTRAINT singleton_ck CHECK (Nvl(singleton_yn, 'N') IN ('Y', 'N')),
-        description                 VARCHAR2(4000),
-        config_type                 VARCHAR2(100),
-        creation_tmstp              TIMESTAMP,
-        put_lev                     INTEGER,
-        put_lev_stack               INTEGER,
-        put_lev_cpu                 INTEGER,
-        ctx_inp_lis                 ctx_inp_arr,
-        put_lev_module              INTEGER,
-        put_lev_action              INTEGER,
-        put_lev_client_info         INTEGER,
-        app_info_only_yn            VARCHAR2(1) CONSTRAINT app_info_only_ck CHECK (Nvl(app_info_only_yn, 'N') IN ('Y', 'N')),
-        buff_len                    INTEGER,
-        extend_len                  INTEGER,
-        CONSTRAINT lcf_pk           PRIMARY KEY(id)
+        id                             INTEGER,
+        config_key                     VARCHAR2(30),
+        vsn_no                         INTEGER,
+        active_yn                      VARCHAR2(1) CONSTRAINT active_ck CHECK (Nvl(active_yn, 'N') IN ('Y', 'N')),
+        default_yn                     VARCHAR2(1) CONSTRAINT default_ck CHECK (Nvl(default_yn, 'N') IN ('Y', 'N')),
+        default_error_yn               VARCHAR2(1) CONSTRAINT default_error_ck CHECK (Nvl(default_error_yn, 'N') IN ('Y', 'N')),
+        singleton_yn                   VARCHAR2(1) CONSTRAINT singleton_ck CHECK (Nvl(singleton_yn, 'N') IN ('Y', 'N')),
+        description                    VARCHAR2(4000),
+        config_type                    VARCHAR2(100),
+        creation_tmstp                 TIMESTAMP,
+        put_lev                        INTEGER,
+        put_lev_stack                  INTEGER,
+        put_lev_cpu                    INTEGER,
+        ctx_inp_lis                    ctx_inp_arr,
+        put_lev_module                 INTEGER,
+        put_lev_action                 INTEGER,
+        put_lev_client_info            INTEGER,
+        app_info_only_yn               VARCHAR2(1) CONSTRAINT app_info_only_ck CHECK (Nvl(app_info_only_yn, 'N') IN ('Y', 'N')),
+        buff_len                       INTEGER,
+        extend_len                     INTEGER,
+        CONSTRAINT lcf_pk              PRIMARY KEY(id)
 )
 /
 CREATE UNIQUE INDEX lcf_uk ON log_configs(config_key, vsn_no)
@@ -132,19 +132,19 @@ CREATE SEQUENCE log_configs_s START WITH 1
 /
 PROMPT Create table log_headers
 CREATE TABLE log_headers(
-        id                          INTEGER,
-        config_id                   INTEGER,
-        session_id                  VARCHAR2(30),
-        session_user                VARCHAR2(30),
-        description                 VARCHAR2(4000),
-        plsql_unit                  VARCHAR2(30),
-        api_nm                      VARCHAR2(30),
-        put_lev_min                 INTEGER,
-        ctx_out_lis                 ctx_out_arr,
-        creation_tmstp              TIMESTAMP,
-        closure_tmstp               TIMESTAMP,
-        CONSTRAINT lhd_pk           PRIMARY KEY(id),
-        CONSTRAINT lhd_lcf_fk       FOREIGN KEY(config_id) REFERENCES log_configs(id)
+        id                             INTEGER,
+        config_id,
+        session_id                     VARCHAR2(30),
+        session_user                   VARCHAR2(30),
+        description                    VARCHAR2(4000),
+        plsql_unit                     VARCHAR2(30),
+        api_nm                         VARCHAR2(30),
+        put_lev_min                    INTEGER,
+        ctx_out_lis                    ctx_out_arr,
+        creation_tmstp                 TIMESTAMP,
+        closure_tmstp                  TIMESTAMP,
+        CONSTRAINT lhd_pk              PRIMARY KEY(id),
+        CONSTRAINT lhd_lcf_fk          FOREIGN KEY(config_id) REFERENCES log_configs(id)
 )
 /
 DROP SEQUENCE log_headers_s
@@ -154,24 +154,24 @@ CREATE SEQUENCE log_headers_s START WITH 1
 PROMPT Create table log_lines
 CREATE TABLE log_lines(
         log_id,
-        line_num                    INTEGER NOT NULL,
-        session_line_num            INTEGER NOT NULL,
-        line_type                   VARCHAR2(30),
-        plsql_unit                  VARCHAR2(30),
-        plsql_line                  INTEGER,
-        group_text                  VARCHAR2(4000),
-        line_text                   VARCHAR2(4000),
-        action                      VARCHAR2(4000),
-        call_stack                  VARCHAR2(2000),
-        error_backtrace             VARCHAR2(4000),
-        ctx_out_lis                 ctx_out_arr,
-        put_lev_min                 INTEGER,
-        err_num                     INTEGER,
-        err_msg                     VARCHAR2(4000),
-        creation_tmstp              TIMESTAMP,
-        creation_cpu_cs             INTEGER,
-        CONSTRAINT lin_pk           PRIMARY KEY(log_id, line_num),
-        CONSTRAINT lin_hdr_fk       FOREIGN KEY(log_id) REFERENCES log_headers (id)
+        line_num                       INTEGER NOT NULL,
+        session_line_num               INTEGER NOT NULL,
+        line_type                      VARCHAR2(30),
+        plsql_unit                     VARCHAR2(30),
+        plsql_line                     INTEGER,
+        group_text                     VARCHAR2(4000),
+        line_text                      VARCHAR2(4000),
+        action                         VARCHAR2(4000),
+        call_stack                     VARCHAR2(2000),
+        error_backtrace                VARCHAR2(4000),
+        ctx_out_lis                    ctx_out_arr,
+        put_lev_min                    INTEGER,
+        err_num                        INTEGER,
+        err_msg                        VARCHAR2(4000),
+        creation_tmstp                 TIMESTAMP,
+        creation_cpu_cs                INTEGER,
+        CONSTRAINT lin_pk              PRIMARY KEY(log_id, line_num),
+        CONSTRAINT lin_hdr_fk          FOREIGN KEY(log_id) REFERENCES log_headers (id)
 )
 /
 
@@ -188,27 +188,42 @@ PROMPT Create package Log_Set
 BEGIN
   Log_Config.Ins_Config(
         p_config_key            => 'SINGLETON',
-        p_description           => 'Singleton, unbuffered',
+        p_description           => 'Singleton, unbuffered: Good for debugging, does not need explicit Construct, default',
+        p_config_type           => 'DEBUG',
         p_singleton_yn          => 'Y',
         p_default_yn            => 'Y');
   Log_Config.Ins_Config(
         p_config_key            => 'SINGLEBUF',
-        p_description           => 'Singleton, buffered',
+        p_description           => 'Singleton, buffered: Buffering maximises performance but may cause loss of last buffer in event of unhandled exception',
         p_singleton_yn          => 'Y',
         p_buff_len              => 100,
         p_extend_len            => 100);
   Log_Config.Ins_Config(
         p_config_key            => 'MULTILOG',
-        p_description           => 'Multi-log, unbuffered');
+        p_description           => 'Multi-log, unbuffered: Unbuffered, so writes each line immediately as autonomous transaction');
   Log_Config.Ins_Config(
         p_config_key            => 'MULTIBUF',
-        p_description           => 'Multi-log, unbuffered',
+        p_description           => 'Multi-log, buffered: Buffering maximises performance but may cause loss of last buffer in event of unhandled exception',
         p_buff_len              => 100,
         p_extend_len            => 100);
   Log_Config.Ins_Config(
         p_config_key            => 'ERROR',
-        p_description           => 'Fatal errors',
+        p_description           => 'Fatal errors: This is used by default for logging fatal errors',
+        p_config_type           => 'ERROR',
         p_default_error_yn      => 'Y');
+  Log_Config.Ins_Config(
+      p_config_key              => 'APPINFO',
+      p_description             => 'App info only: Good for real-time APIs, writes DBMS application info but does not write to tables',
+      p_config_type             => 'INSTRUMENT',
+      p_app_info_only_yn        => 'Y',
+      p_put_lev_module          => 1,
+      p_put_lev_client_info     => 1);
+  Log_Config.Ins_Config(
+      p_config_key              => 'BATCH',
+      p_description             => 'Batch jobs: Unbuffered, so writes each line immediately as autonomous transaction, and writes DBMS application info',
+      p_config_type             => 'INSTRUMENT',
+      p_put_lev_module          => 1,
+      p_put_lev_client_info     => 1);
 END;
 /
 

@@ -58,35 +58,35 @@ END Init;
 
 /***************************************************************************************************
 
-Get_Context: Return the USERENV system context value for the name passed
+get_Context: Return the USERENV system context value for the name passed
 
 ***************************************************************************************************/
-FUNCTION Get_Context(
+FUNCTION get_Context(
             p_ctx_nm                       VARCHAR2)   -- context name
             RETURN                         VARCHAR2 IS -- context value
 BEGIN
   RETURN SYS_CONTEXT('USERENV', p_ctx_nm);
-END Get_Context;
+END get_Context;
 
 /***************************************************************************************************
 
-Ok_To_Put: Return True if the item is to be put, based on put level and level minimum
+ok_To_Put: Return True if the item is to be put, based on put level and level minimum
 
 ***************************************************************************************************/
-FUNCTION Ok_To_Put(
+FUNCTION ok_To_Put(
             p_lev_min                      PLS_INTEGER, -- put level minimum
             p_lev_field                    PLS_INTEGER) -- put level for item
             RETURN                         BOOLEAN IS   -- True if ok to put
 BEGIN
   RETURN p_lev_field >= p_lev_min;
-END Ok_To_Put;
+END ok_To_Put;
 
 /***************************************************************************************************
 
-Get_Contexts: Return array of output contexts - name, value pairs
+get_Contexts: Return array of output contexts - name, value pairs
 
 ***************************************************************************************************/
-FUNCTION Get_Contexts(
+FUNCTION get_Contexts(
             p_ctx_inp_lis                  ctx_inp_arr,   -- array of input contexts (name, level, scope)
             p_put_lev_min                  PLS_INTEGER,   -- put level minimum
             p_head_line_fg                 VARCHAR2)      -- scope flag ('H', 'L', 'B')
@@ -102,10 +102,9 @@ BEGIN
     FOR i IN 1..p_ctx_inp_lis.COUNT LOOP
 
       IF p_ctx_inp_lis(i).head_line_fg IN (p_head_line_fg, 'B') AND 
-        Ok_To_Put(p_put_lev_min, p_ctx_inp_lis(i).put_lev) THEN
+        ok_To_Put(p_put_lev_min, p_ctx_inp_lis(i).put_lev) THEN
 
-        l_ctx_out_obj := ctx_out_obj(p_ctx_inp_lis(i).ctx_nm,
-                                            Get_Context(p_ctx_inp_lis(i).ctx_nm));
+        l_ctx_out_obj := ctx_out_obj(p_ctx_inp_lis(i).ctx_nm, get_Context(p_ctx_inp_lis(i).ctx_nm));
 
         IF l_ctx_out_lis IS NULL THEN
           l_ctx_out_lis := ctx_out_arr(l_ctx_out_obj);
@@ -121,7 +120,7 @@ BEGIN
   END IF;
   RETURN l_ctx_out_lis;
 
-END Get_Contexts;
+END get_Contexts;
 
 /***************************************************************************************************
 
@@ -254,12 +253,12 @@ BEGIN
     END IF;
   END IF;
 
-  IF Ok_To_Put(p_construct_rec.header.put_lev_min, l_config_rec.put_lev_module) THEN
-    DBMS_Application_Info.Set_Module($$PLSQL_UNIT || ': Log id ' || l_log.log_id, p_construct_rec.header.description);
+  IF ok_To_Put(p_construct_rec.header.put_lev_min, l_config_rec.put_lev_module) THEN
+    DBMS_Application_Info.Set_Module(Nvl(p_construct_rec.header.plsql_unit, $$PLSQL_UNIT) || ': Log id ' || l_log.log_id, p_construct_rec.header.description);
   END IF;
 
   l_log.inps := l_inps;
-  l_log.ctx_out_lis := Get_Contexts(p_ctx_inp_lis       => l_config_rec.ctx_inp_lis,
+  l_log.ctx_out_lis := get_Contexts(p_ctx_inp_lis       => l_config_rec.ctx_inp_lis,
                                     p_put_lev_min       => p_construct_rec.header.put_lev_min,
                                     p_head_line_fg      => 'H');
   g_log_lis(l_log.log_id) := l_log;
@@ -333,10 +332,10 @@ END Construct;
 
 /***************************************************************************************************
 
-Ins_Header: Insert into log headers table, if applicable
+ins_Header: Insert into log headers table, if applicable
 
 ***************************************************************************************************/
-PROCEDURE Ins_Header(
+PROCEDURE ins_Header(
             p_log                          log_rec) IS -- log record
 BEGIN
 
@@ -366,14 +365,14 @@ BEGIN
     );
   END IF;
 
-END Ins_Header;
+END ins_Header;
 
 /***************************************************************************************************
 
-Ins_Lines: Insert into log lines table using bulk insert
+ins_Lines: Insert into log lines table using bulk insert
 
 ***************************************************************************************************/
-PROCEDURE Ins_Lines(
+PROCEDURE ins_Lines(
             p_log                          log_rec) IS -- log record
 BEGIN
 
@@ -416,28 +415,28 @@ BEGIN
         p_log.out_lis(i).creation_cpu_cs
     );
 
-END Ins_Lines;
+END ins_Lines;
 
 /***************************************************************************************************
 
-Flush_Buf: Flush the buffer to tables using autonomous transaction. Checks whether the log is due to
+flush_Buf: Flush the buffer to tables using autonomous transaction. Checks whether the log is due to
           be written, and deletes from array if not, and also on closing
 
 ***************************************************************************************************/
-PROCEDURE Flush_Buf(
+PROCEDURE flush_Buf(
             p_log                          log_rec,             -- log record
             p_do_close                     BOOLEAN := FALSE) IS -- True if to close log
   PRAGMA AUTONOMOUS_TRANSACTION;
   l_config_rec                   log_configs%ROWTYPE := p_log.inps.config_rec;
 BEGIN
 
-  IF NOT Ok_To_Put(p_log.inps.header.put_lev_min, l_config_rec.put_lev) THEN
+  IF NOT ok_To_Put(p_log.inps.header.put_lev_min, l_config_rec.put_lev) THEN
     g_log_lis.DELETE(p_log.log_id);
     RETURN;
   END IF;
 
-  Ins_Header(p_log => p_log);
-  Ins_Lines(p_log => p_log);
+  ins_Header(p_log => p_log);
+  ins_Lines(p_log => p_log);
 
   IF p_do_close THEN
 
@@ -449,7 +448,7 @@ BEGIN
        SET closure_tmstp = SYSTIMESTAMP
      WHERE id = p_log.log_id;
 
-    IF Ok_To_Put(p_log.inps.header.put_lev_min, l_config_rec.put_lev_module) THEN
+    IF ok_To_Put(p_log.inps.header.put_lev_min, l_config_rec.put_lev_module) THEN
       DBMS_Application_Info.Set_Action('Log id ' || p_log.log_id || ' closed at ' || 
                                        To_Char(SYSTIMESTAMP, DATE_TIME_FMT));
     END IF;
@@ -458,14 +457,14 @@ BEGIN
   END IF;
   COMMIT;
 
-END Flush_Buf;
+END flush_Buf;
 
 /***************************************************************************************************
 
-Get_Out: Returns log output record
+get_Out: Returns log output record
 
 ***************************************************************************************************/
-FUNCTION Get_Out(            
+FUNCTION get_Out(            
             p_log                          log_rec,              -- log record
             p_line_text                    VARCHAR2,             -- line text to put
             p_line_rec                     line_rec := LINE_DEF) -- line record
@@ -478,29 +477,29 @@ BEGIN
   l_out_rec.line_num    := p_log.lines_tab + p_log.lines_buf + 1;
   l_out_rec.line_text   := p_line_text;
 
-  l_out_rec.ctx_out_lis := Get_Contexts(p_ctx_inp_lis       => l_config_rec.ctx_inp_lis, 
+  l_out_rec.ctx_out_lis := get_Contexts(p_ctx_inp_lis       => l_config_rec.ctx_inp_lis, 
                                         p_put_lev_min       => p_line_rec.line.put_lev_min,
                                         p_head_line_fg            => 'L');
 
   IF p_line_rec.line.call_stack IS NOT NULL THEN
     l_out_rec.call_stack := p_line_rec.line.call_stack;
-  ELSIF Ok_To_Put(p_line_rec.line.put_lev_min, l_config_rec.put_lev_stack) THEN
+  ELSIF ok_To_Put(p_line_rec.line.put_lev_min, l_config_rec.put_lev_stack) THEN
     l_out_rec.call_stack := DBMS_Utility.Format_Call_Stack;
   END IF;
 
-  IF Ok_To_Put(p_line_rec.line.put_lev_min, l_config_rec.put_lev_cpu) THEN
+  IF ok_To_Put(p_line_rec.line.put_lev_min, l_config_rec.put_lev_cpu) THEN
     l_out_rec.creation_cpu_cs := DBMS_Utility.Get_CPU_Time;
   END IF;
   RETURN l_out_rec;
 
-END Get_Out;
+END get_Out;
 
 /***************************************************************************************************
 
-Get_Log_If_Exists: Returns log record for id if it exists, and if not raises an error
+get_Log_If_Exists: Returns log record for id if it exists, and if not raises an error
 
 ***************************************************************************************************/
-FUNCTION Get_Log_If_Exists(
+FUNCTION get_Log_If_Exists(
             p_log_id                       PLS_INTEGER, --log id
             p_log_lis                      log_arr)     -- log array
             RETURN                         log_rec IS   -- log record
@@ -526,14 +525,14 @@ BEGIN
 
   END IF;
 
-END Get_Log_If_Exists;
+END get_Log_If_Exists;
 
 /***************************************************************************************************
 
-Get_New_Log: Returns new log by adding new line to buffer of existing log, flushing if full
+get_New_Log: Returns new log by adding new line to buffer of existing log, flushing if full
 
 ***************************************************************************************************/
-FUNCTION Get_New_Log(
+FUNCTION get_New_Log(
             p_log                          log_rec,   -- existing log
             p_line_text                    VARCHAR2,  -- line text to put
             p_line_rec                     line_rec)  -- line record
@@ -543,7 +542,7 @@ FUNCTION Get_New_Log(
   l_config_rec                   log_configs%ROWTYPE := p_log.inps.config_rec;
 BEGIN
 
-  l_out_rec := Get_Out(            
+  l_out_rec := get_Out(            
                   p_log         => l_log,
                   p_line_text   => p_line_text,
                   p_line_rec    => p_line_rec);
@@ -564,14 +563,14 @@ BEGIN
   l_log.out_lis(l_log.lines_buf) := l_out_rec;
   
   IF l_log.lines_buf = l_config_rec.buff_len THEN
-    Flush_Buf(l_log);
+    flush_Buf(l_log);
     l_log.lines_tab := l_log.lines_tab + l_log.lines_buf;
     l_log.lines_buf := 0;
   
   END IF;
   RETURN l_log;
 
-END Get_New_Log;
+END get_New_Log;
 
 /***************************************************************************************************
 
@@ -589,27 +588,29 @@ PROCEDURE Put_Line(
   l_line_rec                  line_rec := p_line_rec;
 
 BEGIN
-
-  l_log := Get_Log_If_Exists(p_log_id  => l_log_id,
+  IF l_log_id IS NULL THEN
+    l_log_id := Construct;
+  END IF;
+  l_log := get_Log_If_Exists(p_log_id  => l_log_id,
                              p_log_lis => g_log_lis);
   l_config := l_log.inps.config_rec;
   l_put_lev := l_config.put_lev;
   l_line_rec.line.put_lev_min := Nvl(l_line_rec.line.put_lev_min, 0);
   l_line_rec.line.creation_tmstp := SYSTIMESTAMP;
-  IF Ok_To_Put(l_log.inps.header.put_lev_min, l_put_lev) AND
-     Ok_To_Put(l_line_rec.line.put_lev_min, l_put_lev) THEN
+  IF ok_To_Put(l_log.inps.header.put_lev_min, l_put_lev) AND
+     ok_To_Put(l_line_rec.line.put_lev_min, l_put_lev) THEN
 
-    IF Ok_To_Put(l_line_rec.line.put_lev_min, l_config.put_lev_action) THEN
+    IF ok_To_Put(l_line_rec.line.put_lev_min, l_config.put_lev_action) THEN
       DBMS_Application_Info.Set_Action(l_line_rec.line.action);
     END IF;
 
-    IF Ok_To_Put(l_line_rec.line.put_lev_min, l_config.put_lev_client_info) THEN
+    IF ok_To_Put(l_line_rec.line.put_lev_min, l_config.put_lev_client_info) THEN
       DBMS_Application_Info.Set_Client_Info(p_line_text);
     END IF;
 
     IF Nvl(l_config.app_info_only_yn, 'N') = 'N' THEN 
 
-      g_log_lis(l_log_id) := Get_New_Log(
+      g_log_lis(l_log_id) := get_New_Log(
                                 p_log                          => l_log,
                                 p_line_text                    => p_line_text,
                                 p_line_rec                     => l_line_rec);
@@ -650,15 +651,22 @@ END Put_List;
 
 /***************************************************************************************************
 
-Close_Log: Close log by flushng buffer passing True for p_do_close
+Close_Log: Close log by flushing buffer passing True for p_do_close
 
 ***************************************************************************************************/
 PROCEDURE Close_Log(
-            p_log_id                       PLS_INTEGER := NULL) IS -- log id
+            p_log_id                       PLS_INTEGER := NULL,     -- log id
+            p_line_text                    VARCHAR2 := NULL,        -- line text to put
+            p_line_rec                     line_rec := LINE_DEF) IS -- line record
   l_log_id                    PLS_INTEGER := Nvl(p_log_id, g_singleton_id);
 BEGIN
 
-  Flush_Buf(g_log_lis(l_log_id), TRUE);
+  IF p_line_text IS  NOT NULL THEN
+    Put_Line(p_log_id     => l_log_id,
+             p_line_text  => p_line_text,
+             p_line_rec   => p_line_rec);
+  END IF;
+  flush_Buf(g_log_lis(l_log_id), TRUE);
 
 END Close_Log;
 
@@ -746,6 +754,7 @@ Delete_Log: Delete all logs matching either a single log id or a session id whic
 ***************************************************************************************************/
 PROCEDURE Delete_Log(
             p_log_id                       PLS_INTEGER := NULL, -- log id
+            p_min_log_id                   PLS_INTEGER := 0, -- log id min
             p_session_id                   VARCHAR2 := NULL) IS -- session id
   PRAGMA AUTONOMOUS_TRANSACTION;
 BEGIN
@@ -753,13 +762,17 @@ BEGIN
   IF p_log_id IS NULL AND p_session_id IS NOT NULL THEN
 
     DELETE log_lines WHERE log_id IN (
-        SELECT id FROM log_headers WHERE session_id = Log_Set.SESSION_ID
+        SELECT id FROM log_headers WHERE session_id = Log_Set.SESSION_ID AND id > p_min_log_id
       );
-    DELETE log_headers WHERE session_id = Log_Set.SESSION_ID;
+    DELETE log_headers WHERE session_id = Log_Set.SESSION_ID AND id > p_min_log_id;
+    g_singleton_id := NULL;
 
   ELSIF p_log_id IS NOT NULL AND p_session_id IS NULL THEN
 
-    DELETE log_headers WHERE session_id = Log_Set.SESSION_ID;
+    DELETE log_headers WHERE id = p_log_id;
+    IF g_singleton_id = p_log_id THEN
+      g_singleton_id := NULL;
+    END IF;
 
   ELSE
 
@@ -769,7 +782,41 @@ BEGIN
   END IF;
   COMMIT;
 
+
 END Delete_Log;
+
+/***************************************************************************************************
+
+Entry_Point: Function to be called to create a log at the start of an entry point API
+
+***************************************************************************************************/
+FUNCTION Entry_Point(
+            p_plsql_unit                  VARCHAR2,         -- name of calling package
+            p_api_nm                      VARCHAR2,         -- name of calling program unit
+            p_config_key                  VARCHAR2,         -- config key
+            p_text                        VARCHAR2 := NULL) -- text to append to initial line
+            RETURN                        PLS_INTEGER IS    -- log id
+  l_log_id             PLS_INTEGER := Log_Set.Construct(
+    p_construct_rec => Log_Set.Con_Construct_Rec(p_config_key => p_config_key, 
+                              p_plsql_unit => p_plsql_unit, 
+                              p_api_nm     => p_api_nm),
+    p_line_text     => 'Enter ' || p_api_nm || CASE WHEN p_text IS NOT NULL THEN ': ' || p_text END);
+BEGIN
+  RETURN l_log_id;
+END Entry_Point;
+
+/***************************************************************************************************
+
+Exit_Point: Procedure to be called to close a log at the end of an entry point API
+
+***************************************************************************************************/
+PROCEDURE Exit_Point(
+            p_log_id                      PLS_INTEGER,         -- log id
+            p_text                        VARCHAR2 := NULL) IS -- text to append to exit line
+BEGIN
+  Log_Set.Close_Log(p_log_id    => p_log_id,
+                    p_line_text => 'Exit' || CASE WHEN p_text IS NOT NULL THEN ': ' || p_text END);
+END Exit_Point;
 
 END Log_Set;
 /

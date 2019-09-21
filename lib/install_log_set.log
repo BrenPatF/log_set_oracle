@@ -1,24 +1,39 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          21-JUN-2019 07:17:10
+Start: ORCL          21-SEP-2019 13:30:04
 
 Common types creation
 =====================
-
-Table dropped.
-
-
-Table dropped.
-
-
-Table dropped.
+DROP TABLE log_lines
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
 
 
-Type dropped.
+DROP TABLE log_headers
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
 
 
-Type dropped.
+DROP TABLE log_configs
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+DROP TYPE ctx_inp_arr
+*
+ERROR at line 1:
+ORA-04043: object CTX_INP_ARR does not exist
+
+
+DROP TYPE ctx_out_arr
+*
+ERROR at line 1:
+ORA-04043: object CTX_OUT_ARR does not exist
+
 
 
 Type created.
@@ -41,8 +56,11 @@ Table created.
 
 Index created.
 
+DROP SEQUENCE log_configs_s
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist
 
-Sequence dropped.
 
 
 Sequence created.
@@ -51,8 +69,11 @@ Create table log_headers
 
 Table created.
 
+DROP SEQUENCE log_headers_s
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist
 
-Sequence dropped.
 
 
 Sequence created.
@@ -84,38 +105,38 @@ No errors.
 
 PL/SQL procedure successfully completed.
 
-Grant access to APP (skip if none passed)
+Grant access to app (skip if none passed)
 
 PL/SQL procedure successfully completed.
 
-Granting Timer_Set components to APP..
+Granting Timer_Set components to app..
 old   1: GRANT SELECT ON log_configs TO &app
-new   1: GRANT SELECT ON log_configs TO APP
+new   1: GRANT SELECT ON log_configs TO app
 
 Grant succeeded.
 
 old   1: GRANT SELECT ON log_headers TO &app
-new   1: GRANT SELECT ON log_headers TO APP
+new   1: GRANT SELECT ON log_headers TO app
 
 Grant succeeded.
 
 old   1: GRANT SELECT ON log_lines TO &app
-new   1: GRANT SELECT ON log_lines TO APP
+new   1: GRANT SELECT ON log_lines TO app
 
 Grant succeeded.
 
 old   1: GRANT EXECUTE ON Log_Config TO &app
-new   1: GRANT EXECUTE ON Log_Config TO APP
+new   1: GRANT EXECUTE ON Log_Config TO app
 
 Grant succeeded.
 
 old   1: GRANT EXECUTE ON Log_Set TO &app
-new   1: GRANT EXECUTE ON Log_Set TO APP
+new   1: GRANT EXECUTE ON Log_Set TO app
 
 Grant succeeded.
 
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 21-JUN-2019 07:17:11
+End: 21-SEP-2019 13:30:05
 

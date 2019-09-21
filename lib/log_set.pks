@@ -77,7 +77,9 @@ PROCEDURE Put_List(
             p_log_id                       PLS_INTEGER := NULL,
             p_line_rec                     line_rec := LINE_DEF);
 PROCEDURE Close_Log(
-            p_log_id                       PLS_INTEGER := NULL);
+            p_log_id                       PLS_INTEGER := NULL,
+            p_line_text                    VARCHAR2 := NULL,
+            p_line_rec                     line_rec := LINE_DEF);
       
 PROCEDURE Raise_Error(
             p_err_msg                      VARCHAR2,
@@ -91,7 +93,17 @@ PROCEDURE Write_Other_Error(
             p_do_close                     BOOLEAN := TRUE);
 PROCEDURE Delete_Log(
             p_log_id                       PLS_INTEGER := NULL,
+            p_min_log_id                   PLS_INTEGER := 0,
             p_session_id                   VARCHAR2 := NULL);
+FUNCTION Entry_Point(
+            p_plsql_unit                  VARCHAR2,
+            p_api_nm                      VARCHAR2,
+            p_config_key                  VARCHAR2,
+            p_text                        VARCHAR2 := NULL)
+            RETURN                        PLS_INTEGER;
+PROCEDURE Exit_Point(
+            p_log_id                      PLS_INTEGER,
+            p_text                        VARCHAR2 := NULL);
 
 END Log_Set;
 /

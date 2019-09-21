@@ -79,6 +79,8 @@ To run the example in a slqplus session from app subfolder (after installation):
 
 SQL> @main_col_group
 
+There is also a separate [module](https://github.com/BrenPatF/oracle_plsql_api_demos) demonstrating instrumentation and logging, code timing and unit testing of Oracle PL/SQL APIs.
+
 ## API - Log_Set
 There are several versions of the log constructor function, and of the log put methods, and calls are simplified by the use of two record types to group parameters, for which constructor functions are included. The parameters of these types have default records and so can be omitted, as in the example calls above. Field defaults are mentioned below where not null.
 
@@ -302,6 +304,7 @@ Windows 10, should be OS-independent
 - [Trapit - Oracle PL/SQL unit testing module](https://github.com/BrenPatF/trapit_oracle_tester)
 - [Timer_Set - Oracle PL/SQL code timing module](https://github.com/BrenPatF/timer_set_oracle)
 - [Trapit - nodejs unit test processing package](https://github.com/BrenPatF/trapit_nodejs_tester)
-   
+- [Oracle PL/SQL API Demos - demonstrating instrumentation and logging, code timing and unit testing of Oracle PL/SQL APIs](https://github.com/BrenPatF/oracle_plsql_api_demos)
+
 ## License
 MIT

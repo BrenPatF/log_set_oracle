@@ -91,7 +91,7 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <h4>GROUP 3: Log Line</h4>
 <table>
 <tr><th>#</th><th>Log Id Offset</th><th>Line No</th><th>Session Line No</th><th>Line Type</th><th>PLSQL Unit</th><th>PLSQL Line</th><th>Group Text</th><th>Action</th><th>Line Text</th><th>Call Stack</th><th>Error Backtrace</th><th>Put Level Min</th><th>Error No</th><th>Error Message</th><th>Creation Time</th><th>Creation CPU Time</th></tr>
-<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td>Some text 1</td><td></td><td></td><td>0</td><td></td><td></td><td>IN [0.0,0.1]: 0</td><td></td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td>Some text 1</td><td></td><td></td><td>0</td><td></td><td></td><td>IN [0.0,0.1]: .001</td><td></td></tr>
 <tr><td>2</td><td>1</td><td>2</td><td>2</td><td>ERROR</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td></td><td>A custom error message</td><td>IN [0.0,0.1]: .001</td><td></td></tr>
 </table>
 <h4>0 failed of 2: SUCCESS</h4>
@@ -99,11 +99,11 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 <table>
 <tr><th>#</th><th>1 Message, 2 Stack</th></tr>
 <tr><td>1</td><td>ORA-20000: A custom error message</td></tr>
-<tr><td>2</td><td>UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.TT_LOG_SET", line 618
-ORA-06512: at "LIB.TT_LOG_SET", line 680
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+<tr><td>2</td><td>UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.TT_LOG_SET", line 652
+ORA-06512: at "LIB.TT_LOG_SET", line 714
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 </td></tr>
 </table>
 <h4>0 failed of 2: SUCCESS</h4>

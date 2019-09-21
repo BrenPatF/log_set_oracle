@@ -21,8 +21,9 @@ Unit Test Report: log_set
    SCENARIO 18: Singleton (pass null log id) plus non-singleton : 0 failed of 5: SUCCESS
    SCENARIO 19: Singleton (pass null log id) plus singleton - fails : 0 failed of 5: SUCCESS
    SCENARIO 20: Array length parameters (check no lines unsaved) : 0 failed of 5: SUCCESS
+   SCENARIO 21: Entry/Exit Point : 0 failed of 5: SUCCESS
 
-Test scenarios: 0 failed of 20: SUCCESS
+Test scenarios: 0 failed of 21: SUCCESS
 =======================================
 
 SCENARIO 1: Simple defaulted {
@@ -87,7 +88,7 @@ SCENARIO 1: Simple defaulted {
 
             #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
             -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------------
-            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .014
+            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .004
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -100,7 +101,7 @@ SCENARIO 1: Simple defaulted {
 
             #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
             -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1  1              1        1                                                                       Some text                               0                                       IN [0.0,0.1]: .006                   
+            1  1              1        1                                                                       Some text                               0                                       IN [0.0,0.1]: .004                   
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -183,9 +184,9 @@ SCENARIO 2: Simple defaulted, don't close - still saved with default buffer size
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ------------------  ------------
-            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: .001              
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------
+            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0              
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -196,10 +197,10 @@ SCENARIO 2: Simple defaulted, don't close - still saved with default buffer size
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1  1              1        1                                                                       Line 1                                  0                                       IN [0.0,0.1]: .001                   
-            2  1              2        2                                                                       Line 2                                  0                                       IN [0.0,0.1]: .001                   
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time    Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  -------------  ---------------  -----------------
+            1  1              1        1                                                                       Line 1                                  0                                       IN [0.0,0.1]: 0                   
+            2  1              2        2                                                                       Line 2                                  0                                       IN [0.0,0.1]: 0                   
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -487,7 +488,7 @@ SCENARIO 5: New config, with H/B/L contexts and parameters all passed; module ap
 
             #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description      PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
             -  -------------  ----------------  ----------  -----------------  ------------  ---------------  ----------  --------  -------------  ------------------  ------------------
-            1  1              1                 NEW_CONFIG  0                  LIB           Log description                        0              IN [0.0,0.1]: .004  IN [0.0,0.1]: .004
+            1  1              1                 NEW_CONFIG  0                  LIB           Log description                        0              IN [0.0,0.1]: .004  IN [0.0,0.1]: .007
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -510,7 +511,7 @@ SCENARIO 5: New config, with H/B/L contexts and parameters all passed; module ap
 
             #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
             -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1  1              1        1                           package     94          Group text          Some text  LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC41190990       488  package body LIB.LOG_SET.GET_OUT<EOL>00007FFC41190990       546  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFC41190990       612  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFC4B4B1620       163  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFC4B4B1620       571  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFC4B4B1620       673  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC4B4B1620       710  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC4B4B1620       754  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC4B4B1620       815  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC4E253C40         1  anonymous block<EOL>00007FFC3F31C040        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC3F31C040        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC395C3CF0         3  anonymous block<EOL>                   0              2         errmsg         IN [0.0,0.1]: .004  IN [0, 10]: 0    
+            1  1              1        1                           package     94          Group text          Some text  LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFE1FC19218       487  package body LIB.LOG_SET.GET_OUT<EOL>00007FFE1FC19218       545  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFE1FC19218       613  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFE22E76928       184  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFE22E76928       600  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFE22E76928       707  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFE22E76928       744  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFE22E76928       787  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFE22E76928       855  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFE0CD2CB00         1  anonymous block<EOL>00007FFE102EB6C8        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFE102EB6C8        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFE1011B058         3  anonymous block<EOL>                   0              2         errmsg         IN [0.0,0.1]: .007  IN [0, 10]: 2    
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -523,7 +524,7 @@ SCENARIO 5: New config, with H/B/L contexts and parameters all passed; module ap
 
             #  Module                                         Action                                                                 Client Info
             -  ---------------------------------------------  ---------------------------------------------------------------------  -----------
-            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 10  LIKE /Log id .*closed at.*/: Log id 10 closed at 21-Jun-2019 07:17:35             
+            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 12  LIKE /Log id .*closed at.*/: Log id 12 closed at 21-Sep-2019 13:31:45             
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -609,9 +610,9 @@ SCENARIO 6: New config, with H/B/L contexts; put level prints only some lines; f
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description         PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  ------------------  ----------  --------  -------------  ------------------  ------------------
-            1  1              1                 NEW_CONFIG  0                  LIB           Header description                        3              IN [0.0,0.1]: .001  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description         PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
+            -  -------------  ----------------  ----------  -----------------  ------------  ------------------  ----------  --------  -------------  ---------------  ------------------
+            1  1              1                 NEW_CONFIG  0                  LIB           Header description                        3              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -630,9 +631,9 @@ SCENARIO 6: New config, with H/B/L contexts; put level prints only some lines; f
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text           Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1  1              1        1                                                   Print               Some text to print  LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC41190990       488  package body LIB.LOG_SET.GET_OUT<EOL>00007FFC41190990       546  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFC41190990       612  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFC4B4B1620       163  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFC4B4B1620       571  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFC4B4B1620       673  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC4B4B1620       710  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC4B4B1620       754  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC4B4B1620       815  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC4E253C40         1  anonymous block<EOL>00007FFC3F31C040        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC3F31C040        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC395C3CF0         3  anonymous block<EOL>                   3                                       IN [0.0,0.1]: .001  IN [0, 10]: 2    
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text           Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error Backtrace  Put Level Min  Error No  Error Message  Creation Time    Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ---------------  -------------  --------  -------------  ---------------  -----------------
+            1  1              1        1                                                   Print               Some text to print  LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.PUT_LINE.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFE1FC19218       487  package body LIB.LOG_SET.GET_OUT<EOL>00007FFE1FC19218       545  package body LIB.LOG_SET.GET_NEW_LOG<EOL>00007FFE1FC19218       613  package body LIB.LOG_SET.PUT_LINE<EOL>00007FFE22E76928       184  package body LIB.TT_LOG_SET.DO_PUT_LINE<EOL>00007FFE22E76928       600  package body LIB.TT_LOG_SET.DO_EVENT_PUT<EOL>00007FFE22E76928       707  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFE22E76928       744  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFE22E76928       787  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFE22E76928       855  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFE0CD2CB00         1  anonymous block<EOL>00007FFE102EB6C8        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFE102EB6C8        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFE1011B058         3  anonymous block<EOL>                   3                                       IN [0.0,0.1]: 0  IN [0, 10]: 0    
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -645,7 +646,7 @@ SCENARIO 6: New config, with H/B/L contexts; put level prints only some lines; f
 
             #  Module                                         Action                                                                 Client Info       
             -  ---------------------------------------------  ---------------------------------------------------------------------  ------------------
-            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 12  LIKE /Log id .*closed at.*/: Log id 12 closed at 21-Jun-2019 07:17:35  Some text to print
+            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 14  LIKE /Log id .*closed at.*/: Log id 14 closed at 21-Sep-2019 13:31:45  Some text to print
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -731,9 +732,9 @@ SCENARIO 7: New config; field min put levels above line min - should not print; 
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description         PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  ------------------  ----------  --------  -------------  ------------------  ------------------
-            1  1              1                 NEW_CONFIG  0                  LIB           Header description                        3              IN [0.0,0.1]: .001  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description         PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time   
+            -  -------------  ----------------  ----------  -----------------  ------------  ------------------  ----------  --------  -------------  ---------------  ---------------
+            1  1              1                 NEW_CONFIG  0                  LIB           Header description                        3              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -744,9 +745,9 @@ SCENARIO 7: New config; field min put levels above line min - should not print; 
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text           Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ------------------  ----------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1  1              1        1                                                   Print               Some text to print                               4                                       IN [0.0,0.1]: .001                   
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text           Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time    Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ------------------  ----------  ---------------  -------------  --------  -------------  ---------------  -----------------
+            1  1              1        1                                                   Print               Some text to print                               4                                       IN [0.0,0.1]: 0                   
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -759,7 +760,7 @@ SCENARIO 7: New config; field min put levels above line min - should not print; 
 
             #  Module                                         Action                                                                 Client Info
             -  ---------------------------------------------  ---------------------------------------------------------------------  -----------
-            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 14  LIKE /Log id .*closed at.*/: Log id 14 closed at 21-Jun-2019 07:17:35             
+            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 16  LIKE /Log id .*closed at.*/: Log id 16 closed at 21-Sep-2019 13:31:45             
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -863,7 +864,7 @@ SCENARIO 8: MULTIBUF: Three logs printing 2 lines interleaved, plus header only;
             1  1              1        2                                                                                  Line 1 for log 1                                       0                                       IN [0.0,0.1]: 0                      
             2  1              2        4                                                   Group for log 1                Line 2 for log 1                                       0                                       IN [0.0,0.1]: .001                   
             3  2              1        1                                                   Construct group log 2          Construct line for log 2                               0                                       IN [0.0,0.1]: 0                      
-            4  2              2        3                                                                                  Line 2 for log 2                                       0                                       IN [0.0,0.1]: .001                   
+            4  2              2        3                                                                                  Line 2 for log 2                                       0                                       IN [0.0,0.1]: 0                      
 
       } 0 failed of 4: SUCCESS
       ========================
@@ -1048,7 +1049,7 @@ SCENARIO 10: Closed log id {
             #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
             -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ------------------  ------------------
             1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0     IN [0.0,0.1]: 0   
-            2  2              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: .003  IN [0.0,0.1]: .004
+            2  2              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: .002  IN [0.0,0.1]: .003
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -1061,7 +1062,7 @@ SCENARIO 10: Closed log id {
 
             #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message                                                       Creation Time       Creation CPU Time
             -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  ------------------------------------------------------------------  ------------------  -----------------
-            1  2              1        1                ERROR                                                                                          0                        LIKE /Log .* closed at:.*/: Log 23 closed at: 21-Jun-2019 07:17:35  IN [0.0,0.1]: .003                   
+            1  2              1        1                ERROR                                                                                          0                        LIKE /Log .* closed at:.*/: Log 25 closed at: 21-Sep-2019 13:31:45  IN [0.0,0.1]: .002                   
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -1071,15 +1072,15 @@ SCENARIO 10: Closed log id {
 
             #  1 Message, 2 Stack                                                                                                                                                                                                                                                                                                                  
             -  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-            1  LIKE /ORA-20000: Log .* closed at:.*/: ORA-20000: Log 23 closed at: 21-Jun-2019 07:17:35                                                                                                                                                                                                                                            
-            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.LOG_SET", line 521
-ORA-06512: at "LIB.LOG_SET", line 593
-ORA-06512: at "LIB.TT_LOG_SET", line 159
-ORA-06512: at "LIB.TT_LOG_SET", line 571
-ORA-06512: at "LIB.TT_LOG_SET", line 673
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+            1  LIKE /ORA-20000: Log .* closed at:.*/: ORA-20000: Log 25 closed at: 21-Sep-2019 13:31:45                                                                                                                                                                                                                                            
+            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.LOG_SET", line 520
+ORA-06512: at "LIB.LOG_SET", line 594
+ORA-06512: at "LIB.TT_LOG_SET", line 180
+ORA-06512: at "LIB.TT_LOG_SET", line 600
+ORA-06512: at "LIB.TT_LOG_SET", line 707
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 
 
       } 0 failed of 2: SUCCESS
@@ -1157,9 +1158,9 @@ SCENARIO 11: Invalid log id {
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ------------------  ------------------
-            1  2              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time   
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ---------------
+            1  2              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -1170,9 +1171,9 @@ SCENARIO 11: Invalid log id {
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message                             Creation Time       Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  ----------------------------------------  ------------------  -----------------
-            1  2              1        1                ERROR                                                                                          0                        LIKE /Log .+ not found/: Log 0 not found  IN [0.0,0.1]: .001                   
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message                             Creation Time    Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  ----------------------------------------  ---------------  -----------------
+            1  2              1        1                ERROR                                                                                          0                        LIKE /Log .+ not found/: Log 0 not found  IN [0.0,0.1]: 0                   
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -1183,14 +1184,14 @@ SCENARIO 11: Invalid log id {
             #  1 Message, 2 Stack                                                                                                                                                                                                                                                                                                                  
             -  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             1  LIKE /ORA-20000: Log .+ not found/: ORA-20000: Log 0 not found                                                                                                                                                                                                                                                                      
-            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.LOG_SET", line 524
-ORA-06512: at "LIB.LOG_SET", line 593
-ORA-06512: at "LIB.TT_LOG_SET", line 159
-ORA-06512: at "LIB.TT_LOG_SET", line 571
-ORA-06512: at "LIB.TT_LOG_SET", line 673
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.LOG_SET", line 523
+ORA-06512: at "LIB.LOG_SET", line 594
+ORA-06512: at "LIB.TT_LOG_SET", line 180
+ORA-06512: at "LIB.TT_LOG_SET", line 600
+ORA-06512: at "LIB.TT_LOG_SET", line 707
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 
 
       } 0 failed of 2: SUCCESS
@@ -1294,13 +1295,13 @@ SCENARIO 12: Invalid log config {
             #  1 Message, 2 Stack                                                                                                                                                                                                                                                                           
             -  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             1  ORA-20000: BAD_CONFIG config not found                                                                                                                                                                                                                                                       
-            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.LOG_SET", line 275
-ORA-06512: at "LIB.TT_LOG_SET", line 67
-ORA-06512: at "LIB.TT_LOG_SET", line 536
-ORA-06512: at "LIB.TT_LOG_SET", line 662
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.LOG_SET", line 274
+ORA-06512: at "LIB.TT_LOG_SET", line 69
+ORA-06512: at "LIB.TT_LOG_SET", line 560
+ORA-06512: at "LIB.TT_LOG_SET", line 696
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 
 
       } 0 failed of 2: SUCCESS
@@ -1402,7 +1403,7 @@ SCENARIO 13: App info only {
 
             #  Module                                         Action                                                                 Client Info       
             -  ---------------------------------------------  ---------------------------------------------------------------------  ------------------
-            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 31  LIKE /Log id .*closed at.*/: Log id 31 closed at 21-Jun-2019 07:17:35  Some text to print
+            1  LIKE /LOG_SET: Log id .*/: LOG_SET: Log id 33  LIKE /Log id .*closed at.*/: Log id 33 closed at 21-Sep-2019 13:31:45  Some text to print
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -1576,9 +1577,9 @@ SCENARIO 15: OTHERS error handler, existing log {
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------------
-            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time   
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ---------------
+            1  1              0                 SINGLETON   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -1589,10 +1590,10 @@ SCENARIO 15: OTHERS error handler, existing log {
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text    Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error Backtrace                                                                           Put Level Min  Error No  Error Message             Creation Time       Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  -----------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ----------------------------------------------------------------------------------------  -------------  --------  ------------------------  ------------------  -----------------
-            1  1              1        1                                                                       Some text 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        0                                                  IN [0.0,0.1]: 0                      
-            2  1              2        2                ERROR                                                               LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC41190990       732  package body LIB.LOG_SET.WRITE_OTHER_ERROR<EOL>00007FFC4B4B1620       604  package body LIB.TT_LOG_SET.DO_EVENT_OTHERS<EOL>00007FFC4B4B1620       680  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC4B4B1620       710  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC4B4B1620       754  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC4B4B1620       815  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC4E253C40         1  anonymous block<EOL>00007FFC3F31C040        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC3F31C040        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC395C3CF0         3  anonymous block<EOL>  LIKE /ORA-06512: at "LIB.TT_LOG_SET", .*/: ORA-06512: at "LIB.TT_LOG_SET", line 601<EOL>  0              100       ORA-01403: no data found  IN [0.0,0.1]: .001                   
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text    Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error Backtrace                                                                           Put Level Min  Error No  Error Message             Creation Time    Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  -----------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ----------------------------------------------------------------------------------------  -------------  --------  ------------------------  ---------------  -----------------
+            1  1              1        1                                                                       Some text 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        0                                                  IN [0.0,0.1]: 0                   
+            2  1              2        2                ERROR                                                               LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFE1FC19218       740  package body LIB.LOG_SET.WRITE_OTHER_ERROR<EOL>00007FFE22E76928       633  package body LIB.TT_LOG_SET.DO_EVENT_OTHERS<EOL>00007FFE22E76928       714  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFE22E76928       744  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFE22E76928       787  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFE22E76928       855  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFE0CD2CB00         1  anonymous block<EOL>00007FFE102EB6C8        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFE102EB6C8        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFE1011B058         3  anonymous block<EOL>  LIKE /ORA-06512: at "LIB.TT_LOG_SET", .*/: ORA-06512: at "LIB.TT_LOG_SET", line 630<EOL>  0              100       ORA-01403: no data found  IN [0.0,0.1]: 0                   
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -1687,10 +1688,10 @@ SCENARIO 16: OTHERS error handler, new log {
       GROUP 3: Log Line {
       ===================
 
-            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text    Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error Backtrace                                                                           Put Level Min  Error No  Error Message             Creation Time    Creation CPU Time
-            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  -----------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ----------------------------------------------------------------------------------------  -------------  --------  ------------------------  ---------------  -----------------
-            1  1              1        1                                                                       Some text 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        0                                                  IN [0.0,0.1]: 0                   
-            2  2              1        2                ERROR                                                               LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFC41190990       732  package body LIB.LOG_SET.WRITE_OTHER_ERROR<EOL>00007FFC4B4B1620       604  package body LIB.TT_LOG_SET.DO_EVENT_OTHERS<EOL>00007FFC4B4B1620       680  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFC4B4B1620       710  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFC4B4B1620       754  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFC4B4B1620       815  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFC4E253C40         1  anonymous block<EOL>00007FFC3F31C040        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFC3F31C040        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFC395C3CF0         3  anonymous block<EOL>  LIKE /ORA-06512: at "LIB.TT_LOG_SET", .*/: ORA-06512: at "LIB.TT_LOG_SET", line 601<EOL>  0              100       ORA-01403: no data found  IN [0.0,0.1]: 0                   
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text    Call Stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Error Backtrace                                                                           Put Level Min  Error No  Error Message             Creation Time       Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  -----------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ----------------------------------------------------------------------------------------  -------------  --------  ------------------------  ------------------  -----------------
+            1  1              1        1                                                                       Some text 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        0                                                  IN [0.0,0.1]: 0                      
+            2  2              1        2                ERROR                                                               LIKE /----- PL/SQL Call Stack -----.*LIB.LOG_SET.WRITE_OTHER_ERROR.*anonymous block/: ----- PL/SQL Call Stack -----<EOL>  object      line  object<EOL>  handle    number  name<EOL>00007FFE1FC19218       740  package body LIB.LOG_SET.WRITE_OTHER_ERROR<EOL>00007FFE22E76928       633  package body LIB.TT_LOG_SET.DO_EVENT_OTHERS<EOL>00007FFE22E76928       714  package body LIB.TT_LOG_SET.HANDLE_EVENT<EOL>00007FFE22E76928       744  package body LIB.TT_LOG_SET.DO_EVENT_LIST<EOL>00007FFE22E76928       787  package body LIB.TT_LOG_SET.PURELY_WRAP_API<EOL>00007FFE22E76928       855  package body LIB.TT_LOG_SET.TEST_API<EOL>00007FFE0CD2CB00         1  anonymous block<EOL>00007FFE102EB6C8        39  package body LIB.TRAPIT_RUN.RUN_TESTS.RUN_TT_PACKAGE<EOL>00007FFE102EB6C8        52  package body LIB.TRAPIT_RUN.RUN_TESTS<EOL>00007FFE1011B058         3  anonymous block<EOL>  LIKE /ORA-06512: at "LIB.TT_LOG_SET", .*/: ORA-06512: at "LIB.TT_LOG_SET", line 630<EOL>  0              100       ORA-01403: no data found  IN [0.0,0.1]: .001                   
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -1787,7 +1788,7 @@ SCENARIO 17: Custom error handler, existing log {
 
             #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text    Call Stack  Error Backtrace  Put Level Min  Error No  Error Message           Creation Time       Creation CPU Time
             -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  -----------  ----------  ---------------  -------------  --------  ----------------------  ------------------  -----------------
-            1  1              1        1                                                                       Some text 1                               0                                                IN [0.0,0.1]: 0                      
+            1  1              1        1                                                                       Some text 1                               0                                                IN [0.0,0.1]: .001                   
             2  1              2        2                ERROR                                                                                            0                        A custom error message  IN [0.0,0.1]: .001                   
 
       } 0 failed of 2: SUCCESS
@@ -1799,11 +1800,11 @@ SCENARIO 17: Custom error handler, existing log {
             #  1 Message, 2 Stack                                                                                                                                                                                             
             -  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             1  ORA-20000: A custom error message                                                                                                                                                                              
-            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.TT_LOG_SET", line 618
-ORA-06512: at "LIB.TT_LOG_SET", line 680
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.TT_LOG_SET", line 652
+ORA-06512: at "LIB.TT_LOG_SET", line 714
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 
 
       } 0 failed of 2: SUCCESS
@@ -1886,10 +1887,10 @@ SCENARIO 18: Singleton (pass null log id) plus non-singleton {
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------------
-            1  1              0                 SINGLEBUF   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0   
-            2  2              0                 MULTIBUF    0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time   
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ---------------
+            1  1              0                 SINGLEBUF   0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0
+            2  2              0                 MULTIBUF    0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: 0
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -1988,9 +1989,9 @@ SCENARIO 19: Singleton (pass null log id) plus singleton - fails {
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ------------------  ------------------
-            1  3              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .001
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------------
+            1  3              0                 ERROR       0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -2003,7 +2004,7 @@ SCENARIO 19: Singleton (pass null log id) plus singleton - fails {
 
             #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message                                                                                                                  Creation Time       Creation CPU Time
             -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  -----------------------------------------------------------------------------------------------------------------------------  ------------------  -----------------
-            1  3              1        1                ERROR                                                                                          0                        LIKE /SINGLETON is singleton type and log .* already constructed/: SINGLETON is singleton type and log 45 already constructed  IN [0.0,0.1]: .001                   
+            1  3              1        1                ERROR                                                                                          0                        LIKE /SINGLETON is singleton type and log .* already constructed/: SINGLETON is singleton type and log 47 already constructed  IN [0.0,0.1]: .001                   
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -2013,14 +2014,14 @@ SCENARIO 19: Singleton (pass null log id) plus singleton - fails {
 
             #  1 Message, 2 Stack                                                                                                                                                                                                                                                                           
             -  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-            1  LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/: ORA-20000: SINGLETON is singleton type and log 45 already constructed                                                                                                                                          
-            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 372
-ORA-06512: at "LIB.LOG_SET", line 705
-ORA-06512: at "LIB.LOG_SET", line 250
-ORA-06512: at "LIB.TT_LOG_SET", line 67
-ORA-06512: at "LIB.TT_LOG_SET", line 536
-ORA-06512: at "LIB.TT_LOG_SET", line 662
-ORA-06512: at "LIB.TT_LOG_SET", line 710
+            1  LIKE /ORA-20000: SINGLETON is singleton type and log .* already constructed/: ORA-20000: SINGLETON is singleton type and log 47 already constructed                                                                                                                                          
+            2  UNTESTED: ORA-06512: at "LIB.UTILS", line 374
+ORA-06512: at "LIB.LOG_SET", line 713
+ORA-06512: at "LIB.LOG_SET", line 249
+ORA-06512: at "LIB.TT_LOG_SET", line 69
+ORA-06512: at "LIB.TT_LOG_SET", line 560
+ORA-06512: at "LIB.TT_LOG_SET", line 696
+ORA-06512: at "LIB.TT_LOG_SET", line 744
 
 
       } 0 failed of 2: SUCCESS
@@ -2148,12 +2149,12 @@ SCENARIO 20: Array length parameters (check no lines unsaved) {
       GROUP 1: Log Header {
       =====================
 
-            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time    Closure Time      
-            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ---------------  ------------------
-            1  1              1                 CONFIG_2_2  0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
-            2  2              2                 CONFIG_4_4  0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
-            3  3              3                 CONFIG_2_4  0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .002
-            4  4              4                 CONFIG_4_2  0                  LIB                                              0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .002
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name  Put Level Min  Creation Time       Closure Time      
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  --------  -------------  ------------------  ------------------
+            1  1              1                 CONFIG_2_2  0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .001
+            2  2              2                 CONFIG_4_4  0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .002
+            3  3              3                 CONFIG_2_4  0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .002
+            4  4              4                 CONFIG_4_2  0                  LIB                                              0              IN [0.0,0.1]: .001  IN [0.0,0.1]: .002
 
       } 0 failed of 4: SUCCESS
       ========================
@@ -2166,14 +2167,14 @@ SCENARIO 20: Array length parameters (check no lines unsaved) {
 
             #   Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text  Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
             --  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------  ----------  ---------------  -------------  --------  -------------  ------------------  -----------------
-            1   1              1        1                                                                       Line 1                                  0                                       IN [0.0,0.1]: 0                      
+            1   1              1        1                                                                       Line 1                                  0                                       IN [0.0,0.1]: .001                   
             2   1              2        2                                                                       Line 2                                  0                                       IN [0.0,0.1]: .001                   
             3   1              3        3                                                                       Line 3                                  0                                       IN [0.0,0.1]: .001                   
-            4   2              1        4                                                                       Line 1                                  0                                       IN [0.0,0.1]: .001                   
-            5   2              2        5                                                                       Line 2                                  0                                       IN [0.0,0.1]: .001                   
-            6   2              3        6                                                                       Line 3                                  0                                       IN [0.0,0.1]: .001                   
-            7   3              1        7                                                                       Line 1                                  0                                       IN [0.0,0.1]: .001                   
-            8   3              2        8                                                                       Line 2                                  0                                       IN [0.0,0.1]: .001                   
+            4   2              1        4                                                                       Line 1                                  0                                       IN [0.0,0.1]: .002                   
+            5   2              2        5                                                                       Line 2                                  0                                       IN [0.0,0.1]: .002                   
+            6   2              3        6                                                                       Line 3                                  0                                       IN [0.0,0.1]: .002                   
+            7   3              1        7                                                                       Line 1                                  0                                       IN [0.0,0.1]: .002                   
+            8   3              2        8                                                                       Line 2                                  0                                       IN [0.0,0.1]: .002                   
             9   3              3        9                                                                       Line 3                                  0                                       IN [0.0,0.1]: .002                   
             10  4              1        10                                                                      Line 1                                  0                                       IN [0.0,0.1]: .002                   
             11  4              2        11                                                                      Line 2                                  0                                       IN [0.0,0.1]: .002                   
@@ -2181,6 +2182,108 @@ SCENARIO 20: Array length parameters (check no lines unsaved) {
 
       } 0 failed of 12: SUCCESS
       =========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+      GROUP 5: Application Info {
+      ===========================
+
+            #  Module  Action  Client Info
+            -  ------  ------  -----------
+            1                             
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+} 0 failed of 5: SUCCESS
+========================
+
+SCENARIO 21: Entry/Exit Point {
+===============================
+
+   INPUTS
+   ======
+
+      GROUP 1: Log Config: Empty
+      ==========================
+
+      GROUP 2: Context: Empty
+      =======================
+
+      GROUP 3: Event Sequence {
+      =========================
+
+            #  Event No  Event Type  Log Id Offset
+            -  --------  ----------  -------------
+            1  1         ENTRY       1            
+            2  2         PUT_LINE    1            
+            3  3         EXIT        1            
+
+      }
+      =
+
+      GROUP 4: Construct Param {
+      ==========================
+
+            #  Event No  Config Key  Description  PLSQL Unit  API Name   Put Level Min  Do Close Y/N
+            -  --------  ----------  -----------  ----------  ---------  -------------  ------------
+            1  1                                  PKG_NAME    Proc_Name                             
+
+      }
+      =
+
+      GROUP 5: Log Parameter {
+      ========================
+
+            #  Event No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Put Level Min  Error No  Error Message  Do Close Y/N
+            -  --------  ---------  ----------  ----------  ----------  ------  -------------  --------  -------------  ------------
+            1  1                                                                                                                    
+            2  2                                                                                                                    
+            3  3                                                                                                                    
+
+      }
+      =
+
+      GROUP 6: Line Text {
+      ====================
+
+            #  Event No  Text                
+            -  --------  --------------------
+            1  1         Entry text          
+            2  2         Some text           
+            3  3         Proc_Name, Exit text
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Log Header {
+      =====================
+
+            #  Log Id Offset  Config Id Offset  Config Key  Session Id Offset  Session User  Description  PLSQL Unit  API Name   Put Level Min  Creation Time    Closure Time      
+            -  -------------  ----------------  ----------  -----------------  ------------  -----------  ----------  ---------  -------------  ---------------  ------------------
+            1  1              0                 SINGLETON   0                  LIB                        PKG_NAME    Proc_Name  0              IN [0.0,0.1]: 0  IN [0.0,0.1]: .001
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Context: Empty as expected: SUCCESS
+      ============================================
+
+      GROUP 3: Log Line {
+      ===================
+
+            #  Log Id Offset  Line No  Session Line No  Line Type  PLSQL Unit  PLSQL Line  Group Text  Action  Line Text                    Call Stack  Error Backtrace  Put Level Min  Error No  Error Message  Creation Time       Creation CPU Time
+            -  -------------  -------  ---------------  ---------  ----------  ----------  ----------  ------  ---------------------------  ----------  ---------------  -------------  --------  -------------  ------------------  -----------------
+            1  1              1        1                                                                       Enter Proc_Name: Entry text                               0                                       IN [0.0,0.1]: 0                      
+            2  1              2        2                                                                       Some text                                                 0                                       IN [0.0,0.1]: 0                      
+            3  1              3        3                                                                       Exit: Proc_Name, Exit text                                0                                       IN [0.0,0.1]: .001                   
+
+      } 0 failed of 3: SUCCESS
+      ========================
 
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
