@@ -1,0 +1,1 @@
+cp ./tt_log_set.test_api_inp.json c:/input

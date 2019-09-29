@@ -233,14 +233,45 @@ All parameters are optional, with null defaults except where mentioned:
 * `p_extend_len`: number of elements to extend the buffer by when needed; default 100
 
 ## Installation
-The install depends on the pre-requisite module Utils, and `lib` schema refers to the schema in which Utils is installed.
+The install depends on the pre-requisite modules Utils and Trapit (unit testing only) and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
-### Install 1: Install Utils module (if not present)
-#### [Schema: lib; Folder: (Utils) lib]
-- Download and install the Utils module:
-[Utils on GitHub](https://github.com/BrenPatF/oracle_plsql_utils)
+### Install 1: Install pre-requisite modules
+The pre-requisite modules can be installed by following the instructions at [Utils on GitHub](https://github.com/BrenPatF/oracle_plsql_utils). This allows inclusion of the examples and unit tests for the modules. Alternatively, the next section shows how to install the modules directly without their examples or unit tests here (but with the Trapit module required for unit testing the Log_Set module).
 
-The base Utils install is required for the base Log_Set install, while the unit test install and running the example require the corresponding Utils install sections.
+#### [Schema: sys; Folder: install_prereq] Create lib and app schemas and Oracle directory
+- install_sys.sql creates an Oracle directory, `input_dir`, pointing to 'c:\input'. Update this if necessary to a folder on the database server with read/write access for the Oracle OS user
+- Run script from slqplus:
+```
+SQL> @install_sys
+```
+
+#### [Folder: install_prereq] Copy example csv file to input folder
+- Copy the following file from the install_prereq folder to the server folder pointed to by the Oracle directory INPUT_DIR:
+    - fantasy_premier_league_player_stats.csv
+
+- There is also a bash script to do this, assuming C:\input as INPUT_DIR:
+```
+$ ./cp_csv_to_input.ksh
+```
+
+#### [Schema: lib; Folder: install_prereq\lib] Create lib components
+- Run script from slqplus:
+```
+SQL> @install_lib_all
+```
+#### [Schema: app; Folder: install_prereq\app] Create app synonyms and install example package
+- Run script from slqplus:
+```
+SQL> @install_app_all
+```
+#### [Folder: (npm root)] Install npm trapit package
+The npm trapit package is a nodejs package used to format unit test results as HTML pages.
+
+Open a DOS or Powershell window in the folder where you want to install npm packages, and, with [nodejs](https://nodejs.org/en/download/) installed, run
+```
+$ npm install trapit
+```
+This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
 ### Install 2: Create Log_Set components
 #### [Schema: lib; Folder: lib]
@@ -262,10 +293,18 @@ SQL> @c_log_set_syns lib
 This install creates private synonyms to the lib schema. To create synonyms within another schema, run the synonyms script directly from that schema, passing lib schema.
 
 ### Install 4: Install unit test code
-#### [Schema: lib; Folder: lib]
 This step requires the Trapit module option to have been installed as part of Install 1.
+
+#### [Folder: (module root)] Copy unit test JSON file to input folder
 - Copy the following file from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
   - tt_log_set.test_api_inp.json
+
+- There is also a bash script to do this, assuming C:\input as INPUT_DIR:
+```
+$ ./cp_json_to_input.ksh
+```
+
+#### [Schema: lib; Folder: lib] Install unit test code
 - Run script from slqplus:
 ```
 SQL> @install_log_set_tt

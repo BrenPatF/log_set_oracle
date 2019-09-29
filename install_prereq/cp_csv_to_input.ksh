@@ -1,0 +1,1 @@
+cp ./fantasy_premier_league_player_stats.csv c:/input
