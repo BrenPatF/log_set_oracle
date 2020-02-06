@@ -329,7 +329,13 @@ The wrapper function represents a generalised transactional use of the package i
 
 This is a good example of the power of the design pattern that I recently introduced, and is a second example, after `See also - Timer_Set` below, of unit testing where the 'unit' is taken to be a full generalised transaction, from start to finish of a logging (or timing) session.
 
-You can review the  unit test formatted results obtained by the author in the `test_output` subfolder [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
+This diagram shows the input/output structure of the pure unit test wrapper function:
+<img src="log_set_oracle.png">
+
+This is an image of the unit test summary page, and it shows the scenarios tested.
+<img src="log_set_oracle_ut_root.png">
+
+You can review the unit test formatted results obtained by the author in the `test_output` subfolder [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
 
 ## Operating System/Oracle Versions
 ### Windows
