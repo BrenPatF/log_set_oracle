@@ -20,6 +20,7 @@ The package is tested using the Math Function Unit Testing design pattern, with 
 - [Operating System/Oracle Versions](https://github.com/BrenPatF/log_set_oracle#operating-systemoracle-versions)
 
 ## Usage (extract from main_col_group.sql)
+- [In this README...](https://github.com/BrenPatF/log_set_oracle#in-this-readme)
 ```sql
 DECLARE
   l_log_id               PLS_INTEGER := Log_Set.Construct;
