@@ -392,7 +392,7 @@ This diagram shows the input/output structure of the pure unit test wrapper func
 This is an image of the unit test summary page, and it shows the scenarios tested.
 <img src="log_set_oracle_ut_root.png">
 
-You can review the unit test formatted results obtained by the author in the `test_output` subfolder [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
+You can review the formatted unit test results obtained by the author here, [Unit Test Report: log_set](http://htmlpreview.github.io/?https://github.com/BrenPatF/log_set/blob/master/test_output/log_set.html), and the files are available in the `test_output` subfolder [log_set.html is the root page for the HTML version and log_set.txt has the results in text format].
 
 ## Operating System/Oracle Versions
 - [In this README...](https://github.com/BrenPatF/log_set_oracle#in-this-readme)
