@@ -1,7 +1,10 @@
 # Log_Set
+<img src="mountains.png">
 Oracle logging module.
 
-The module is a framework for logging, consisting of 3 tables, 6 object types and 3 PL/SQL packages that support the writing of messages to log tables, along with various optional data items that may be specified as parameters or read at runtime via system calls.
+:memo:
+
+The module is a framework for logging, consisting of 3 tables, 6 object types and 3 PL/SQL packages that support the writing of messages to log tables (and/or the Application Info views), along with various optional data items that may be specified as parameters or read at runtime via system calls.
 
 The module is designed to be as simple as possible to use in default mode, while allowing for a high degree of configuration. A client program first constructs a log pointing to a configuration key, then puts lines to the log conditionally depending on the line minimum put level being at least equal to the configuration put level. By creating new versions of the keyed configuration the amount and type of information put can be varied without code changes, to support production debugging and analysis.
 
@@ -16,7 +19,7 @@ The package is tested using the Math Function Unit Testing design pattern, with 
 - [API - Log_Set](https://github.com/BrenPatF/log_set_oracle#api---log_set)
 - [API - Log_Config](https://github.com/BrenPatF/log_set_oracle#api---log_config)
 - [Installation](https://github.com/BrenPatF/log_set_oracle#installation)
-- [Unit testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
+- [Unit Testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
 - [Operating System/Oracle Versions](https://github.com/BrenPatF/log_set_oracle#operating-systemoracle-versions)
 
 ## Usage (extract from main_col_group.sql)
@@ -287,10 +290,16 @@ All parameters are optional, with null defaults except where mentioned:
 
 ## Installation
 - [In this README...](https://github.com/BrenPatF/log_set_oracle#in-this-readme)
+- [Install 1: Install pre-requisite modules](https://github.com/BrenPatF/log_set_oracle#install-1-install-pre-requisite-modules)
+- [Install 2: Create Log_Set components](https://github.com/BrenPatF/log_set_oracle#install-2-create-log_set-components)
+- [Install 3: Create synonyms to lib](https://github.com/BrenPatF/log_set_oracle#install-3-create-synonyms-to-lib)
+- [Install 4: Install unit test code](https://github.com/BrenPatF/log_set_oracle#install-4-install-unit-test-code)
 
 The install depends on the pre-requisite modules Utils and Trapit (unit testing only) and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
 ### Install 1: Install pre-requisite modules
+- [Installation](https://github.com/BrenPatF/log_set_oracle#installation)
+
 The pre-requisite modules can be installed by following the instructions at [Utils on GitHub](https://github.com/BrenPatF/oracle_plsql_utils). This allows inclusion of the examples and unit tests for the modules. Alternatively, the next section shows how to install the modules directly without their examples or unit tests here (but with the Trapit module required for unit testing the Log_Set module).
 
 #### [Schema: sys; Folder: install_prereq] Create lib and app schemas and Oracle directory
@@ -329,6 +338,7 @@ $ npm install trapit
 This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
 ### Install 2: Create Log_Set components
+- [Installation](https://github.com/BrenPatF/log_set_oracle#installation)
 #### [Schema: lib; Folder: lib]
 - Run script from slqplus:
 ```
@@ -340,6 +350,7 @@ SQL> @grant_log_set_to_app schema
 ```
 
 ### Install 3: Create synonyms to lib
+- [Installation](https://github.com/BrenPatF/log_set_oracle#installation)
 #### [Schema: app; Folder: app]
 - Run script from slqplus:
 ```
@@ -348,6 +359,8 @@ SQL> @c_log_set_syns lib
 This install creates private synonyms to the lib schema. To create synonyms within another schema, run the synonyms script directly from that schema, passing lib schema.
 
 ### Install 4: Install unit test code
+- [Installation](https://github.com/BrenPatF/log_set_oracle#installation)
+
 This step requires the Trapit module option to have been installed as part of Install 1.
 
 #### [Folder: (module root)] Copy unit test JSON file to input folder
@@ -365,8 +378,10 @@ $ ./cp_json_to_input.ksh
 SQL> @install_log_set_tt
 ```
 
-## Unit testing
+## Unit Testing
 - [In this README...](https://github.com/BrenPatF/log_set_oracle#in-this-readme)
+- [Wrapper Function Diagram](https://github.com/BrenPatF/log_set_oracle#wrapper-function-diagram)
+- [Unit Test Summary Page](https://github.com/BrenPatF/log_set_oracle#unit-test-summary-page)
 
 The unit test program (if installed) may be run from the lib subfolder:
 
@@ -386,8 +401,14 @@ The wrapper function represents a generalised transactional use of the package i
 
 This is a good example of the power of the design pattern that I recently introduced, and is a second example, after `See also - Timer_Set` below, of unit testing where the 'unit' is taken to be a full generalised transaction, from start to finish of a logging (or timing) session.
 
+### Wrapper Function Diagram
+- [Unit Testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
+
 This diagram shows the input/output structure of the pure unit test wrapper function:
 <img src="log_set_oracle.png">
+
+### Unit Test Summary Page
+- [Unit Testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
 
 This is an image of the unit test summary page, and it shows the scenarios tested.
 <img src="log_set_oracle_ut_root.png">
@@ -405,7 +426,7 @@ Windows 10, should be OS-independent
 ## See also
 - [Utils - Oracle PL/SQL general utilities module](https://github.com/BrenPatF/oracle_plsql_utils)
 - [Trapit - Oracle PL/SQL unit testing module](https://github.com/BrenPatF/trapit_oracle_tester)
-- [Timer_Set - Oracle PL/SQL code timing module](https://github.com/BrenPatF/timer_set_oracle)
+- [Timer_Set - Oracle PL/SQL code timing module](https://github.com/BrenPatF/log_set_oracle)
 - [Trapit - nodejs unit test processing package](https://github.com/BrenPatF/trapit_nodejs_tester)
 - [Oracle PL/SQL API Demos - demonstrating instrumentation and logging, code timing and unit testing of Oracle PL/SQL APIs](https://github.com/BrenPatF/oracle_plsql_api_demos)
 
