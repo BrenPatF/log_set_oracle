@@ -1,27 +1,29 @@
 Unit Test Report: log_set
 =========================
 
-   SCENARIO 1: Simple defaulted : 0 failed of 5: SUCCESS
-   SCENARIO 2: Simple defaulted, don't close - still saved with default buffer size = 1 : 0 failed of 5: SUCCESS
-   SCENARIO 3: Set all parameters : 0 failed of 5: SUCCESS
-   SCENARIO 4: Set all parameters with long values : 0 failed of 5: SUCCESS
-   SCENARIO 5: New config, with H/B/L contexts and parameters all passed; module app info : 0 failed of 5: SUCCESS
-   SCENARIO 6: New config, with H/B/L contexts; put level prints only some lines; field min put levels below line min - should print; line close : 0 failed of 5: SUCCESS
-   SCENARIO 7: New config; field min put levels above line min - should not print; header min level above module level, module/action to put (but not client info); contexts not to print : 0 failed of 5: SUCCESS
-   SCENARIO 8: MULTIBUF: Three logs printing 2 lines interleaved, plus header only; also log that shouldn't print : 0 failed of 5: SUCCESS
-   SCENARIO 9: Construct and put lists : 0 failed of 5: SUCCESS
-   SCENARIO 10: Closed log id : 0 failed of 5: SUCCESS
-   SCENARIO 11: Invalid log id : 0 failed of 5: SUCCESS
-   SCENARIO 12: Invalid log config : 0 failed of 5: SUCCESS
-   SCENARIO 13: App info only : 0 failed of 5: SUCCESS
-   SCENARIO 14: App info without module, and writing to table : 0 failed of 5: SUCCESS
-   SCENARIO 15: OTHERS error handler, existing log : 0 failed of 5: SUCCESS
-   SCENARIO 16: OTHERS error handler, new log : 0 failed of 5: SUCCESS
-   SCENARIO 17: Custom error handler, existing log : 0 failed of 5: SUCCESS
-   SCENARIO 18: Singleton (pass null log id) plus non-singleton : 0 failed of 5: SUCCESS
-   SCENARIO 19: Singleton (pass null log id) plus singleton - fails : 0 failed of 5: SUCCESS
-   SCENARIO 20: Array length parameters (check no lines unsaved) : 0 failed of 5: SUCCESS
-   SCENARIO 21: Entry/Exit Point : 0 failed of 5: SUCCESS
+      #    Scenario                                                                                                                                                                    Fails (of 5)  Status 
+      ---  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ------------  -------
+      1    Simple defaulted                                                                                                                                                            0             SUCCESS
+      2    Simple defaulted, don't close - still saved with default buffer size = 1                                                                                                    0             SUCCESS
+      3    Set all parameters                                                                                                                                                          0             SUCCESS
+      4    Set all parameters with long values                                                                                                                                         0             SUCCESS
+      5    New config, with H/B/L contexts and parameters all passed; module app info                                                                                                  0             SUCCESS
+      6    New config, with H/B/L contexts; put level prints only some lines; field min put levels below line min - should print; line close                                           0             SUCCESS
+      7    New config; field min put levels above line min - should not print; header min level above module level, module/action to put (but not client info); contexts not to print  0             SUCCESS
+      8    MULTIBUF: Three logs printing 2 lines interleaved, plus header only; also log that shouldn't print                                                                          0             SUCCESS
+      9    Construct and put lists                                                                                                                                                     0             SUCCESS
+      10   Closed log id                                                                                                                                                               0             SUCCESS
+      11   Invalid log id                                                                                                                                                              0             SUCCESS
+      12   Invalid log config                                                                                                                                                          0             SUCCESS
+      13   App info only                                                                                                                                                               0             SUCCESS
+      14   App info without module, and writing to table                                                                                                                               0             SUCCESS
+      15   OTHERS error handler, existing log                                                                                                                                          0             SUCCESS
+      16   OTHERS error handler, new log                                                                                                                                               0             SUCCESS
+      17   Custom error handler, existing log                                                                                                                                          0             SUCCESS
+      18   Singleton (pass null log id) plus non-singleton                                                                                                                             0             SUCCESS
+      19   Singleton (pass null log id) plus singleton - fails                                                                                                                         0             SUCCESS
+      20   Array length parameters (check no lines unsaved)                                                                                                                            0             SUCCESS
+      21   Entry/Exit Point                                                                                                                                                            0             SUCCESS
 
 Test scenarios: 0 failed of 21: SUCCESS
 =======================================
