@@ -430,7 +430,7 @@ This creates, or updates, a subfolder, oracle-pl_sql-log-set, with the formatted
 
 ### Unit Test Scenarios
 - [&uarr; Unit Testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
-- [Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
+- [Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-input-data-category-sets)
 - [Scenario Results](https://github.com/BrenPatF/log_set_oracle#scenario-results)
 
 The art of unit testing lies in choosing a set of scenarios that will produce a high degree of confidence in the functioning of the unit under test across the often very large range of possible inputs.
@@ -455,42 +455,42 @@ A useful approach to this can be to think in terms of categories of inputs, wher
 - [API Calls](https://github.com/BrenPatF/log_set_oracle#api-calls)
 
 ##### Value Size
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check very small numbers or strings and very large ones do not cause value or display errors
 - Small
 - Large
 
 ##### Multiplicity
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that logging works with 1 and multiple loggers active (except multiple singletons not allowed)
 - 1
 - Multiple
 
 ##### Concurrency
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that log sets with overlapping scope do not interfere with each other
 - Concurrent log sets
 - No concurrent log sets
 
 ##### Parameter Defaults (each parameter)
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that parameters default as expected, and also are overridden by values passed
 - Defaulted
 - Non-defaulted
 
 ##### Log Config
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Each log references a log config that includes put level and various config settings. We test usage of existing configs, and creation of new config records
 - Existing config
 - New config
 
 ##### Put Levels
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Put level is specified in the config record and applies to multiple types of information. The put procedures take a Put Level Min parameter, with an overall minimum specified in the log constructor, and put the information out only if the relevant level is at or above the minimum. The categories to check are therefore:
 - Put Level <  Put Level Min
@@ -514,14 +514,14 @@ and field level values:
 </ul>
 
 ##### App Info Only
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 App Info is written using DBMS_Application_Info procedures Set_Module (at log level) and Set_Action and Set_Client_Info (at line level). If this config field is set to "Yes" lines are not put, but App Info is put if the put level allows
 - Yes
 - No
 
 ##### Contexts
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 System contexts may be captured using SYS_CONTEXT('USERENV', `context name`) at header or line level or both, depending on the config setting
 - Header
@@ -529,21 +529,21 @@ System contexts may be captured using SYS_CONTEXT('USERENV', `context name`) at 
 - Both
 
 ##### Singleton
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that only one log of type singleton (dsefined in the log config) can be active at a time
 - Singleton plus non-singleton - ok
 - Singleton plus singleton - fails
 
 ##### Array Length Parameters (buffer and extend sizes)
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Log lines may be buffered before writing to table for potential performance reasons, and the buffer length and extend lengths can be set in the log config. Check that closing the log does not cause unsaved lines to be lost, using sizes of 1 and more than 1
 - 1
 - &gt; 1
 
 ##### Exceptions
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that validations return exceptions correctly
 - None
@@ -552,21 +552,21 @@ Check that validations return exceptions correctly
 - Invalid log config
 
 ##### OTHERS Error Handler
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 General Oracle errors can be written using the error handler within an exception block, either to a new log or to an existing log
 - Existing log
 - New log
 
 ##### Log Closure
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Logs may be closed explicitly, with a closure timestamp being written, and any buffered lines written, or not closed in which case these actions do not ocuur. Check both work as expected
 - Close explicitly
 - Do not close explicitly
 
 ##### API Calls
-- [&uarr; Category Sets](https://github.com/BrenPatF/log_set_oracle#category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
 Check that all entry points work. Note that these are represented by different values for the event type wrapper function input parameter
 - Con_Construct_Rec
@@ -586,10 +586,10 @@ Check that all entry points work. Note that these are represented by different v
 #### Scenario Results
 - [&uarr; Scenarios](https://github.com/BrenPatF/log_set_oracle#scenarios)
 - [Results Summary](https://github.com/BrenPatF/log_set_oracle#results-summary)
-- [Results for Scenario 1: Simple defaulted](https://github.com/BrenPatF/log_set_oracle#results-for-scenario-1--simple-defaulted)
+- [Results for Scenario 1](https://github.com/BrenPatF/log_set_oracle#results-for-scenario-1)
 
 ##### Results Summary
-- [&uarr; Scenarios Results](https://github.com/BrenPatF/log_set_oracle#scenario-results)
+- [&uarr; Scenario Results](https://github.com/BrenPatF/log_set_oracle#scenario-results)
 
 The summary report in text format shows the scenarios tested:
 
