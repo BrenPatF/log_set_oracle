@@ -430,7 +430,7 @@ This creates, or updates, a subfolder, oracle-pl_sql-log-set, with the formatted
 
 ### Unit Test Scenarios
 - [&uarr; Unit Testing](https://github.com/BrenPatF/log_set_oracle#unit-testing)
-- [Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-input-data-category-sets)
+- [Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 - [Scenario Results](https://github.com/BrenPatF/log_set_oracle#scenario-results)
 
 The art of unit testing lies in choosing a set of scenarios that will produce a high degree of confidence in the functioning of the unit under test across the often very large range of possible inputs.
