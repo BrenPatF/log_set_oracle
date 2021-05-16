@@ -438,7 +438,7 @@ The art of unit testing lies in choosing a set of scenarios that will produce a 
 A useful approach to this can be to think in terms of categories of inputs, where we reduce large ranges to representative categories. In our case we might consider the following category sets, and create scenarios accordingly:
 
 #### Input Data Category Sets
-- [&uarr; Scenarios](https://github.com/BrenPatF/log_set_oracle#scenarios)
+- [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/log_set_oracle#unit-test-scenarios)
 - [Value Size](https://github.com/BrenPatF/log_set_oracle#value-size)
 - [Multiplicity](https://github.com/BrenPatF/log_set_oracle#multiplicity)
 - [Concurrency](https://github.com/BrenPatF/log_set_oracle#concurrency)
@@ -584,7 +584,7 @@ Check that all entry points work. Note that these are represented by different v
 - Exit_Point
 
 #### Scenario Results
-- [&uarr; Scenarios](https://github.com/BrenPatF/log_set_oracle#scenarios)
+- [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/log_set_oracle#unit-test-scenarios)
 - [Results Summary](https://github.com/BrenPatF/log_set_oracle#results-summary)
 - [Results for Scenario 1: Simple defaulted](https://github.com/BrenPatF/log_set_oracle#results-for-scenario-1-simple-defaulted)
 
