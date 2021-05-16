@@ -586,7 +586,7 @@ Check that all entry points work. Note that these are represented by different v
 #### Scenario Results
 - [&uarr; Scenarios](https://github.com/BrenPatF/log_set_oracle#scenarios)
 - [Results Summary](https://github.com/BrenPatF/log_set_oracle#results-summary)
-- [Results for Scenario 1](https://github.com/BrenPatF/log_set_oracle#results-for-scenario-1)
+- [Results for Scenario 1: Simple defaulted](https://github.com/BrenPatF/log_set_oracle#results-for-scenario-1-simple-defaulted)
 
 ##### Results Summary
 - [&uarr; Scenario Results](https://github.com/BrenPatF/log_set_oracle#scenario-results)
