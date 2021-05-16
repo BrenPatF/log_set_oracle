@@ -1,0 +1,36 @@
+group,field
+Log Header,Log Id Offset
+Log Header,Config Id Offset
+Log Header,Config Key
+Log Header,Session Id Offset
+Log Header,Session User
+Log Header,Description
+Log Header,PLSQL Unit
+Log Header,API Name
+Log Header,Put Level Min
+Log Header,Creation Time
+Log Header,Closure Time
+Context,Log Id Offset
+Context,Line No
+Context,Name
+Context,Value (or offset)
+Log Line,Log Id Offset
+Log Line,Line No
+Log Line,Session Line No
+Log Line,Line Type
+Log Line,PLSQL Unit
+Log Line,PLSQL Line
+Log Line,Group Text
+Log Line,Action
+Log Line,Line Text
+Log Line,Call Stack
+Log Line,Error Backtrace
+Log Line,Put Level Min
+Log Line,Error No
+Log Line,Error Message
+Log Line,Creation Time
+Log Line,Creation CPU Time
+Exception,"1 Message, 2 Stack"
+Application Info,Module
+Application Info,Action
+Application Info,Client Info

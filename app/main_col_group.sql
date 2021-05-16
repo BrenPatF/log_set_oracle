@@ -12,13 +12,13 @@ There is an example main program and package showing how to use the Log_Set pack
 program. Unit testing is optional and depends on the module trapit_oracle_tester.
 ====================================================================================================
 |  Main/Test .sql  |  Package     |  Notes                                                         |
-|===================================================================================================
+|==================================================================================================|
 | *main_col_group* |  Col_Group   |  Example showing how to use the Log_Set package. Col_Group is  |
 |                  |              |  a simple file-reading and group-counting package installed    |
 |                  |              |  via the oracle_plsql_utils module                             |
-----------------------------------------------------------------------------------------------------
-|  r_tests         |  TT_Log_Set  |  Unit testing the Log_Set package. Trapit is installed as a    |
-|                  |  Trapit      |  separate module                                               |
+|------------------|--------------|----------------------------------------------------------------|
+|  r_tests         |  TT_Log_Set  |  Unit testing the Log_Set package. Trapit_Run is installed     |
+|                  |  Trapit_Run  |  aa part of a separate module, trapit_oracle_tester            |
 ====================================================================================================
 
 This file has the driver script for the example code calling the Log_Set methods.

@@ -10,32 +10,32 @@ optional data items that may be specified as parameters or read at runtime via s
     GitHub: https://github.com/BrenPatF/log_set_oracle
 
 There is an example main program and package showing how to use the Log_Set package, and a unit test
-program. Unit testing is optional and depends on the module trapit_oracle_tester.
+program. Unit testing is optional and depends on the module trapit_oracle_tester
 ====================================================================================================
 |  Main/Test .sql  |  Package     |  Notes                                                         |
-|===================================================================================================
+|==================================================================================================|
 |  main_col_group  |  Col_Group   |  Example showing how to use the Log_Set package. Col_Group is  |
 |                  |              |  a simple file-reading and group-counting package              |
 |                  |              |  installed via the oracle_plsql_utils module                   |
-----------------------------------------------------------------------------------------------------
-|  r_tests         | *TT_Log_Set* |  Unit testing the Log_Set package. Trapit is installed as a    |
-|                  |  Trapit      |  separate module                                               |
+|------------------|--------------|----------------------------------------------------------------|
+|  r_tests         | *TT_Log_Set* |  Unit testing the Log_Set package. Trapit_Run is installed     |
+|                  |  Trapit_Run  |  aa part of a separate module, trapit_oracle_tester            |
 ====================================================================================================
 
 This file has the TT_Log_Set unit test package body. Note that the test package is called by the
-unit test utility package Trapit, which reads the unit test details from a table, tt_units,
+unit test utility package Trapit_Run, which reads the unit test details from a table, tt_units,
 populated by the install scripts.
 
 The test program follows 'The Math Function Unit Testing design pattern':
 
     GitHub: https://github.com/BrenPatF/trapit_nodejs_tester
 
-Note that the unit test program generates an output file, tt_log_set.tt_main_out.json, that is 
-processed by a separate nodejs program, npm package trapit (see README for further details).
+Note that the unit test program generates an output file, tt_log_set.purely_wrap_log_set_out.json,
+that is processed by a separate nodejs program, npm package trapit (see README for further details).
 
 The output JSON file contains arrays of expected and actual records by group and scenario, in the
 format expected by the nodejs program. This program produces listings of the results in HTML and/or
-text format, and a sample set of listings is included in the folder test_output.
+text format, and a sample set of listings is included in the folder test_data\test_output
 
 ***************************************************************************************************/
 
@@ -762,15 +762,17 @@ END do_Event_List;
   
 /***************************************************************************************************
 
-purely_Wrap_API: Design pattern has the API call wrapped in a 'pure' function, called once per 
-                 scenario, with the output 'actuals' array including everything affected by the API,
-                 whether as output parameters, or on database tables, etc. The inputs are also
-                 extended from the API parameters to include any other effective inputs
+Purely_Wrap_Timer_Set: Unit test wrapper function for Timer_Set code timing transactions
+
+    Returns the 'actual' outputs, given the inputs for a scenario, with the signature expected for
+    the Math Function Unit Testing design pattern, namely:
+
+      Input parameter: 3-level list (type L3_chr_arr) with test inputs as group/record/field
+      Return Value: 2-level list (type L2_chr_arr) with test outputs as group/record (with record as
+                   delimited fields string)
 
 ***************************************************************************************************/
-FUNCTION purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,  -- last sequence value for log headers
-                         p_last_seq_lcf         PLS_INTEGER,  -- last sequence value for log configs
-                         p_max_log_id           PLS_INTEGER,  -- max log id for session at start
+FUNCTION Purely_Wrap_Log_Set(
                          p_inp_3lis             L3_chr_arr)   -- input list of lists (record, field)
                          RETURN                 L2_chr_arr IS -- output list of lists (group, record)
 
@@ -778,8 +780,16 @@ FUNCTION purely_Wrap_API(p_last_seq_lgh         PLS_INTEGER,  -- last sequence v
   l_act_2lis                     L2_chr_arr := L2_chr_arr();
   l_start_tmstp                  TIMESTAMP := SYSTIMESTAMP;
   l_start_cpu_cs                 PLS_INTEGER := DBMS_Utility.Get_CPU_Time;
+  l_last_seq_lgh                 PLS_INTEGER := log_headers_s.NEXTVAL;
+  l_last_seq_lcf                 PLS_INTEGER := log_configs_s.NEXTVAL;
+  l_max_log_id                   PLS_INTEGER;
 
 BEGIN
+
+  SELECT Nvl(Max(id),0) INTO l_max_log_id FROM log_headers WHERE session_id = TT_Log_Set.SESSION_ID;
+
+  DBMS_Application_Info.Set_Module('', '');
+  DBMS_Application_Info.Set_Client_Info('');
 
   Log_Set.Init;
   l_log_config_lis := add_Log_Configs(p_inp_3lis(1), p_inp_3lis(2)); -- lcf, ctx
@@ -790,21 +800,21 @@ BEGIN
                       p_put_prms_2lis   => p_inp_3lis(5),
                       p_txt_prms_2lis   => p_inp_3lis(6));
 
-  l_act_2lis(1) := get_Lgh_Lis(p_last_seq_lgh   => p_last_seq_lgh,
-                               p_last_seq_lcf   => p_last_seq_lcf,
-                               p_max_log_id     => p_max_log_id,
+  l_act_2lis(1) := get_Lgh_Lis(p_last_seq_lgh   => l_last_seq_lgh,
+                               p_last_seq_lcf   => l_last_seq_lcf,
+                               p_max_log_id     => l_max_log_id,
                                p_start_tmstp    => l_start_tmstp);
-  l_act_2lis(2) := get_Ctx_Lis(p_last_seq_lgh   => p_last_seq_lgh,
-                               p_max_log_id     => p_max_log_id);
-  l_act_2lis(3) := get_Lgl_Lis(p_last_seq_lgh   => p_last_seq_lgh,
-                               p_max_log_id     => p_max_log_id,
+  l_act_2lis(2) := get_Ctx_Lis(p_last_seq_lgh   => l_last_seq_lgh,
+                               p_max_log_id     => l_max_log_id);
+  l_act_2lis(3) := get_Lgl_Lis(p_last_seq_lgh   => l_last_seq_lgh,
+                               p_max_log_id     => l_max_log_id,
                                p_start_tmstp    => l_start_tmstp,
                                p_start_cpu_cs   => l_start_cpu_cs);
   l_act_2lis(5) := L1_chr_arr(Get_App_Info);
   ROLLBACK;
 
   Log_Set.Delete_Log(p_session_id => TT_Log_Set.SESSION_ID, 
-                     p_min_log_id => p_max_log_id);
+                     p_min_log_id => l_max_log_id);
   
   IF l_log_config_lis IS NOT NULL THEN
     FOR i IN 1..l_log_config_lis.COUNT LOOP
@@ -814,56 +824,7 @@ BEGIN
   COMMIT;
 
   RETURN l_act_2lis;
-END purely_Wrap_API;
-
-/***************************************************************************************************
-
-Test_API: Entry point method for the unit test. Uses Trapit to read the test data from JSON clob
-          into a 4-d list of (scenario, group, record, field), then calls a 'pure' wrapper function
-          within a loop over the scenarios to get the actuals. A final call to Trapit.Set_Outputs
-          creates the output JSON in tt_units as well as on file to be processed by trapit_nodejs
-
-***************************************************************************************************/
-PROCEDURE Test_API IS
-
-  PROC_NM                        CONSTANT VARCHAR2(30) := 'Test_API';
-
-  l_act_3lis                     L3_chr_arr := L3_chr_arr();
-  l_sces_4lis                    L4_chr_arr;
-  l_scenarios                    Trapit.scenarios_rec;
-  l_last_seq_lgh                 PLS_INTEGER;
-  l_last_seq_lcf                 PLS_INTEGER;
-  l_def_config_id                PLS_INTEGER;
-  l_max_log_id                   PLS_INTEGER;
-
-BEGIN
-
---  l_timer_set := Trapit.Init(TIMER_SET_NM);
-  l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
-                                   p_procedure_nm  => PROC_NM);
-  l_sces_4lis := l_scenarios.scenarios_4lis;
-  l_act_3lis.EXTEND(l_sces_4lis.COUNT);
-  SELECT Nvl(Max(id),0) INTO l_max_log_id FROM log_headers WHERE session_id = TT_Log_Set.SESSION_ID;
-
-  FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-    l_last_seq_lgh := log_headers_s.NEXTVAL;
-    l_last_seq_lcf := log_configs_s.NEXTVAL;
-
-    DBMS_Application_Info.Set_Module('', '');
-    DBMS_Application_Info.Set_Client_Info('');
-    l_act_3lis(i) := purely_Wrap_API(p_last_seq_lgh => l_last_seq_lgh, 
-                                     p_last_seq_lcf => l_last_seq_lcf,
-                                     p_max_log_id   => l_max_log_id,
-                                     p_inp_3lis     => l_sces_4lis(i));
-
-  END LOOP;
-
-  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                     p_procedure_nm  => PROC_NM,
-                     p_act_3lis      => l_act_3lis);
-
-END Test_API;
+END Purely_Wrap_Log_Set;
 
 END TT_Log_Set;
 /

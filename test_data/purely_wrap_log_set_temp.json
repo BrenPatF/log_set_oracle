@@ -1,0 +1,146 @@
+{
+    "meta":  {
+                 "title":  "title",
+                 "delimiter":  "|",
+                 "inp":  {
+                             "Log Config":  [
+                                                "Config Key",
+                                                "Put Level",
+                                                "Put Level Stack",
+                                                "Put Level CPU",
+                                                "Put Level Module",
+                                                "Put Level Action",
+                                                "Put Level Client Info",
+                                                "App Info Only Y/N",
+                                                "Singleton Y/N",
+                                                "Buffer Length",
+                                                "Extend Length"
+                                            ],
+                             "Context":  [
+                                             "Config Key",
+                                             "Name",
+                                             "Put Level",
+                                             "Head/Line Flag"
+                                         ],
+                             "Event Sequence":  [
+                                                    "Event No",
+                                                    "Event Type",
+                                                    "Log Id Offset"
+                                                ],
+                             "Construct Param":  [
+                                                     "Event No",
+                                                     "Config Key",
+                                                     "Description",
+                                                     "PLSQL Unit",
+                                                     "API Name",
+                                                     "Put Level Min",
+                                                     "Do Close Y/N"
+                                                 ],
+                             "Log Parameter":  [
+                                                   "Event No",
+                                                   "Line Type",
+                                                   "PLSQL Unit",
+                                                   "PLSQL Line",
+                                                   "Group Text",
+                                                   "Action",
+                                                   "Put Level Min",
+                                                   "Error No",
+                                                   "Error Message",
+                                                   "Do Close Y/N"
+                                               ],
+                             "Line Text":  [
+                                               "Event No",
+                                               "Text"
+                                           ]
+                         },
+                 "out":  {
+                             "Log Header":  [
+                                                "Log Id Offset",
+                                                "Config Id Offset",
+                                                "Config Key",
+                                                "Session Id Offset",
+                                                "Session User",
+                                                "Description",
+                                                "PLSQL Unit",
+                                                "API Name",
+                                                "Put Level Min",
+                                                "Creation Time",
+                                                "Closure Time"
+                                            ],
+                             "Context":  [
+                                             "Log Id Offset",
+                                             "Line No",
+                                             "Name",
+                                             "Value (or offset)"
+                                         ],
+                             "Log Line":  [
+                                              "Log Id Offset",
+                                              "Line No",
+                                              "Session Line No",
+                                              "Line Type",
+                                              "PLSQL Unit",
+                                              "PLSQL Line",
+                                              "Group Text",
+                                              "Action",
+                                              "Line Text",
+                                              "Call Stack",
+                                              "Error Backtrace",
+                                              "Put Level Min",
+                                              "Error No",
+                                              "Error Message",
+                                              "Creation Time",
+                                              "Creation CPU Time"
+                                          ],
+                             "Exception":  [
+                                               "1 Message, 2 Stack"
+                                           ],
+                             "Application Info":  [
+                                                      "Module",
+                                                      "Action",
+                                                      "Client Info"
+                                                  ]
+                         }
+             },
+    "scenarios":  {
+                      "scenario 1":  {
+                                         "active_yn":  "Y",
+                                         "inp":  {
+                                                     "Log Config":  [
+                                                                        "||||||||||"
+                                                                    ],
+                                                     "Context":  [
+                                                                     "|||"
+                                                                 ],
+                                                     "Event Sequence":  [
+                                                                            "||"
+                                                                        ],
+                                                     "Construct Param":  [
+                                                                             "||||||"
+                                                                         ],
+                                                     "Log Parameter":  [
+                                                                           "|||||||||"
+                                                                       ],
+                                                     "Line Text":  [
+                                                                       "|"
+                                                                   ]
+                                                 },
+                                         "out":  {
+                                                     "Log Header":  [
+                                                                        "||||||||||"
+                                                                    ],
+                                                     "Context":  [
+                                                                     "|||"
+                                                                 ],
+                                                     "Log Line":  [
+                                                                      "|||||||||||||||"
+                                                                  ],
+                                                     "Exception":  [
+                                                                       ""
+                                                                   ],
+                                                     "Application Info":  [
+                                                                              "||"
+                                                                          ]
+                                                 }
+                                     }
+                  }
+}

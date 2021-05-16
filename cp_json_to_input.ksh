@@ -1,1 +1,1 @@
-cp ./tt_log_set.test_api_inp.json c:/input
+cp ./test_data/test_input/tt_log_set.purely_wrap_log_set_inp.json c:/input

@@ -1,0 +1,38 @@
+group,field
+Log Config,Config Key
+Log Config,Put Level
+Log Config,Put Level Stack
+Log Config,Put Level CPU
+Log Config,Put Level Module
+Log Config,Put Level Action
+Log Config,Put Level Client Info
+Log Config,App Info Only Y/N
+Log Config,Singleton Y/N
+Log Config,Buffer Length
+Log Config,Extend Length
+Context,Config Key
+Context,Name
+Context,Put Level
+Context,Head/Line Flag
+Event Sequence,Event No
+Event Sequence,Event Type
+Event Sequence,Log Id Offset
+Construct Param,Event No
+Construct Param,Config Key
+Construct Param,Description
+Construct Param,PLSQL Unit
+Construct Param,API Name
+Construct Param,Put Level Min
+Construct Param,Do Close Y/N
+Log Parameter,Event No
+Log Parameter,Line Type
+Log Parameter,PLSQL Unit
+Log Parameter,PLSQL Line
+Log Parameter,Group Text
+Log Parameter,Action
+Log Parameter,Put Level Min
+Log Parameter,Error No
+Log Parameter,Error Message
+Log Parameter,Do Close Y/N
+Line Text,Event No
+Line Text,Text

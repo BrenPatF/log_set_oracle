@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          29-SEP-2019 08:47:04
+Start: ORCL          16-MAY-2021 08:12:56
 
 Packages creation
 =================
@@ -14,13 +14,13 @@ Package body created.
 
 No errors.
 Add the tt_units record, reading in JSON file from INPUT_DIR
-old   3:   Trapit.Add_Ttu ('TT_LOG_SET', 'Test_API', '&LIB', 'Y', 'tt_log_set.test_api_inp.json');
-new   3:   Trapit.Add_Ttu ('TT_LOG_SET', 'Test_API', 'lib', 'Y', 'tt_log_set.test_api_inp.json');
+old   3:   Trapit.Add_Ttu ('TT_LOG_SET', 'Purely_Wrap_Log_Set', '&LIB', 'Y', 'tt_log_set.purely_wrap_log_set_inp.json');
+new   3:   Trapit.Add_Ttu ('TT_LOG_SET', 'Purely_Wrap_Log_Set', 'lib', 'Y', 'tt_log_set.purely_wrap_log_set_inp.json');
 
 PL/SQL procedure successfully completed.
 
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 29-SEP-2019 08:47:04
+End: 16-MAY-2021 08:12:57
 
