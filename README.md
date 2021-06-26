@@ -531,7 +531,7 @@ System contexts may be captured using SYS_CONTEXT('USERENV', `context name`) at 
 ##### Singleton
 - [&uarr; Input Data Category Sets](https://github.com/BrenPatF/log_set_oracle#input-data-category-sets)
 
-Check that only one log of type singleton (dsefined in the log config) can be active at a time
+Check that only one log of type singleton (defined in the log config) can be active at a time
 - Singleton plus non-singleton - ok
 - Singleton plus singleton - fails
 
@@ -718,7 +718,7 @@ SCENARIO 1: Simple defaulted {
 ========================
 </pre>
 
-You can review the formatted unit test results here, [Unit Test Report: Oracle PL/SQL Log Set](http://htmlpreview.github.io/?https://github.com/BrenPatF/timer_set_oracle/blob/master/test_data/test_output/oracle-pl_sql-log-set/oracle-pl_sql-log-set.html), and the files are available in the `test_data\test_output\oracle-pl_sql-log-set` subfolder [oracle-pl_sql-log-set.html is the root page for the HTML version and oracle-pl_sql-log-set.txt has the results in text format].
+You can review the formatted unit test results here, [Unit Test Report: Oracle PL/SQL Log Set](http://htmlpreview.github.io/?https://github.com/BrenPatF/log_set_oracle/blob/master/test_data/test_output/oracle-pl_sql-log-set/oracle-pl_sql-log-set.html), and the files are available in the `test_data\test_output\oracle-pl_sql-log-set` subfolder [oracle-pl_sql-log-set.html is the root page for the HTML version and oracle-pl_sql-log-set.txt has the results in text format].
 
 ## Operating System/Oracle Versions
 - [In this README...](https://github.com/BrenPatF/log_set_oracle#in-this-readme)
