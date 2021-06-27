@@ -593,7 +593,7 @@ Check that all entry points work. Note that these are represented by different v
 
 The summary report in text format shows the scenarios tested:
 
-      #    Scenario                                                                                                                                                                    Fails (of 5)  Status 
+      #    Scenario                                                                                                                                                                    Fails (of 6)  Status 
       ---  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------  ------------  -------
       1    Simple defaulted                                                                                                                                                            0             SUCCESS
       2    Simple defaulted, don't close - still saved with default buffer size = 1                                                                                                    0             SUCCESS
@@ -714,7 +714,10 @@ SCENARIO 1: Simple defaulted {
       } 0 failed of 1: SUCCESS
       ========================
 
-} 0 failed of 5: SUCCESS
+      GROUP 6: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 6: SUCCESS
 ========================
 </pre>
 
